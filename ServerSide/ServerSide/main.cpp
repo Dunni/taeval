@@ -1,6 +1,8 @@
 #include <QtGui/QApplication>
 #include "qmlapplicationviewer.h"
-#include "Task.h"
+#include "task.h"
+#include "course.h"
+#include "nonadminuser.h"
 #include <iostream>
 using namespace std;
 

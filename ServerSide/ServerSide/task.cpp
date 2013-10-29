@@ -1,4 +1,4 @@
-#include "Task.h"
+#include "task.h"
 
 Task::Task(QString aID, QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, qint32 aRating, QString aFeedback)
     : id(aID),
