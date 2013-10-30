@@ -1,5 +1,6 @@
 #include "nonadminuser.h"
 
-NonAdminUser::NonAdminUser()
+NonAdminUser::NonAdminUser(QString aId)
+    : id(aId)
 {
 }

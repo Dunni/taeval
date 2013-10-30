@@ -15,12 +15,16 @@ SOURCES += main.cpp\
     course.cpp \
     task.cpp \
     nonadminuser.cpp \
-    Storage/Storage.cpp
+    Storage/Storage.cpp \
+    instructor.cpp \
+    taeval.cpp
 
 HEADERS  += mainwindow.h \
     course.h \
     task.h \
     nonadminuser.h \
-    Storage/Storage.h
+    Storage/Storage.h \
+    instructor.h \
+    taeval.h
 
 FORMS    += mainwindow.ui
