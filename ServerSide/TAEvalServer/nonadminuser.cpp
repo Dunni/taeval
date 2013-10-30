@@ -2,5 +2,5 @@
 
 NonAdminUser::NonAdminUser(QString aId)
     : id(aId)
-{
-}
+{}
+
