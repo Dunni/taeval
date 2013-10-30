@@ -3,6 +3,7 @@
 #include "task.h"
 #include "course.h"
 #include "nonadminuser.h"
+#include "./Storage/Storage.h"
 #include <iostream>
 using namespace std;
 
@@ -18,5 +19,11 @@ int main(int argc, char *argv[])
     Task* task = new Task(x,x,x,x, today, tomorrow);
     cout << task->getCourseID().toStdString();
 
-    return a.exec();
+    Storage s;
+    qDebug() << s.splitDate("2013-12-32");
+    QString d = "2013-11-20";
+    QStringList dl = d.split("-");
+    qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());
+
+    //return a.exec();
 }

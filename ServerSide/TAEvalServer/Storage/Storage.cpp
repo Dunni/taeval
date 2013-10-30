@@ -84,7 +84,17 @@ bool Storage::dumpDB(){
 }
 #endif
 
-bool Storage::manageTask(){return true;}
+bool Storage::manageTask(QString action, Task task){
+    if(action.toLower().contains("create"))
+        return this->createTask(task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(),task.getDueDate().toString());
+
+    if(action.toLower().contains("edit"))
+        return this->editTask(task.getId().toInt(),task.getDescription(),task.getStartDate().toString(),task.getDueDate().toString());
+
+    if(action.toLower().contains("delete"))
+        return this->deleteTask(task.getId().toInt());
+    return false;
+}
 
 QString Storage::getUserKey(QString name){
     QSqlQuery query(db);
@@ -107,6 +117,17 @@ QString Storage::getCourseKey(QString term, QString title, INT num){
         return query.value(0).toString();
     }
     return NULL;
+}
+
+bool Storage::createTask(QString TAKey, QString courseKey, QString desc, QString start, QString end){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("INSERT INTO TASKS ").\
+            append(QString("(TAName, CourseName, description, startDate, endDate, rating, feedback)")).\
+            append(QString("VALUES ('%1','%2','%3','%4','%5',%6 ,%7)").\
+            arg(TAKey).arg(courseKey).arg(desc).arg(start).arg(end).arg("NULL").arg("NULL"));
+
+   return query.exec(queryString);
 }
 
 bool Storage::createTask(QString TAName, QString courseTitle, QString courseTerm, INT courseNum, \
@@ -163,6 +184,27 @@ bool Storage::deleteTask(INT TaskID){
     return query.exec(queryString);
 }
 
+bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *list){
+    QString teacher = this->getUserKey(Instrcutor);
+    if (teacher.isNull()) return false;
+
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT * FROM COURSES WHERE InsName = '%1' AND term = '%2'").arg(teacher).arg(term);
+    if (!query.exec(queryString)) return false;
+
+    list = new QList<Course>();
+    while(query.next()){
+        QString name = query.value(0).toString();
+        QString title = query.value(1).toString();
+        QString term = query.value(2).toString();
+        INT num = query.value(3).toInt();
+        QString InsName = query.value(4).toString();
+        list->append(Course(name,title,QString(num),term,InsName));
+    }
+    return true;
+}
+
 bool Storage::viewCoursesTeaching(QString Instrcutor, QString term){
     QString teacher = this->getUserKey(Instrcutor);
     if (teacher.isNull()) return false;
@@ -185,6 +227,22 @@ bool Storage::viewCoursesTeaching(QString Instrcutor, QString term){
     return true;
 }
 
+bool Storage::getTAsForCourse(QString courseKey, QList<NonAdminUser> *list){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT TAName,role from USERS join TACOURSES on USERS.name = TACOURSES.TAName WHERE CourseName = '%1'").\
+            arg(courseKey);
+    if (!query.exec(queryString)) return false;
+
+    list = new QList<NonAdminUser>();
+    while(query.next()){
+        QString TA = query.value(0).toString();
+        QString role = query.value(0).toString();
+        list->append(NonAdminUser(TA,role));
+    }
+    return true;
+}
+
 bool Storage::viewTAsforCourse(QString term, QString title, INT num){
     QString courseKey = this->getCourseKey(term,title,num);
     if (courseKey.isNull()) return false;
@@ -200,6 +258,38 @@ bool Storage::viewTAsforCourse(QString term, QString title, INT num){
     while(query.next()){
         QString TA = query.value(0).toString();
         qDebug() << QString("%1").arg(TA);
+    }
+    return true;
+}
+
+
+bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\
+            arg(TAKey).arg(courseKey);
+    if (!query.exec(queryString)) return false;
+
+    list = new QList<Task>();
+    while(query.next()){
+        QString TA = query.value(0).toString();
+        QString course = query.value(1).toString();
+        INT task = query.value(2).toInt();
+        QString desc = query.value(3).toString();
+        QString start = query.value(4).toString();
+        QString end = query.value(5).toString();
+        QStringList startl = this->splitDate(start);
+        QStringList endl = this->splitDate(end);
+        QDate s(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
+        QDate e(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
+
+        INT rating;
+        rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
+
+        QString feedback;
+        feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
+
+        list->append(Task(QString(task),TA,course,desc,s,e,rating,feedback));
     }
     return true;
 }

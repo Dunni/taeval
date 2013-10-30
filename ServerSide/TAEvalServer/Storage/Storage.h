@@ -11,6 +11,11 @@
 #include <QSqlDriver>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QStringList>
+#include "../course.h"
+#include "../task.h"
+#include "../nonadminuser.h"
+
 
 typedef qint32 INT;
 
@@ -24,13 +29,19 @@ public:
     void disconnect();
 
     /* manage Tasks */
-    bool manageTask();
+    bool manageTask(QString action, Task task);
 
-    /* view courses teaching*/
-    //???
+    /* get courses teaching need delete *list after use */
+    bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *list);
 
-    /* viewTAsforCourse */
-    //???
+    /* get TAs for a course need delete *list after use */
+    bool getTAsForCourse(QString courseKey, QList<NonAdminUser> *list);
+
+    /* get Tasks for a TA and course need delete *list after use */
+    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list);
+
+    /* enterEvaluation */
+    bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 
     /* Debug related */
 #ifdef DEBUG
@@ -43,15 +54,18 @@ private:
     QSqlDatabase db; /* DataBase */
     bool connected; /* flag if connected to DB */
     QString fixEscape(QString s){return s.replace("'","''");}
+    QStringList splitDate(QString d){return d.split("-");}
     QString getUserKey(QString name);
     QString getCourseKey(QString term, QString title, INT num);
+    bool createTask(QString TAKey, QString courseKey,QString desc, QString start,QString end);
     bool createTask(QString TAName, QString courseTitle, QString courseTerm, INT courseNum, QString desc, QString start, QString end);
     bool editTask(INT TaskID, QString desc, QString start, QString end);
     bool deleteTask(INT TaskID);
+#ifdef DEBUG
     bool viewCoursesTeaching(QString Instrcutor, QString term);
     bool viewTAsforCourse(QString term, QString title, INT num);
     bool viewTasksforTA(QString term, QString title, INT num,QString TAKey);
-    bool enterEvaluation(INT TaskID,INT rating, QString feedback);
+#endif
 };
 
 #endif // STORAGE_H

@@ -1,5 +1,5 @@
 #include "nonadminuser.h"
 
-NonAdminUser::NonAdminUser()
-{
-}
+NonAdminUser::NonAdminUser(QString aid, QString arole)
+    :id(aid),role(arole)
+{}

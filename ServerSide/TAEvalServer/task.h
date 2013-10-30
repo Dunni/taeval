@@ -40,7 +40,8 @@ public:
     void setEvaluation(QString, qint32);
 
 private:
-    QString id, description, taID, courseID;
+    QString id;
+    QString description, taID, courseID;
     QDate startDate, dueDate;
     Evaluation* eval;
 };
