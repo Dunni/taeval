@@ -12,6 +12,7 @@ public:
     QString getNumber();
     QString getSemester();
     QString getInstructorId();
+    QString toString();
 
     void setId(QString);
     void setName(QString);

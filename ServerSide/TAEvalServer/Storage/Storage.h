@@ -14,7 +14,7 @@
 #include <QStringList>
 #include "../course.h"
 #include "../task.h"
-#include "../nonadminuser.h"
+#include "../ta.h"
 
 
 typedef qint32 INT;
@@ -35,7 +35,7 @@ public:
     bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *list);
 
     /* get TAs for a course need delete *list after use */
-    bool getTAsForCourse(QString courseKey, QList<NonAdminUser> *list);
+    bool getTAsForCourse(QString courseKey, QList<TA> *list);
 
     /* get Tasks for a TA and course need delete *list after use */
     bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list);

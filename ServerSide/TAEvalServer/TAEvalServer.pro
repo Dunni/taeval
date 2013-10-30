@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     nonadminuser.cpp \
     Storage/Storage.cpp \
     instructor.cpp \
-    taeval.cpp
+    taeval.cpp \
+    ta.cpp
 
 HEADERS  += mainwindow.h \
     course.h \
@@ -25,6 +26,7 @@ HEADERS  += mainwindow.h \
     nonadminuser.h \
     Storage/Storage.h \
     instructor.h \
-    taeval.h
+    taeval.h \
+    ta.h
 
 FORMS    += mainwindow.ui

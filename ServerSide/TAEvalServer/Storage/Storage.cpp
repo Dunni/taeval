@@ -227,18 +227,18 @@ bool Storage::viewCoursesTeaching(QString Instrcutor, QString term){
     return true;
 }
 
-bool Storage::getTAsForCourse(QString courseKey, QList<NonAdminUser> *list){
+bool Storage::getTAsForCourse(QString courseKey, QList<TA> *list){
     QSqlQuery query(db);
     QString queryString;
     queryString = QString("SELECT TAName,role from USERS join TACOURSES on USERS.name = TACOURSES.TAName WHERE CourseName = '%1'").\
             arg(courseKey);
     if (!query.exec(queryString)) return false;
 
-    list = new QList<NonAdminUser>();
+    list = new QList<TA>();
     while(query.next()){
-        QString TA = query.value(0).toString();
-        QString role = query.value(0).toString();
-        list->append(NonAdminUser(TA,role));
+        QString taName = query.value(0).toString();
+//        QString role = query.value(0).toString();
+        list->append(TA(taName));
     }
     return true;
 }

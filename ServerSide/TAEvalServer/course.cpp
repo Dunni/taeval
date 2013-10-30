@@ -19,3 +19,11 @@ void Course::setName(QString aName){this->name = aName;}
 void Course::setNumber(QString aNumber){this->number = aNumber;}
 void Course::setSemester(QString aSemester){this->semester = aSemester;}
 void Course::setInstructorId(QString aInstructorId){this->instructorId = aInstructorId;}
+
+QString Course::toString(){
+    return QString(QString() + "Course ID: " + id + "\n" +
+                   "Course Name: " + name + "\n" +
+                   "Course Number: " + number + "\n" +
+                   "Course Instructor: " + instructorId + "\n" +
+                   "Course Semester: " + semester);
+}
