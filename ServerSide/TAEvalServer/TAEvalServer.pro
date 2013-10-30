@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 TARGET = TAEvalServer
 TEMPLATE = app
@@ -14,11 +14,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     course.cpp \
     task.cpp \
-    nonadminuser.cpp
+    nonadminuser.cpp \
+    Storage/Storage.cpp
 
 HEADERS  += mainwindow.h \
     course.h \
     task.h \
-    nonadminuser.h
+    nonadminuser.h \
+    Storage/Storage.h
 
 FORMS    += mainwindow.ui
