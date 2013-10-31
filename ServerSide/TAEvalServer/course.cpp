@@ -1,6 +1,8 @@
 #include "course.h"
 using namespace std;
 
+typedef QList<Course> CourseList;
+
 Course::Course(QString aId, QString aName, QString aNumber, QString aSemester, QString aInstructorId)
     : id(aId),
       name(aName),
@@ -19,7 +21,6 @@ Course::Course(QString courseString)
        list[6].compare(QString("CourseInstructor")) != 0 ||
        list[8].compare(QString("CourseSemester")) != 0 )
     {
-        qDebug() << list;
         cout << "Parse Error! Invalid Input";
         return;
     }
@@ -50,3 +51,47 @@ QString Course::toString(){
                    "CourseInstructor:` " + instructorId + "\n`" +
                    "CourseSemester:` " + semester);
 }
+
+QString Course::listToString(CourseList list){ // Parse a list of Courses to a QString
+    QString result = QString("");
+    for(int i=0; i<list.length();i++)
+    {
+        if(i==0) result += "~`";
+        result += list[i].toString();
+        if(i==list.length()-1) result += "`~";
+        else result += "~~";
+    }
+    return result;
+}
+CourseList Course::stringToList(QString aString){  // Convert a string to a list of course objects
+    CourseList result = CourseList();
+    QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
+    for(int i=1;i<list.length()-1;i++) result += list[i];
+    qDebug() << list;
+    return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

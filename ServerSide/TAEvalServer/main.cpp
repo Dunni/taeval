@@ -19,13 +19,17 @@ int main(int argc, char *argv[])
     Task* task = new Task(x,x,x,x, today, tomorrow);
     cout << task->getCourseID().toStdString();
 
-    Storage s;
-    QString pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND")).toString();
-  //  cout << pp.toStdString();
-    cout << Course(pp).toString().toStdString();
+  //  Storage s;
+   Course pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND"));
+    QList<Course> qw;
+    qw.append(pp);
+    qw.append(pp);
+    qw.append(pp);
+    qw.append(pp);
+    QString res = Course::listToString(qw);
     QString d = "2013-11-20";
     QStringList dl = d.split("-");
     qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());
-
+    Course::stringToList(res);
     //return a.exec();
 }
