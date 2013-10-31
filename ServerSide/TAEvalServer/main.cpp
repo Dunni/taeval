@@ -31,5 +31,13 @@ int main(int argc, char *argv[])
     QStringList dl = d.split("-");
     qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());
     Course::stringToList(res);
+
+    Storage s;
+    s.connectToDB("D");
+    QString r;
+    qDebug() << s.verifyUser("Christine",r);
+    qDebug() << r;
+    s.disconnect();
+
     //return a.exec();
 }

@@ -84,6 +84,19 @@ bool Storage::dumpDB(){
 }
 #endif
 
+
+bool Storage::verifyUser(QString name, QString &role){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT * FROM USERS WHERE name = '%1'").arg(name);
+    if (!query.exec(queryString)) return false;
+
+    query.next();
+    role = query.value(1).toString();
+
+    return true;
+}
+
 bool Storage::manageTask(QString action, Task task){
     if(action.toLower().contains("create"))
         return this->createTask(task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(),task.getDueDate().toString());
