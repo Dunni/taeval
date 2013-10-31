@@ -25,6 +25,7 @@ public:
 
     //Constructors and Destructor
     Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, QString aTaskID="", qint32 aRating=-1, QString aFeedback="");
+    Task(QString taskString);
     ~Task();
 
     //Getters
@@ -45,10 +46,10 @@ public:
     void setDueDate(QDate);
     void setEvaluation(QString, qint32);
 
-    //Parsers
-  //  QString toString();
-   // static QString listToString(TaskList);
-    //static TaskList stringToList(QString);
+   //Parsers
+    QString toString();
+    static QString listToString(TaskList);
+    static TaskList stringToList(QString);
 
 private:
     QString id;

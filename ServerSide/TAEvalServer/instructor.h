@@ -3,18 +3,18 @@
 #include "nonadminuser.h"
 #include "course.h"
 
-typedef QList<Course> CourseList;
 
 class Instructor : public NonAdminUser
 {
+    typedef QList<Instructor> InstructorList;
+
 public:
     Instructor(QString id);
-    bool manageTask(QString action, QString TAUsername, QString CourseID, QString description, QDate startDate, QDate dueDate);
     QString getUserType();
-private:
-    CourseList coursesTaught;
-//    Course teaching;
 
+    //Parsers
+    static QString listToString(InstructorList);
+    static InstructorList stringToList(QString);
 };
 
 #endif // INSTRUCTOR_H

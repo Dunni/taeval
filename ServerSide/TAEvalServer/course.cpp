@@ -67,10 +67,11 @@ QString Course::listToString(CourseList list){ // Parse a list of Courses to a Q
 CourseList Course::stringToList(QString aString){  // Convert a string to a list of course objects
     CourseList result = CourseList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
-    for(int i=1;i<list.length()-1;i++) result += list[i];
+    for(int i=1;i<list.length()-1;i++) result += Course(list[i]);
     //qDebug() << list;
     return result;
 }
+
 
 
 

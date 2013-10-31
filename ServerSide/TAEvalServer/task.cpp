@@ -10,6 +10,31 @@ Task::Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, 
       eval(new Evaluation(aRating, aFeedback))
 {}
 
+Task::Task(QString taskString)
+{
+    QList<QString> list = taskString.split(QRegExp("(:` |\\n`)"));
+    if(list.length() != 16 ||
+       list[0].compare(QString("Course ID")) != 0 ||
+       list[2].compare(QString("Description")) != 0 ||
+       list[4].compare(QString("TA")) != 0 ||
+       list[6].compare(QString("Start Date")) != 0 ||
+       list[8].compare(QString("Due Date")) != 0 ||
+       list[10].compare(QString("Task ID")) != 0 ||
+       list[12].compare(QString("Evaluation Feedback")) != 0 ||
+       list[14].compare(QString("Evaluation Rating")) != 0)
+    {
+        qDebug() << "Parse Error! Invalid Input";
+        return;
+    }
+    courseID = list[1];
+    description = list[3];
+    taID = list[5];
+    startDate = QDate::fromString(list[7]);
+    dueDate = QDate::fromString(list[9]);
+    id = list[11];
+    eval = new Task::Evaluation(list[15].toInt(), list[13]);
+}
+
 Task::~Task()
 {
     delete eval;
@@ -49,16 +74,37 @@ void Task::Evaluation::setFeedback(QString aFeedback){this->feedback = aFeedback
 void Task::Evaluation::setRating(qint32 aRating){this->rating = aRating;}
 
 
-/*Parsers
+//Parsers
 QString Task::toString()
 {
-    return QString(QString() + "CourseID:` " + courseID + "\n`" +
+    return QString(QString() + "Course ID:` " + courseID + "\n`" +
                    "Description:` " + description + "\n`" +
                    "TA:` " + taID + "\n`" +
-                   "Start Date:` " + dueDate.toString() + "\n`" +
-                   "CourseNumber:` " + number + "\n`" +
-                   "CourseNumber:` " + number + "\n`" +
-                   "CourseInstructor:` " + instructorId + "\n`" +
-                   "CourseSemester:` " + semester);
+                   "Start Date:` " + startDate.toString() + "\n`" +
+                   "Due Date:` " + dueDate.toString() + "\n`" +
+                   "Task ID:` " + id + "\n`" +
+                   "Evaluation Feedback:` " + eval->getFeedback() + "\n`" +
+                   "Evaluation Rating:` " + QString::number(eval->getRating()));
 }
-*/
+
+QString Task::listToString(TaskList list)
+{
+    QString result = QString("");
+    for(int i=0; i<list.length();i++)
+    {
+        if(i==0) result += "~`";
+        result += list[i].toString();
+        if(i==list.length()-1) result += "`~";
+        else result += "~~";
+    }
+    return result;
+}
+
+QList<Task> Task::stringToList(QString aString){  // Convert a string to a list of Task objects
+    TaskList result = TaskList();
+    QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
+    for(int i=1;i<list.length()-1;i++) result += Task(list[i]);
+    //qDebug() << list;
+    return result;
+}
+

@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
     QDate tomorrow = QDate(2013,10,28);
     QString x = QString("12345");
     Task* task = new Task(x,x,x,today,tomorrow,x);
-    cout << task->getCourseID().toStdString();
+    Task* task2 = new Task(task->toString());
+    qDebug() << task2->toString();
 
   //  Storage s;
     Course pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND"));

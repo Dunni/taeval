@@ -84,6 +84,29 @@ bool TAEval::getCourses(QString userID, CourseList *&list, QString instructor, Q
     return false;
 }
 
+bool TAEval::getSemesters(QString userID, StringList *&list) // User MUST delete list after use as it is dynamically allocated
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        list = new StringList(dataStore->getSemesters(userID));
+        return true;
+    }
+    return false;
+}
+
+bool TAEval::enterEvaluation(QString userID, qint32 taskId, QString feedback, qint32 rating)
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        return dataStore->enterEvaluation(taskId,rating,feedback);
+    }
+    return false;
+}
+
+bool TAEvalgetEvaluation(QString userID, QString taskId, Task::Evaluation eval)
+{
+    return false;
+}
 
 bool TAEval::getTAs(QString userID, QString course, TAList *&list)
 {
@@ -102,6 +125,8 @@ bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList *&lis
     }
     return false;
 }
+
+
 
 QString TAEval::verifyUser(QString userid)
 {

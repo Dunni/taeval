@@ -4,10 +4,16 @@
 
 class TA : public NonAdminUser
 {
+    typedef QList<TA> TAList;
+
 public:
     TA(QString);
 
     QString getUserType();
+
+    //Parsers
+    static QString listToString(TAList);
+    static TAList stringToList(QString);
 
 };
 
