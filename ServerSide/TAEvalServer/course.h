@@ -1,12 +1,13 @@
 #ifndef COURSE_H
 #define COURSE_H
 #include <QtCore>
+#include "iostream"
 
 class Course
 {
 public:
     Course(QString aId,QString aName, QString aNumber, QString aSemester, QString aInstructorId);
-
+    Course(QString courseString);
     QString getId();
     QString getName();
     QString getNumber();

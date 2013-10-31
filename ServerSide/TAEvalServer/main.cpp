@@ -20,8 +20,9 @@ int main(int argc, char *argv[])
     cout << task->getCourseID().toStdString();
 
     Storage s;
-    cout << Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND")).toString().toStdString();
-    qDebug() << s.splitDate("2013-12-32");
+    QString pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND")).toString();
+  //  cout << pp.toStdString();
+    cout << Course(pp).toString().toStdString();
     QString d = "2013-11-20";
     QStringList dl = d.split("-");
     qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());

@@ -1,4 +1,5 @@
 #include "course.h"
+using namespace std;
 
 Course::Course(QString aId, QString aName, QString aNumber, QString aSemester, QString aInstructorId)
     : id(aId),
@@ -7,6 +8,28 @@ Course::Course(QString aId, QString aName, QString aNumber, QString aSemester, Q
       semester(aSemester),
       instructorId(aInstructorId)
 {}
+
+Course::Course(QString courseString)
+{
+    QList<QString> list = courseString.split(QRegExp("(:` |\\n`)"));
+    if(list.length() != 10 ||
+       list[0].compare(QString("CourseID")) != 0 ||
+       list[2].compare(QString("CourseName")) != 0 ||
+       list[4].compare(QString("CourseNumber")) != 0 ||
+       list[6].compare(QString("CourseInstructor")) != 0 ||
+       list[8].compare(QString("CourseSemester")) != 0 )
+    {
+        qDebug() << list;
+        cout << "Parse Error! Invalid Input";
+        return;
+    }
+    id = list[1];
+    name = list[3];
+    number = list[5];
+    semester = list[7];
+    instructorId = list[9];
+
+}
 
 QString Course::getId(){return id;}
 QString Course::getName(){return name;}
@@ -21,9 +44,9 @@ void Course::setSemester(QString aSemester){this->semester = aSemester;}
 void Course::setInstructorId(QString aInstructorId){this->instructorId = aInstructorId;}
 
 QString Course::toString(){
-    return QString(QString() + "Course ID: " + id + "\n" +
-                   "Course Name: " + name + "\n" +
-                   "Course Number: " + number + "\n" +
-                   "Course Instructor: " + instructorId + "\n" +
-                   "Course Semester: " + semester);
+    return QString(QString() + "CourseID:` " + id + "\n`" +
+                   "CourseName:` " + name + "\n`" +
+                   "CourseNumber:` " + number + "\n`" +
+                   "CourseInstructor:` " + instructorId + "\n`" +
+                   "CourseSemester:` " + semester);
 }
