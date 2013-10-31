@@ -1,7 +1,11 @@
 #include "taeval.h"
 
-TAEval::TAEval(){dataStore = new Storage();}
+TAEval::TAEval(){
+    dataStore = new Storage();
+    dataStore->connectToDB("taevalDBConnection");
+}
 TAEval::~TAEval(){
+    dataStore->disconnect();
     delete dataStore;
     QList<NonAdminUser*> temp = loggedOn.values();
     for(int i=0;i<temp.length();i++)
@@ -44,7 +48,7 @@ bool TAEval::createTask(QString userID, QString TAUsername, QString CourseID, QS
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
         Task temp = Task(TAUsername,CourseID,description,startDate,dueDate);
-        return dataStore->manageTask(QString("Create"), temp);
+        return dataStore->manageTask(QString("create"), temp);
     }
     return false;
 }
