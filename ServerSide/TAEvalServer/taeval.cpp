@@ -109,3 +109,23 @@ QString TAEval::verifyUser(QString userid)
     dataStore->verifyUser(userid,result);
     return result;
 }
+
+QString TAEval::listToString(StringList list){ // Parse a list of QStrings to a single QString
+    QString result = QString("");
+    for(int i=0; i<list.length();i++)
+    {
+        if(i==0) result += "~`";
+        result += list[i];
+        if(i==list.length()-1) result += "`~";
+        else result += "~~";
+    }
+    return result;
+}
+
+StringList TAEval::stringToList(QString aString){  // Convert a single QString to a list of QStrings
+    StringList result = StringList();
+    QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
+    for(int i=1;i<list.length()-1;i++) result += list[i];
+    //qDebug() << list;
+    return result;
+}

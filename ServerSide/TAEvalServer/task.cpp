@@ -47,3 +47,18 @@ void Task::setEvaluation(QString feedback, qint32 rating){
 }
 void Task::Evaluation::setFeedback(QString aFeedback){this->feedback = aFeedback;}
 void Task::Evaluation::setRating(qint32 aRating){this->rating = aRating;}
+
+
+/*Parsers
+QString Task::toString()
+{
+    return QString(QString() + "CourseID:` " + courseID + "\n`" +
+                   "Description:` " + description + "\n`" +
+                   "TA:` " + taID + "\n`" +
+                   "Start Date:` " + dueDate.toString() + "\n`" +
+                   "CourseNumber:` " + number + "\n`" +
+                   "CourseNumber:` " + number + "\n`" +
+                   "CourseInstructor:` " + instructorId + "\n`" +
+                   "CourseSemester:` " + semester);
+}
+*/

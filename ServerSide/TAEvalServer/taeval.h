@@ -10,6 +10,7 @@ typedef QMap<QString, NonAdminUser*> UserList;
 typedef QList<TA> TAList;
 typedef QList<Course> CourseList;
 typedef QList<Task> TaskList;
+typedef QList<QString> StringList;
 
 class TAEval
 {
@@ -29,6 +30,9 @@ public:
     bool getTAs(QString userID, QString course, TAList* list);
     bool getTasks(QString userID, QString course, QString ta, TaskList* list);
 
+    //Parsers
+    StringList stringToList(QString);
+    QString listToString(StringList);
 
 private:
     UserList loggedOn;

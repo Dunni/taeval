@@ -3,8 +3,10 @@
 #include <QtCore>
 using namespace Qt;
 
+
 class Task
 {
+    typedef QList<Task> TaskList;
 public:
     class Evaluation
     {
@@ -42,6 +44,11 @@ public:
     void setStartDate(QDate);
     void setDueDate(QDate);
     void setEvaluation(QString, qint32);
+
+    //Parsers
+  //  QString toString();
+   // static QString listToString(TaskList);
+    //static TaskList stringToList(QString);
 
 private:
     QString id;
