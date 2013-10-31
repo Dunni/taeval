@@ -75,7 +75,7 @@ bool TAEval::deleteTask(QString userID, QString taskId)
     return false;
 }
 
-bool TAEval::getCourses(QString userID, CourseList* list, QString instructor, QString term)
+bool TAEval::getCourses(QString userID, CourseList *&list, QString instructor, QString term)
 {
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
@@ -85,7 +85,7 @@ bool TAEval::getCourses(QString userID, CourseList* list, QString instructor, QS
 }
 
 
-bool TAEval::getTAs(QString userID, QString course, TAList* list)
+bool TAEval::getTAs(QString userID, QString course, TAList *&list)
 {
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
@@ -94,7 +94,7 @@ bool TAEval::getTAs(QString userID, QString course, TAList* list)
     return false;
 }
 
-bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList* list)
+bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList *&list)
 {
     if(loggedOn.contains(userID) && (loggedOn.value(userID)->getUserType() == "Instructor" || userID==ta))
     {

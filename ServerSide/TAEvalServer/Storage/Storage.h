@@ -36,13 +36,13 @@ public:
     bool manageTask(QString action, Task task);
 
     /* get courses teaching need delete *list after use */
-    bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *list);
+    bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list);
 
     /* get TAs for a course need delete *list after use */
-    bool getTAsForCourse(QString courseKey, QList<TA> *list);
+    bool getTAsForCourse(QString courseKey, QList<TA> *&list);
 
     /* get Tasks for a TA and course need delete *list after use */
-    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list);
+    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
 
     /* get Semesters for a given instructor */
     QStringList getSemesters(QString instrcutor);

@@ -197,7 +197,7 @@ bool Storage::deleteTask(INT TaskID){
     return query.exec(queryString);
 }
 
-bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *list){
+bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *&list){
     QString teacher = this->getUserKey(Instrcutor);
     if (teacher.isNull()) return false;
 
@@ -240,7 +240,7 @@ bool Storage::viewCoursesTeaching(QString Instrcutor, QString term){
     return true;
 }
 
-bool Storage::getTAsForCourse(QString courseKey, QList<TA> *list){
+bool Storage::getTAsForCourse(QString courseKey, QList<TA> *&list){
     QSqlQuery query(db);
     QString queryString;
     queryString = QString("SELECT TAName,role from USERS join TACOURSES on USERS.name = TACOURSES.TAName WHERE CourseName = '%1'").\
@@ -276,7 +276,7 @@ bool Storage::viewTAsforCourse(QString term, QString title, INT num){
 }
 
 
-bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list){
+bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list){
     QSqlQuery query(db);
     QString queryString;
     queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\

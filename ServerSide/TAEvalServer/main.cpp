@@ -35,8 +35,9 @@ int main(int argc, char *argv[])
 
     TAEval s = TAEval();
     QString r;
-    qDebug() << s.verifyUser("Christine");
-    //qDebug() << r;
+    CourseList *l;
+    s.logIn("Christine");
+    qDebug() << s.getCourses("Christine",l,"Christine","F2013");
     //s.disconnect();
 
     //return a.exec();
