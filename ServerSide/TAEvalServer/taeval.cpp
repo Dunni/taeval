@@ -4,6 +4,7 @@ TAEval::TAEval(){
     dataStore = new Storage();
     dataStore->connectToDB("taevalDBConnection");
 }
+
 TAEval::~TAEval(){
     dataStore->disconnect();
     delete dataStore;
@@ -53,9 +54,58 @@ bool TAEval::createTask(QString userID, QString TAUsername, QString CourseID, QS
     return false;
 }
 
-bool TAEval::editTask(QString userID, QString TAUsername, QString CourseID, QString description, QDate startDate, QDate dueDate){}
-bool TAEval::deleteTask(){}
-bool TAEval::getCourses( CourseList* list, QString instructor, QString term){}
-bool TAEval::getTAs(QString course, TAList* list){}
-bool TAEval::getTasks(QString course, QString ta, TaskList* list){}
-QString TAEval::verifyUser(QString userid){}
+bool TAEval::editTask(QString userID, QString description, QDate startDate, QDate dueDate, QString taskId)
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        Task temp = Task(QString(""),QString(""),description,startDate,dueDate,taskId);
+        return dataStore->manageTask(QString("edit"), temp);
+    }
+    return false;
+
+}
+
+bool TAEval::deleteTask(QString userID, QString taskId)
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        Task temp = Task(QString(""),QString(""),QString(""),QDate(),QDate(),taskId);
+        return dataStore->manageTask(QString("delete"), temp);
+    }
+    return false;
+}
+
+bool TAEval::getCourses(QString userID, CourseList* list, QString instructor, QString term)
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        return dataStore->getCoursesTeaching(instructor,term,list);
+    }
+    return false;
+}
+
+
+bool TAEval::getTAs(QString userID, QString course, TAList* list)
+{
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        return dataStore->getTAsForCourse(course,list);
+    }
+    return false;
+}
+
+bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList* list)
+{
+    if(loggedOn.contains(userID) && (loggedOn.value(userID)->getUserType() == "Instructor" || userID==ta))
+    {
+        return dataStore->getTasksForTA(course,ta,list);
+    }
+    return false;
+}
+
+QString TAEval::verifyUser(QString userid)
+{
+    QString result;
+    dataStore->verifyUser(userid,result);
+    return result;
+}

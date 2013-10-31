@@ -4,6 +4,7 @@
 #include "course.h"
 #include "nonadminuser.h"
 #include "./Storage/Storage.h"
+#include "taeval.h"
 #include <iostream>
 using namespace std;
 
@@ -32,12 +33,11 @@ int main(int argc, char *argv[])
     qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());
     Course::stringToList(res);
 
-    Storage s;
-    s.connectToDB("D");
+    TAEval s = TAEval();
     QString r;
-    qDebug() << s.verifyUser("Christine",r);
-    qDebug() << r;
-    s.disconnect();
+    qDebug() << s.verifyUser("Christine");
+    //qDebug() << r;
+    //s.disconnect();
 
     //return a.exec();
 }
