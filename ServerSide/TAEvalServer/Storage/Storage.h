@@ -28,6 +28,7 @@ public:
     bool connectToDB(QString connection, QString path = "Storage//taeval.db", QString DBType = "QSQLITE");
     void disconnect();
 
+    /* actions: create, edit, delete*/
     /* manage Tasks */
     bool manageTask(QString action, Task task);
 
@@ -39,6 +40,8 @@ public:
 
     /* get Tasks for a TA and course need delete *list after use */
     bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list);
+
+    QStringList getSemesters(QString Instrcutor);
 
     /* enterEvaluation */
     bool enterEvaluation(INT TaskID,INT rating, QString feedback);

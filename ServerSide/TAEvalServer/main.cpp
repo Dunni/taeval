@@ -16,11 +16,11 @@ int main(int argc, char *argv[])
     QDate today = QDate(2013,9,28);
     QDate tomorrow = QDate(2013,10,28);
     QString x = QString("12345");
-    Task* task = new Task(x,x,x,x, today, tomorrow);
+    Task* task = new Task(x,x,x,today,tomorrow,x);
     cout << task->getCourseID().toStdString();
 
   //  Storage s;
-   Course pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND"));
+    Course pp = Course(QString("COMP3004W13"),QString("OO Software Engineering"),QString("3004"),QString("FALL2013"),QString("CLAUREND"));
     QList<Course> qw;
     qw.append(pp);
     qw.append(pp);

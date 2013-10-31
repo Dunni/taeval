@@ -8,11 +8,13 @@ public:
     NonAdminUser(QString);
 
     QString getId();
+    virtual QString getUserType() =0;
 
     void setId(QString);
 
 private:
     QString id;
+
 };
 
 #endif // NONADMINUSER_H

@@ -21,8 +21,11 @@ public:
         qint32 rating;
     };
 
-    Task(QString aID, QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, qint32 aRating=-1, QString aFeedback="");
+    //Constructors and Destructor
+    Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, QString aTaskID="", qint32 aRating=-1, QString aFeedback="");
     ~Task();
+
+    //Getters
     QString getId();
     QString getDescription();
     QString getCourseID();
@@ -31,6 +34,7 @@ public:
     QDate getDueDate();
     Evaluation* getEvaluation();
 
+    //Setters
     void setId(QString id);
     void setDescription(QString);
     void setCourseID(QString);

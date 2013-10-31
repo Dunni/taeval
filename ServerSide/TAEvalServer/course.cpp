@@ -21,7 +21,7 @@ Course::Course(QString courseString)
        list[6].compare(QString("CourseInstructor")) != 0 ||
        list[8].compare(QString("CourseSemester")) != 0 )
     {
-        cout << "Parse Error! Invalid Input";
+        qDebug() << "Parse Error! Invalid Input";
         return;
     }
     id = list[1];
@@ -63,11 +63,12 @@ QString Course::listToString(CourseList list){ // Parse a list of Courses to a Q
     }
     return result;
 }
+
 CourseList Course::stringToList(QString aString){  // Convert a string to a list of course objects
     CourseList result = CourseList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
     for(int i=1;i<list.length()-1;i++) result += list[i];
-    qDebug() << list;
+    //qDebug() << list;
     return result;
 }
 

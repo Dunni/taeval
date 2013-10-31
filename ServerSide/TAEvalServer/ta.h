@@ -6,6 +6,9 @@ class TA : public NonAdminUser
 {
 public:
     TA(QString);
+
+    QString getUserType();
+
 };
 
 #endif // TA_H

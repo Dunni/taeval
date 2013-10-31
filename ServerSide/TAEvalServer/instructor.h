@@ -10,6 +10,7 @@ class Instructor : public NonAdminUser
 public:
     Instructor(QString id);
     bool manageTask(QString action, QString TAUsername, QString CourseID, QString description, QDate startDate, QDate dueDate);
+    QString getUserType();
 private:
     CourseList coursesTaught;
 //    Course teaching;

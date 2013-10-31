@@ -1,7 +1,7 @@
 #include "task.h"
 
-Task::Task(QString aID, QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, qint32 aRating, QString aFeedback)
-    : id(aID),
+Task::Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, QString aTaskID, qint32 aRating, QString aFeedback)
+    : id(aTaskID),
       description(aDescription),
       taID(aTaID),
       courseID(aCourseID),

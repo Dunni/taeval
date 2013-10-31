@@ -289,7 +289,7 @@ bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *list)
         QString feedback;
         feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
 
-        list->append(Task(QString(task),TA,course,desc,s,e,rating,feedback));
+        list->append(Task(TA,course,desc,s,e,QString(task),rating,feedback));
     }
     return true;
 }
@@ -324,6 +324,21 @@ bool Storage::viewTasksforTA(QString term, QString title, INT num, QString TAKey
     }
     return true;
 }
+
+QStringList Storage::getSemesters(QString instrcutor){
+    QSqlQuery query(db);
+    QString queryString;
+    QStringList rv;
+    queryString = QString("SELECT DISTINCT term FROM COURSES WHERE InsName = '%1'").\
+            arg(instrcutor);
+    if (!query.exec(queryString)) {rv.append("-1"); return rv;}
+
+    while(query.next()){
+        rv.append(query.value(0).toString());
+    }
+    return rv;
+}
+
 
 bool Storage::enterEvaluation(INT TaskID, INT rating, QString feedback){
     QSqlQuery query(db);
