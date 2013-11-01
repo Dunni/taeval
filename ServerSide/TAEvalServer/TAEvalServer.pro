@@ -12,30 +12,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    task.cpp \
-    nonadminuser.cpp \
-    Storage/Storage.cpp \
-    instructor.cpp \
-    taeval.cpp \
-    ta.cpp \
     ../../Common/task.cpp \
-    ../../Common/ta.cpp \
     ../../Common/nonadminuser.cpp \
+    Storage/Storage.cpp \
     ../../Common/instructor.cpp \
-    ../../Common/course.cpp
+    taeval.cpp \
+    ../../Common/ta.cpp \
+   ../../Common/course.cpp
 
 HEADERS  += mainwindow.h \
-    course.h \
-    task.h \
-    nonadminuser.h \
-    Storage/Storage.h \
-    instructor.h \
-    taeval.h \
-    ta.h \
+    ../../Common/course.h \
     ../../Common/task.h \
-    ../../Common/ta.h \
     ../../Common/nonadminuser.h \
+    Storage/Storage.h \
     ../../Common/instructor.h \
-    ../../Common/course.h
+    taeval.h \
+    ../../Common/ta.h
 
 FORMS    += mainwindow.ui
