@@ -91,9 +91,19 @@ bool Storage::verifyUser(QString name, QString &role){
     queryString = QString("SELECT * FROM USERS WHERE name = '%1'").arg(name);
     if (!query.exec(queryString)) return false;
 
+    role = QString();
+    int numRows = 0;
+
+    if (db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+        numRows = query.size();
+    } else {
+        query.last();
+        numRows = query.at() + 1;
+    }
+    if (numRows == 0) return false;
+
     query.next();
     role = query.value(1).toString();
-
     return true;
 }
 

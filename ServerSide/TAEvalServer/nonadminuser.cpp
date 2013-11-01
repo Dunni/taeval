@@ -9,6 +9,6 @@ QString NonAdminUser::toString()
     return id;
 }
 
-
+QString NonAdminUser::getId(){return id;}
 
 
