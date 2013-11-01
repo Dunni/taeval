@@ -1,2 +1,25 @@
+Added by Yuyang
+# Created by http://gitignore.io
+
+### Qt ###
+# C++ objects and libs
+
+*.slo
+*.lo
 *.o
-*.user
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+
+# Qt-es
+CMakeLists.txt.user
+*.pro.user
+*.pro.user.*
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile
+*-build-*
