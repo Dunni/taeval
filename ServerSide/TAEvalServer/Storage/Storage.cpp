@@ -100,10 +100,12 @@ bool Storage::verifyUser(QString name, QString &role){
         query.last();
         numRows = query.at() + 1;
     }
-    if (numRows == 0) return false;
+    if (numRows == 0 || numRows == -1) return false;
 
-    query.next();
-    role = query.value(1).toString();
+    query.seek(-1);
+    while(query.next()){
+        role = query.value(1).toString();
+    }
     return true;
 }
 

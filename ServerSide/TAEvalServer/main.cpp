@@ -37,15 +37,9 @@ int main(int argc, char *argv[])
     TAEval s = TAEval();
     QString r;
     CourseList *l;
-    s.logIn("Christine");
-    qDebug() << s.getCourses("Christine",l,"Christine","F2013");
-    for (int i = 0; i<l->size();i++){
-        qDebug() << Course(l->at(i)).getId();
-        qDebug() << Course(l->at(i)).getInstructorId();
-        qDebug() << Course(l->at(i)).getName();
-        qDebug() << Course(l->at(i)).getNumber();
-        qDebug() << Course(l->at(i)).getSemester();
-    }
+    qDebug() << s.logIn("Christine");
+    qDebug() << s.logIn("Y");
+
 
     //return a.exec();
 }
