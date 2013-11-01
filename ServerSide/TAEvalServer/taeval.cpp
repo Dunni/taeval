@@ -103,8 +103,17 @@ bool TAEval::enterEvaluation(QString userID, qint32 taskId, QString feedback, qi
     return false;
 }
 
-bool TAEvalgetEvaluation(QString userID, QString taskId, Task::Evaluation eval)
+bool TAEval::getEvaluation(QString userID, qint32 taskId, Task::Evaluation*& eval)
 {
+    if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
+    {
+        Task* temp;
+        if(dataStore->getTask(QString::number(taskId),temp))
+        {
+            eval = new Task::Evaluation(temp->getEvaluation()->getRating(),temp->getEvaluation()->getFeedback());
+            return true;
+        }
+    }
     return false;
 }
 

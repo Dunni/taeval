@@ -31,7 +31,7 @@ public:
     bool getTasks(QString userID, QString course, QString ta, TaskList*& list);
     bool getSemesters(QString userID, StringList*& list);
     bool enterEvaluation(QString userID, qint32 taskId, QString feedback, qint32 rating);
-    bool getEvaluation(QString userID, qint32 taskId, Task::Evaluation eval);
+    bool getEvaluation(QString userID, qint32 taskId, Task::Evaluation*& eval);
 
 
     //Parsers
