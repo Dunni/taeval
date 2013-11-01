@@ -1,9 +1,9 @@
 #ifndef TAEVAL_H
 #define TAEVAL_H
-#include "course.h"
-#include "task.h"
-#include "instructor.h"
-#include "nonadminuser.h"
+#include "../../Common/course.h"
+#include "../../Common/task.h"
+#include "../../Common/instructor.h"
+#include "../../Common/nonadminuser.h"
 #include "Storage/Storage.h"
 
 typedef QMap<QString, NonAdminUser*> UserList;

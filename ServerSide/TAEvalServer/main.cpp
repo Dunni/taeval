@@ -1,11 +1,8 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#include "task.h"
-#include "course.h"
-#include "nonadminuser.h"
 #include "./Storage/Storage.h"
-#include "taeval.h"
 #include <iostream>
+#include "taeval.h"
 using namespace std;
 
 

@@ -12,9 +12,10 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QStringList>
-#include "../course.h"
-#include "../task.h"
-#include "../ta.h"
+#include "../../../Common/course.h"
+#include "../../../Common/task.h"
+#include "../../../Common/ta.h"
+#include "../../../Common/instructor.h"
 
 
 typedef qint32 INT;
