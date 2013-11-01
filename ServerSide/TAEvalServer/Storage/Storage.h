@@ -47,6 +47,9 @@ public:
     /* get Semesters for a given instructor */
     QStringList getSemesters(QString instrcutor);
 
+    /* get a Task based on TaskID */
+    bool getTask(QString taskID, Task *& rv);
+
     /* enterEvaluation */
     bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 

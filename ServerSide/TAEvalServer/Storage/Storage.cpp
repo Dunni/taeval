@@ -213,7 +213,7 @@ bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course>
         QString term = query.value(2).toString();
         INT num = query.value(3).toInt();
         QString InsName = query.value(4).toString();
-        list->append(Course(name,title,QString(num),term,InsName));
+        list->append(Course(name,title,QString::number(num),term,InsName));
     }
     return true;
 }
@@ -302,7 +302,7 @@ bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list
         QString feedback;
         feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
 
-        list->append(Task(TA,course,desc,s,e,QString(task),rating,feedback));
+        list->append(Task(TA,course,desc,s,e,QString::number(task),rating,feedback));
     }
     return true;
 }
@@ -350,6 +350,36 @@ QStringList Storage::getSemesters(QString instrcutor){
         rv.append(query.value(0).toString());
     }
     return rv;
+}
+
+bool Storage::getTask(QString taskID, Task *&rv){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT * FROM TASKS WHERE id = %1").\
+            arg(taskID);
+    if (!query.exec(queryString)) return false;
+
+    while(query.next()){
+        QString TA = query.value(0).toString();
+        QString course = query.value(1).toString();
+        INT task = query.value(2).toInt();
+        QString desc = query.value(3).toString();
+        QString start = query.value(4).toString();
+        QString end = query.value(5).toString();
+        QStringList startl = this->splitDate(start);
+        QStringList endl = this->splitDate(end);
+        QDate s(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
+        QDate e(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
+
+        INT rating;
+        rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
+
+        QString feedback;
+        feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
+
+        rv = new Task(TA,course,desc,s,e,QString::number(task),rating,feedback);
+    }
+    return true;
 }
 
 
