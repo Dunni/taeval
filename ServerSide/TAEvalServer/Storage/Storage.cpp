@@ -113,10 +113,10 @@ bool Storage::verifyUser(QString name, QString &role){
 
 bool Storage::manageTask(QString action, Task task){
     if(action.toLower().contains("create"))
-        return this->createTask(task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(),task.getDueDate().toString());
+        return this->createTask(task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(Qt::ISODate),task.getDueDate().toString(Qt::ISODate));
 
     if(action.toLower().contains("edit"))
-        return this->editTask(task.getId().toInt(),task.getDescription(),task.getStartDate().toString(),task.getDueDate().toString());
+        return this->editTask(task.getId().toInt(),task.getDescription(),task.getStartDate().toString(Qt::ISODate),task.getDueDate().toString(Qt::ISODate));
 
     if(action.toLower().contains("delete"))
         return this->deleteTask(task.getId().toInt());

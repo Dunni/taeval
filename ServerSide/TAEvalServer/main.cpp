@@ -54,6 +54,8 @@ int main(int argc, char *argv[])
     qDebug() << tt->toString();
     s.disconnect();
 
+    qDebug() << QDate(2013,10,19).toString(Qt::ISODate);
+
     //Server s;
     //return a.exec();
 }
