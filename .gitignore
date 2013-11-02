@@ -1,6 +1,11 @@
 # Added by Yuyang
 # Created by http://gitignore.io
 
+
+# Project builds
+ClientSide/TAEvalClient
+ServerSide/TAEvalServer/TAEvalServer
+
 ### Qt ###
 # C++ objects and libs
 
