@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/pictures">
+        <file>carleton_logo.gif</file>
+    </qresource>
+</RCC>

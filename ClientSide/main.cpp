@@ -1,10 +1,12 @@
 #include <QtGui/QApplication>
+#include "mainscreen.h"
 #include "client.h"
+
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    Client c;
-    c.show();
-    return app.exec();
+    QApplication a(argc, argv);
+    MainScreen w;
+    w.show();
+    return a.exec();
 }

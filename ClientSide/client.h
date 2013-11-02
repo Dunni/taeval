@@ -3,31 +3,41 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
-#include "instructorscreen.h"
+#include <string.h>
+#include "../Common/course.h"
+#include "../Common/task.h"
+#include "../Common/nonadminuser.h"
+#include "../Common/ta.h"
 
-namespace Ui {
-class Client;
-}
+typedef QList<TA> TAList;
+typedef QList<Course> CourseList;
+typedef QList<Task> TaskList;
+typedef QList<QString> StringList;
 
-class Client : public QMainWindow
+using namespace std;
+
+class Client : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Client(QWidget *parent = 0);
+    explicit Client(QObject *parent = 0);
     QTcpSocket *tcpSocket;
-    ~Client();
+    friend class MainScreen;
+    QString semesterString;
 
-private slots:
-    void sendRequest();
-    void loginClicked();
-    void goToReadyRead();
+    //Parsers
+    StringList stringToList(QString);
+    QString listToString(StringList);
 
 private:
-    Ui::Client *ui;
-    InstructorScreen *is;
+    CourseList *c;
+    string sendLoginRequest(string);
+    QString sendSemesterRequest(string);
+    QString sendCoursesRequest(string);
+    QString sendTAsRequest(string);
+    QString sendTaskRequest(string);
 
-    quint16 blockSize;
 };
 
 #endif

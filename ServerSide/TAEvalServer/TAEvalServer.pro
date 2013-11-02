@@ -4,29 +4,30 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core sql network
 
 TARGET = TAEvalServer
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     ../../Common/task.cpp \
     ../../Common/nonadminuser.cpp \
     Storage/Storage.cpp \
     ../../Common/instructor.cpp \
     taeval.cpp \
     ../../Common/ta.cpp \
-   ../../Common/course.cpp
+   ../../Common/course.cpp \
+    server.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     ../../Common/course.h \
     ../../Common/task.h \
     ../../Common/nonadminuser.h \
     Storage/Storage.h \
     ../../Common/instructor.h \
     taeval.h \
-    ../../Common/ta.h
+    ../../Common/ta.h \
+    server.h
 
 FORMS    += mainwindow.ui
