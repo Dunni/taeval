@@ -27,8 +27,8 @@ Course::Course(QString courseString)
     id = list[1];
     name = list[3];
     number = list[5];
-    semester = list[7];
-    instructorId = list[9];
+    instructorId = list[7];
+    semester = list[9];
 
 }
 
