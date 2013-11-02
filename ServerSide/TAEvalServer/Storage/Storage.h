@@ -64,6 +64,7 @@ private:
 #endif
     QSqlDatabase db; /* DataBase */
     bool connected; /* flag if connected to DB */
+    void fixNull(QString &s);
     QString fixEscape(QString s){return s.replace("'","''");}
     QStringList splitDate(QString d){return d.split("-");}
     QString getUserKey(QString name);

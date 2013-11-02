@@ -11,6 +11,8 @@ void Storage::disconnect(){
     this->db.close();
 }
 
+void Storage::fixNull(QString &s){if (s.isNull()) s = QString("");}
+
 #ifdef DEBUG
 bool Storage::dumpDB(){
     bool ok = false;
@@ -301,18 +303,27 @@ bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list
         QString course = query.value(1).toString();
         INT task = query.value(2).toInt();
         QString desc = query.value(3).toString();
+        this->fixNull(desc);
+
         QString start = query.value(4).toString();
         QString end = query.value(5).toString();
+        this->fixNull(start);
+        this->fixNull(end);
+
         QStringList startl = this->splitDate(start);
         QStringList endl = this->splitDate(end);
-        QDate s(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
-        QDate e(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
+        QDate s;
+        if (!start.isEmpty())
+            s = QDate(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
+        QDate e;
+        if (!end.isEmpty())
+            e = QDate(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
 
         INT rating;
         rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
 
-        QString feedback;
-        feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
+        QString feedback = query.value(7).toString();
+        this->fixNull(feedback);
 
         list->append(Task(TA,course,desc,s,e,QString::number(task),rating,feedback));
     }
@@ -376,18 +387,27 @@ bool Storage::getTask(QString taskID, Task *&rv){
         QString course = query.value(1).toString();
         INT task = query.value(2).toInt();
         QString desc = query.value(3).toString();
+        this->fixNull(desc);
+
         QString start = query.value(4).toString();
         QString end = query.value(5).toString();
+        this->fixNull(start);
+        this->fixNull(end);
+
         QStringList startl = this->splitDate(start);
         QStringList endl = this->splitDate(end);
-        QDate s(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
-        QDate e(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
+        QDate s;
+        if (!start.isEmpty())
+            s = QDate(startl.at(0).toInt(),startl.at(1).toInt(),startl.at(2).toInt());
+        QDate e;
+        if (!end.isEmpty())
+            e = QDate(endl.at(0).toInt(),endl.at(1).toInt(),endl.at(2).toInt());
 
         INT rating;
         rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
 
-        QString feedback;
-        feedback = query.value(7).isNull() ? "NA" : query.value(7).toString();
+        QString feedback = query.value(7).toString();
+        this->fixNull(feedback);
 
         rv = new Task(TA,course,desc,s,e,QString::number(task),rating,feedback);
     }

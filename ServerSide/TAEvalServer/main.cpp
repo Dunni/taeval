@@ -45,6 +45,15 @@ int main(int argc, char *argv[])
 
     qDebug() << re;
 
-    Server s;
-    return a.exec();
+    Storage s;
+    s.connectToDB("OO");
+    TaskList *l;
+    Task *tt;
+    s.getTasksForTA(QString("COMP3004F2012"),QString("Abdallah"),l);
+    s.getTask("7",tt);
+    qDebug() << tt->toString();
+    s.disconnect();
+
+    //Server s;
+    //return a.exec();
 }

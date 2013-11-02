@@ -95,7 +95,7 @@ INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, 
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
 	VALUES ('Abdallah','COMP3004F2013','Grade assignments','2013-09-01','2013-12-19', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
-	VALUES ('Abdallah','COMP3004F2012','Grade projects','2012-09-03','2012-12-07', NULL, NULL);
+	VALUES ('Abdallah','COMP3004F2012',NULL,NULL,NULL, NULL, NULL);
 
 
 
