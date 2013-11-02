@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main(int argc, char *argv[])
-{
+{/*
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
@@ -30,15 +30,16 @@ int main(int argc, char *argv[])
     QStringList dl = d.split("-");
     qDebug() << QDate(dl.at(0).toInt(),dl.at(1).toInt(),dl.at(2).toInt());
     Course::stringToList(res);
+*/
+    //TAEval s = TAEval();
+   // QString r;
+    //CourseList *l;
+    //qDebug() << s.logIn("Christine");
+    //qDebug() << s.logIn("Y");
 
-    TAEval s = TAEval();
-    QString r;
-    CourseList *l;
-    qDebug() << s.logIn("Christine");
-    qDebug() << s.logIn("Y");
-
-    TaskList ll;
-    ll.append(Task("1","2","3",QDate(),QDate(),"4",100,"NAa"));
+    QList<Task> ll;
+    Task t = Task("1","2","3",QDate(),QDate(),"4",100,"NAa");
+    ll += t;
     ll.append(Task("11","2","3",QDate(),QDate(),"4",101,"NAb"));
     ll.append(Task("111","2","3",QDate(),QDate(),"4",102,"NAc"));
     QString re = Task::listToString(ll);

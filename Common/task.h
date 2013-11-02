@@ -13,8 +13,8 @@ public:
     public:
         Evaluation(qint32 aRating, QString aFeedback);
         ~Evaluation();
-        QString getFeedback();
-        qint32 getRating();
+        QString getFeedback() const;
+        qint32 getRating() const;
         void setRating(qint32 aRating);
         void setFeedback(QString aFeedback);
 
@@ -26,16 +26,17 @@ public:
     //Constructors and Destructor
     Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, QDate due, QString aTaskID="", qint32 aRating=-1, QString aFeedback="");
     Task(QString taskString);
+    Task(const Task &t);
     ~Task();
 
     //Getters
-    QString getId();
-    QString getDescription();
-    QString getCourseID();
-    QString getTaID();
-    QDate getStartDate();
-    QDate getDueDate();
-    Evaluation* getEvaluation();
+    QString getId() const;
+    QString getDescription() const;
+    QString getCourseID() const;
+    QString getTaID() const;
+    QDate getStartDate() const;
+    QDate getDueDate() const;
+    Evaluation* getEvaluation() const;
 
     //Setters
     void setId(QString id);

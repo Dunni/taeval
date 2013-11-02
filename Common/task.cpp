@@ -10,6 +10,17 @@ Task::Task(QString aTaID, QString aCourseID, QString aDescription, QDate start, 
       eval(new Evaluation(aRating, aFeedback))
 {}
 
+
+Task::Task(const Task& t)
+    :id(t.getId()),
+      description(t.getDescription()),
+      taID(t.getTaID()),
+      courseID(t.getCourseID()),
+      startDate(t.getStartDate()),
+      dueDate(t.getDueDate()),
+      eval(new Evaluation(t.eval->getRating(),t.eval->getFeedback()))
+{}
+
 Task::Task(QString taskString)
 {
     QList<QString> list = taskString.split(QRegExp("(:` |\\n`)"));
@@ -48,15 +59,15 @@ Task::Evaluation::Evaluation(qint32 aRating, QString aFeedback)
 Task::Evaluation::~Evaluation(){}
 
 //Getters
-QString Task::getId(){return id;}
-QString Task::getCourseID(){return courseID;}
-QString Task::getDescription(){return description;}
-QString Task::getTaID(){return taID;}
-QDate Task::getStartDate(){return startDate;}
-QDate Task::getDueDate(){return dueDate;}
-Task::Evaluation* Task::getEvaluation(){return eval;}
-QString Task::Evaluation::getFeedback(){return this->feedback;}
-qint32 Task::Evaluation::getRating(){return this->rating;}
+QString Task::getId() const {return id;}
+QString Task::getCourseID() const {return courseID;}
+QString Task::getDescription() const{return description;}
+QString Task::getTaID() const{return taID;}
+QDate Task::getStartDate() const{return startDate;}
+QDate Task::getDueDate() const{return dueDate;}
+Task::Evaluation* Task::getEvaluation() const{return eval;}
+QString Task::Evaluation::getFeedback() const{return this->feedback;}
+qint32 Task::Evaluation::getRating() const{return this->rating;}
 
 
 //Setters
