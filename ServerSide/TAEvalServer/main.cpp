@@ -36,14 +36,14 @@ int main(int argc, char *argv[])
     //qDebug() << s.logIn("Christine");
     //qDebug() << s.logIn("Y");
 
-    QList<Task> ll;
-    Task t = Task("1","2","3",QDate(),QDate(),"4",100,"NAa");
-    ll += t;
-    ll.append(Task("11","2","3",QDate(),QDate(),"4",101,"NAb"));
-    ll.append(Task("111","2","3",QDate(),QDate(),"4",102,"NAc"));
-    QString re = Task::listToString(ll);
+//    QList<Task> ll;
+//    Task t = Task("1","2","3",QDate(),QDate(),"4",100,"NAa");
+//    ll += t;
+//    ll.append(Task("11","2","3",QDate(),QDate(),"4",101,"NAb"));
+//    ll.append(Task("111","2","3",QDate(),QDate(),"4",102,"NAc"));
+//    QString re = Task::listToString(ll);
 
-    qDebug() << re;
+//    qDebug() << re;
 
     Storage s;
     s.connectToDB("OO");

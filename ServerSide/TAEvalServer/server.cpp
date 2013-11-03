@@ -74,11 +74,13 @@
      } else if (request.compare("taskRequest") == 0) {
         taskRequest(data);
      } else if (request.compare("taskCreateRequest") == 0) {
-
+        createTaskRequest(data);
      } else if (request.compare("taskEditRequest") == 0) {
-
+        editTaskRequest(data);
      } else if (request.compare("taskDeleteRequest") == 0){
-
+        deleteTaskRequest(data);
+     } else if (request.compare("editEvalRequest") == 0){
+        editEvalRequest(data);
      }else {
          qDebug() << "Request will not be made" << endl;
      }
@@ -115,7 +117,7 @@
 
      QStringList info = usernameSemester.split("|");
 
-     qDebug() <<  info.at(0) + " " + info.at(1) << endl;
+     qDebug() <<  info.at(0) + " Semester is " + info.at(1) << endl;
 
      model.getCourses(info.at(0), c, info.at(0), info.at(1));
      QString stringOfCourses = Course::listToString(*c);
@@ -170,3 +172,109 @@
 
  }
 
+
+ void Server::createTaskRequest(QString instTaKeyCourseKeyPlusData){
+
+     qDebug() << "CREATE Task Request being processed" << endl;
+
+     QStringList info = instTaKeyCourseKeyPlusData.split("|");
+
+     qDebug() << "Inst here is: " + info.at(0) + " and " +
+                 info.at(1) << " and " << info.at(2) + " and " +
+              info.at(3) << " and " << info.at(4) << + " and " +
+              info.at(5) << endl;
+
+     QStringList begDateList = info.at(4).split("-");
+     QStringList dueDateList = info.at(5).split("-");
+
+     QDate begDate(begDateList.at(0).toInt(), begDateList.at(1).toInt(), begDateList.at(2).toInt());
+     QDate dueDate(dueDateList.at(0).toInt(), dueDateList.at(1).toInt(), dueDateList.at(2).toInt());
+
+
+     bool success = model.createTask(info.at(0), info.at(1), info.at(2), info.at(3), begDate, dueDate);
+
+
+//     Task task1(info.at(1), info.at(2), info.at(3), info.at(4), info.at(5));
+//     QString stringOfTask = task1.toString();
+
+//     qDebug() << stringOfTask << endl;
+
+     if(!success){
+         tcpSocket->write("FAIL!");
+     } else {
+         tcpSocket->write("SUCCESS!");
+     }
+
+ }
+
+
+ void Server::editEvalRequest(QString instTaKeyCourseKeyPlusData){
+
+     qDebug() << "Edit Evail Request being processed" << endl;
+
+     QStringList info = instTaKeyCourseKeyPlusData.split("|");
+
+     qDebug() << "Inst here is: " + info.at(0) + " and " +
+                 info.at(1) << endl;
+
+     bool success = model.enterEvaluation(info.at(0), info.at(1).toInt(), info.at(2), info.at(3).toInt());
+
+
+//     Task task1(info.at(1), info.at(2), info.at(3), info.at(4), info.at(5));
+//     QString stringOfTask = task1.toString();
+
+//     qDebug() << stringOfTask << endl;
+
+     if(!success){
+         tcpSocket->write("FAIL!");
+     } else {
+         tcpSocket->write("SUCCESS!");
+     }
+
+ }
+
+ void Server::editTaskRequest(QString instTaKeyCourseKeyPlusData){
+
+     qDebug() << "Edit Task Request being processed" << endl;
+
+     QStringList info = instTaKeyCourseKeyPlusData.split("|");
+
+     qDebug() << "Inst here is: " + info.at(0) + " and " +
+                 info.at(1) + " and " + info.at(2) + " and " +
+                 info.at(3) + "and " + info.at(4) << endl;
+
+     QStringList begDateList = info.at(2).split("-");
+     QStringList dueDateList = info.at(3).split("-");
+
+     QDate begDate(begDateList.at(0).toInt(), begDateList.at(1).toInt(), begDateList.at(2).toInt());
+     QDate dueDate(dueDateList.at(0).toInt(), dueDateList.at(1).toInt(), dueDateList.at(2).toInt());
+
+
+     bool success = model.editTask(info.at(0), info.at(1), begDate, dueDate, QString(info.at(4)));
+
+     if(!success){
+         tcpSocket->write("FAIL!");
+     } else {
+         tcpSocket->write("SUCCESS!");
+     }
+
+ }
+
+ void Server::deleteTaskRequest(QString instTaKeyCourseKeyPlusData){
+
+     qDebug() << "DELETE Task Request being processed" << endl;
+
+     QStringList info = instTaKeyCourseKeyPlusData.split("|");
+
+     qDebug() << "Inst here is: " + info.at(0) + " and " +
+                 info.at(1) << endl;
+
+     bool success = model.deleteTask(info.at(0), QString(info.at(1)));
+
+     if(!success){
+         tcpSocket->write("FAIL!");
+     } else {
+         tcpSocket->write("SUCCESS!");
+     }
+
+ }
