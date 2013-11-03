@@ -281,7 +281,7 @@ QString TAEval::serveRequest(QString request, QString data)
         qDebug() << "Inst here is: " + info.at(0) + " and " +
                     info.at(1) << endl;
 
-         deleteTask(info.at(0), QString(info.at(1)));
+        return deleteTask(info.at(0), QString(info.at(1))) ? "true" : "false";
 
     }
     else if (request.compare("editEvalRequest") == 0){
@@ -301,8 +301,6 @@ QString TAEval::serveRequest(QString request, QString data)
         return logOut(info.at(0)) ? "true" : "false";
     }
 
-    else {
-        qDebug() << "Invalid Request" << endl;
-    }
+    qDebug() << "Invalid Request" << endl;
     return "false";
 }
