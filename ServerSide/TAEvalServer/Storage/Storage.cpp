@@ -13,80 +13,6 @@ void Storage::disconnect(){
 
 void Storage::fixNull(QString &s){if (s.isNull()) s = QString("");}
 
-#ifdef DEBUG
-bool Storage::dumpDB(){
-    bool ok = false;
-    QSqlQuery query(db);
-    QString queryString;
-
-    /* dump Table USERS */
-    queryString = "SELECT * FROM USERS";
-    ok =  query.exec(queryString);
-    if (!ok) return false;
-
-    qDebug() << QString("\n###USERS###");
-    qDebug() << QString("UserName\tRole");
-    while(query.next()){
-        QString user = query.value(0).toString();
-        QString role = query.value(1).toString();
-        qDebug() << QString("%1\t%2").arg(user).arg(role);
-    }
-
-    /* dump Table COURSES */
-    queryString = "SELECT * FROM COURSES";
-    ok =  query.exec(queryString);
-    if (!ok) return false;
-    qDebug() << QString("\n###COURSES###");
-    qDebug() << QString("CourseName\tTitle\tTerm\tNumber\tInstructorName");
-    while(query.next()){
-        QString name = query.value(0).toString();
-        QString title = query.value(1).toString();
-        QString term = query.value(2).toString();
-        INT num = query.value(3).toInt();
-        QString InsName = query.value(4).toString();
-        qDebug() << QString("%1\t%2\t%3\t%4\t%5").arg(name).arg(title).arg(term).arg(num).arg(InsName);
-    }
-
-    /* dump Table TACOURSES */
-    queryString = "SELECT * FROM TACOURSES";
-    ok =  query.exec(queryString);
-    if (!ok) return false;
-    qDebug() << QString("\n###TACOURSES###");
-    qDebug() << QString("TAName\tCourseName");
-    while(query.next()){
-        QString TA = query.value(0).toString();
-        QString course = query.value(1).toString();
-        qDebug() << QString("%1\t%2").arg(TA).arg(course);
-    }
-
-    /* dump Table TASKS */
-    queryString = "SELECT * FROM TASKS";
-    ok =  query.exec(queryString);
-    if (!ok) return false;
-    qDebug() << QString("\n###TASKS###");
-    qDebug() << QString("TAName\tCourseName\t\tTaskID\tDescription\tstartDate\tendDate\trating\tfeedback");
-    while(query.next()){
-        QString TA = query.value(0).toString();
-        QString course = query.value(1).toString();
-        INT task = query.value(2).toInt();
-        QString desc = query.value(3).toString();
-        QString start = query.value(4).toString();
-        QString end = query.value(5).toString();
-
-        INT rating;
-        rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
-
-        QString feedback;
-        feedback = query.value(7).isNull() ? "N/A" : query.value(7).toString();
-
-        qDebug() << QString("%1\t%2\t%3\t%4\t%5\t%6\t%7\t%8").arg(TA).arg(course).arg(task).arg(desc).arg(start).arg(end).arg(rating).arg(feedback);
-    }
-
-    return ok;
-}
-#endif
-
-
 bool Storage::verifyUser(QString name, QString &role){
     QSqlQuery query(db);
     QString queryString;
@@ -111,9 +37,9 @@ bool Storage::verifyUser(QString name, QString &role){
     return true;
 }
 
-bool Storage::manageTask(QString action, Task task){
+bool Storage::manageTask(QString user, QString action, Task task){
     if(action.toLower().contains("create"))
-        return this->createTask(task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(Qt::ISODate),task.getDueDate().toString(Qt::ISODate));
+        return this->createTask(user,task.getTaID(),task.getCourseID(),task.getDescription(),task.getStartDate().toString(Qt::ISODate),task.getDueDate().toString(Qt::ISODate));
 
     if(action.toLower().contains("edit"))
         return this->editTask(task.getId().toInt(),task.getDescription(),task.getStartDate().toString(Qt::ISODate),task.getDueDate().toString(Qt::ISODate));
@@ -146,26 +72,35 @@ QString Storage::getCourseKey(QString term, QString title, INT num){
     return NULL;
 }
 
-bool Storage::createTask(QString TAKey, QString courseKey, QString desc, QString start, QString end){
+QString Storage::getInstructor(QString courseKey){
     QSqlQuery query(db);
     QString queryString;
-    queryString = QString("INSERT INTO TASKS ").\
-            append(QString("(TAName, CourseName, description, startDate, endDate, rating, feedback)")).\
-            append(QString("VALUES ('%1','%2','%3','%4','%5',%6 ,%7)").\
-            arg(TAKey).arg(courseKey).arg(desc).arg(start).arg(end).arg("NULL").arg("NULL"));
-
-   return query.exec(queryString);
+    queryString = QString("SELECT * from COURSES WHERE name = '%1'").arg(courseKey);
+    if (!query.exec(queryString)) return QString("");
+    while(query.next()){
+        return query.value(4).toString();
+    }
+    return QString("");
 }
 
-bool Storage::createTask(QString TAName, QString courseTitle, QString courseTerm, INT courseNum, \
-                         QString desc, QString start, QString end){
+bool Storage::createTask(QString user, QString TAKey, QString courseKey, QString desc, QString start, QString end){
+    /* first verify the user has permission */
+    if(user.compare(this->getInstructor(courseKey)) != 0) return false;
 
-    QString TAKey = this->getUserKey(TAName);
-    if (TAKey.isNull()) return false;
+    /* second check the ta is assigned to the course */
+    QList<TA> *list;
+    if (!this->getTAsForCourse(courseKey,list)){
+        delete list;
+        return false;
+    }
+    for(int i=0;i<list->size();i++){
+        if(TA(list->at(i)).getId().compare(TAKey) != 0){
+            delete list;
+            return false;
+        }
+    }
 
-    QString courseKey = this->getCourseKey(courseTerm, courseTitle, courseNum);
-    if (courseKey.isNull()) return false;
-
+    /*  everything goes fine, create */
     QSqlQuery query(db);
     QString queryString;
     queryString = QString("INSERT INTO TASKS ").\
@@ -232,27 +167,6 @@ bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course>
     return true;
 }
 
-bool Storage::viewCoursesTeaching(QString Instrcutor, QString term){
-    QString teacher = this->getUserKey(Instrcutor);
-    if (teacher.isNull()) return false;
-
-    QSqlQuery query(db);
-    QString queryString;
-    queryString = QString("SELECT * FROM COURSES WHERE InsName = '%1' AND term = '%2'").arg(teacher).arg(term);
-    if (!query.exec(queryString)) return false;
-
-    qDebug() << QString("\n###CoursesTeaching###");
-    qDebug() << QString("CourseName\tTitle\tTerm\tNumber\tInstructorName");
-    while(query.next()){
-        QString name = query.value(0).toString();
-        QString title = query.value(1).toString();
-        QString term = query.value(2).toString();
-        INT num = query.value(3).toInt();
-        QString InsName = query.value(4).toString();
-        qDebug() << QString("%1\t%2\t%3\t%4\t%5").arg(name).arg(title).arg(term).arg(num).arg(InsName);
-    }
-    return true;
-}
 
 bool Storage::getTAsForCourse(QString courseKey, QList<TA> *&list){
     QSqlQuery query(db);
@@ -266,25 +180,6 @@ bool Storage::getTAsForCourse(QString courseKey, QList<TA> *&list){
         QString taName = query.value(0).toString();
 //        QString role = query.value(0).toString();
         list->append(TA(taName));
-    }
-    return true;
-}
-
-bool Storage::viewTAsforCourse(QString term, QString title, INT num){
-    QString courseKey = this->getCourseKey(term,title,num);
-    if (courseKey.isNull()) return false;
-
-    QSqlQuery query(db);
-    QString queryString;
-    queryString = QString("SELECT TAName from USERS join TACOURSES on USERS.name = TACOURSES.TAName WHERE CourseName = '%1'").\
-            arg(courseKey);
-    if (!query.exec(queryString)) return false;
-
-    qDebug() << QString("\n###TAsFor###");
-    qDebug() << QString("TAName");
-    while(query.next()){
-        QString TA = query.value(0).toString();
-        qDebug() << QString("%1").arg(TA);
     }
     return true;
 }
@@ -326,37 +221,6 @@ bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list
         this->fixNull(feedback);
 
         list->append(Task(TA,course,desc,s,e,QString::number(task),rating,feedback));
-    }
-    return true;
-}
-
-bool Storage::viewTasksforTA(QString term, QString title, INT num, QString TAKey){
-    QString courseKey = this->getCourseKey(term,title,num);
-    if (courseKey.isNull()) return false;
-
-    QSqlQuery query(db);
-    QString queryString;
-    queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\
-            arg(TAKey).arg(courseKey);
-    if (!query.exec(queryString)) return false;
-
-    qDebug() << QString("\n###TASKS###");
-    qDebug() << QString("TAName\tCourseName\t\tTaskID\tDescription\tstartDate\tendDate\trating\tfeedback");
-    while(query.next()){
-        QString TA = query.value(0).toString();
-        QString course = query.value(1).toString();
-        INT task = query.value(2).toInt();
-        QString desc = query.value(3).toString();
-        QString start = query.value(4).toString();
-        QString end = query.value(5).toString();
-
-        INT rating;
-        rating = query.value(6).isNull() ? -1 : query.value(6).toInt();
-
-        QString feedback;
-        feedback = query.value(7).isNull() ? "N/A" : query.value(7).toString();
-
-        qDebug() << QString("%1\t%2\t%3\t%4\t%5\t%6\t%7\t%8").arg(TA).arg(course).arg(task).arg(desc).arg(start).arg(end).arg(rating).arg(feedback);
     }
     return true;
 }

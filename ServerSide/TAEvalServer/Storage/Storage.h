@@ -34,7 +34,7 @@ public:
 
     /* actions: create, edit, delete*/
     /* manage Tasks */
-    bool manageTask(QString action, Task task);
+    bool manageTask(QString user, QString action, Task task);
 
     /* get courses teaching need delete *list after use */
     bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list);
@@ -54,10 +54,6 @@ public:
     /* enterEvaluation */
     bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 
-    /* Debug related */
-#ifdef DEBUG
-    bool dumpDB();
-#endif
 
 #ifndef DEBUG
 private:
@@ -69,15 +65,10 @@ private:
     QStringList splitDate(QString d){return d.split("-");}
     QString getUserKey(QString name);
     QString getCourseKey(QString term, QString title, INT num);
-    bool createTask(QString TAKey, QString courseKey,QString desc, QString start,QString end);
-    bool createTask(QString TAName, QString courseTitle, QString courseTerm, INT courseNum, QString desc, QString start, QString end);
+    QString getInstructor(QString courseKey);
+    bool createTask(QString user, QString TAKey, QString courseKey,QString desc, QString start,QString end);
     bool editTask(INT TaskID, QString desc, QString start, QString end);
     bool deleteTask(INT TaskID);
-#ifdef DEBUG
-    bool viewCoursesTeaching(QString Instrcutor, QString term);
-    bool viewTAsforCourse(QString term, QString title, INT num);
-    bool viewTasksforTA(QString term, QString title, INT num,QString TAKey);
-#endif
 };
 
 #endif // STORAGE_H
