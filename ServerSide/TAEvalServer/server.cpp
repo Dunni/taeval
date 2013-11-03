@@ -62,8 +62,6 @@
      qDebug() << "Client says to Server: " << request << " and " << data << endl;
 
      tcpSocket->write(model.serveRequest(request,data).toUtf8());
-
-
  }
 
 
