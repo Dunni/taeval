@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
 //    qDebug() << re;
 
-    Storage s;
+  /*  Storage s;
     s.connectToDB("OO");
     TaskList *l;
     Task *tt;
@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
     s.getTask("7",tt);
     qDebug() << tt->toString();
     s.disconnect();
-
+*/
     qDebug() << QDate(2013,10,19).toString(Qt::ISODate);
 
-    //Server s;
-    //return a.exec();
+    Server s;
+    return a.exec();
 }
