@@ -48,7 +48,7 @@ bool TAEval::createTask(QString userID, QString TAUsername, QString CourseID, QS
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
         Task temp = Task(TAUsername,CourseID,description,startDate,dueDate);
-        return dataStore->manageTask(QString("create"), temp);
+        //return dataStore->manageTask(QString("create"), temp);
     }
     return false;
 }
@@ -58,7 +58,7 @@ bool TAEval::editTask(QString userID, QString description, QDate startDate, QDat
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
         Task temp = Task(QString(""),QString(""),description,startDate,dueDate,taskId);
-        return dataStore->manageTask(QString("edit"), temp);
+        //return dataStore->manageTask(QString("edit"), temp);
     }
     return false;
 
@@ -69,7 +69,7 @@ bool TAEval::deleteTask(QString userID, QString taskId)
     if(loggedOn.contains(userID) && loggedOn.value(userID)->getUserType() == "Instructor")
     {
         Task temp = Task(QString(""),QString(""),QString(""),QDate(),QDate(),taskId);
-        return dataStore->manageTask(QString("delete"), temp);
+        //return dataStore->manageTask(QString("delete"), temp);
     }
     return false;
 }
