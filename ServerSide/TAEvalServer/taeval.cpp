@@ -15,22 +15,21 @@ TAEval::~TAEval(){
     }
 }
 
-bool TAEval::logIn(QString userid)
+QString TAEval::logIn(QString userid)
 {
     QString role = verifyUser(userid);
     if(role == QString("TA"))
     {
         TA* temp = new TA(userid);
         loggedOn.insert(userid,temp);
-        return true;
     }
-    if(role == QString("Instructor"))
+    else if(role == QString("Instructor"))
     {
         Instructor* temp = new Instructor(userid);
         loggedOn.insert(userid,temp);
-        return true;
     }
-    return false;
+    else role = "invalid";
+    return role;
 }
 
 bool TAEval::logOut(QString userid)
@@ -162,4 +161,176 @@ StringList TAEval::stringToList(QString aString){  // Convert a single QString t
     for(int i=1;i<list.length()-1;i++) result += list[i];
     //qDebug() << list;
     return result;
+}
+
+QString TAEval::serveRequest(QString request, QString data)
+{
+    //Then find the request here and delegate the data to the SQL to query the required info.
+    if(request.compare("loginRequest") == 0){
+       qDebug() << "Login Request being processed" << endl;
+       if(logIn(data).contains("Instructor"))
+       {
+           return QString("Instructor");
+       }
+       if(logIn(data).contains("TA"))
+       {
+           return QString("TA");
+       }
+       else
+           return QString("invalid");
+
+    }
+    else if (request.compare("semesterRequest") == 0) {
+        qDebug() << "Semester Request being processed" << endl;
+        StringList *semesters;
+        getSemesters(data, semesters);
+        QString result = listToString(*semesters);
+        delete semesters;
+        return result;
+    }
+    else if (request.compare("coursesRequest") == 0) {
+        qDebug() << "Courses Request being processed" << endl;
+        QStringList info = data.split("|");
+        qDebug() <<  info.at(0) + " " + info.at(1) << endl;
+        CourseList* c;
+        getCourses(info.at(0), c, info.at(0), info.at(1));
+        QString stringOfCourses = Course::listToString(*c);
+        qDebug() << stringOfCourses << endl;
+        delete c;
+        return (stringOfCourses);
+    }
+    else if (request.compare("tasRequest") == 0) {
+        qDebug() << "TAs Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        qDebug() << "Inst here is: " + info.at(0) + " and " +
+                    info.at(1) << endl;
+        TAList* t;
+        getTAs(info.at(0), info.at(1), t);
+        QString stringOfTAs = TA::listToString(*t);
+        delete t;
+        qDebug() << stringOfTAs << endl;
+
+        if(stringOfTAs.isEmpty()){
+            stringOfTAs = QString("<empty>");
+        }
+          return (stringOfTAs);
+
+    }
+    else if (request.compare("taskRequest") == 0) {
+        qDebug() << "Task Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        qDebug() << "Inst here is: " + info.at(0) + " and " +
+                    info.at(1) << " and " << info.at(2) << endl;
+
+        TaskList* taskList;
+        getTasks(info.at(0), info.at(1), info.at(2), taskList);
+        QString stringOfTask = Task::listToString(*taskList);
+        delete taskList;
+        qDebug() << stringOfTask << endl;
+
+        if(stringOfTask.isEmpty()) stringOfTask = QString("<empty>");
+
+        return (stringOfTask);
+
+    }
+    else if (request.compare("taskCreateRequest") == 0) {
+        qDebug() << "CREATE Task Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        qDebug() << "Inst here is: " + info.at(0) + " and " +
+                    info.at(1) << " and " << info.at(2) + " and " +
+                 info.at(3) << " and " << info.at(4) << + " and " +
+                 info.at(5) << endl;
+
+        QStringList begDateList = info.at(4).split("-");
+        QStringList dueDateList = info.at(5).split("-");
+
+        QDate begDate(begDateList.at(0).toInt(), begDateList.at(1).toInt(), begDateList.at(2).toInt());
+        QDate dueDate(dueDateList.at(0).toInt(), dueDateList.at(1).toInt(), dueDateList.at(2).toInt());
+
+
+        bool success = createTask(info.at(0), info.at(1), info.at(2), info.at(3), begDate, dueDate);
+
+
+   //     Task task1(info.at(1), info.at(2), info.at(3), info.at(4), info.at(5));
+   //     QString stringOfTask = task1.toString();
+
+   //     qDebug() << stringOfTask << endl;
+
+        if(!success){
+            return ("FAIL!");
+        } else {
+            return ("SUCCESS!");
+        }
+
+    }
+    else if (request.compare("taskEditRequest") == 0) {
+        qDebug() << "Edit Task Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        qDebug() << "Inst here is: " + info.at(0) + " and " +
+                    info.at(1) + " and " + info.at(2) + " and " +
+                    info.at(3) + "and " + info.at(4) << endl;
+
+        QStringList begDateList = info.at(2).split("-");
+        QStringList dueDateList = info.at(3).split("-");
+
+        QDate begDate(begDateList.at(0).toInt(), begDateList.at(1).toInt(), begDateList.at(2).toInt());
+        QDate dueDate(dueDateList.at(0).toInt(), dueDateList.at(1).toInt(), dueDateList.at(2).toInt());
+
+
+        bool success = editTask(info.at(0), info.at(1), begDate, dueDate, QString(info.at(4)));
+
+        if(!success){
+            return ("FAIL!");
+        } else {
+            return ("SUCCESS!");
+        }
+    }
+    else if (request.compare("taskDeleteRequest") == 0){
+        qDebug() << "DELETE Task Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        qDebug() << "Inst here is: " + info.at(0) + " and " +
+                    info.at(1) << endl;
+
+        bool success = deleteTask(info.at(0), QString(info.at(1)));
+
+        if(!success){
+            return ("FAIL!");
+        } else {
+            return ("SUCCESS!");
+        }
+    }
+    else if (request.compare("editEvalRequest") == 0){
+        qDebug() << "Edit Evail Request being processed" << endl;
+
+        QStringList info = data.split("|");
+
+        bool success = enterEvaluation(info.at(0), info.at(1).toInt(), info.at(2), info.at(3).toInt());
+
+
+   //     Task task1(info.at(1), info.at(2), info.at(3), info.at(4), info.at(5));
+   //     QString stringOfTask = task1.toString();
+
+   //     qDebug() << stringOfTask << endl;
+
+        if(!success){
+            return ("FAIL!");
+        } else {
+            return ("SUCCESS!");
+        }
+    }
+
+    else {
+        qDebug() << "Request will not be made" << endl;
+    }
+    return "<empty>";
 }

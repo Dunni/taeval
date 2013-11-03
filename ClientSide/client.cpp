@@ -23,15 +23,16 @@ string Client::sendLoginRequest(string str){
 
     QString successFail = tr(tcpSocket->readLine().constData());
 
-    if(successFail.compare("true") == 0){
+    if(successFail.compare("Instructor") == 0){
         qDebug() << "Retrieving user name " << endl;
-        return "true";
-    } else {
-        qDebug() << "It failed! :'(" << endl;
-        return "false";
+        return "Instructor";
+    } else if(successFail.compare("TA")){
+
+        qDebug() << "User is specified as TA" << endl;
+        return "TA";
     }
 
-    return "false";
+    return "invilade";
 }
 
 QString Client::sendSemesterRequest(string str){

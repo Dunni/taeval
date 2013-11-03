@@ -24,11 +24,6 @@
      QTcpServer *tcpServer;
      QTcpSocket *tcpSocket;
      TAEval model;
-     CourseList *c;
-     TAList *t;
-     TaskList *taskList;
-     QString taskDesc;
-     QDate taskBegin, taskDue;
      void loginRequest(QString);
      void semesterRequest(QString);
      void coursesRequest(QString);
@@ -38,6 +33,8 @@
      void editTaskRequest(QString);
      void deleteTaskRequest(QString);
      void editEvalRequest(QString);
+
+
  };
 
  #endif

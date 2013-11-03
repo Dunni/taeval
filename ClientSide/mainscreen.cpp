@@ -81,8 +81,9 @@ void MainScreen::viewInstructorPage()
         string success = c->sendLoginRequest(ui->userName->text().toStdString());
 
         //Check if the login request was successful otherwise send an error message saying user doesn't exist.
-        if(success.compare("true") == 0){
+        if(success.compare("Instructor") == 0){
             c->userNameString = ui->userName->text();
+
             //Change to the instructor page and call the semester page
             ui->MainWidget->setCurrentIndex(1);
             getSemesters();

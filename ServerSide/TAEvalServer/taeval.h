@@ -21,7 +21,7 @@ public:
 
     //API Functions
     QString verifyUser(QString);
-    bool logIn(QString);
+    QString logIn(QString);
     bool logOut(QString);
     bool createTask(QString userID, QString TAUsername, QString CourseID, QString description, QDate startDate, QDate dueDate);
     bool editTask(QString userID, QString description, QDate startDate, QDate dueDate, QString taskId);
@@ -32,6 +32,7 @@ public:
     bool getSemesters(QString userID, StringList*& list);
     bool enterEvaluation(QString userID, qint32 taskId, QString feedback, qint32 rating);
     bool getEvaluation(QString userID, qint32 taskId, Task::Evaluation*& eval);
+    QString serveRequest(QString request, QString data);
 
 
     //Parsers
