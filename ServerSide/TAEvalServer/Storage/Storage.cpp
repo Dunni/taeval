@@ -278,7 +278,6 @@ bool Storage::getTask(QString taskID, Task *&rv){
     return true;
 }
 
-
 bool Storage::enterEvaluation(INT TaskID, INT rating, QString feedback){
     QSqlQuery query(db);
     QString queryString;
@@ -296,4 +295,9 @@ bool Storage::enterEvaluation(INT TaskID, INT rating, QString feedback){
 
     queryString = QString("UPDATE TASKS SET").append(update).append(QString("WHERE id = %1").arg(TaskID));
     return query.exec(queryString);
+}
+
+bool Storage::sendRequest(QString cmd){
+    QSqlQuery query(db);
+    return query.exec(cmd);
 }

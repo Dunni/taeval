@@ -22,8 +22,11 @@ typedef qint32 INT;
 
 class Storage{
 public:
-    /* Contructor */
-    Storage(){ connected = false; }
+    /* get Instance of Storage*/
+    static Storage& getInstance(){
+        static Storage s;
+        return s;
+    }
 
     /* connect and disconnect */
     bool connectToDB(QString connection, QString path = "Storage//taeval.db", QString DBType = "QSQLITE");
@@ -54,10 +57,18 @@ public:
     /* enterEvaluation */
     bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 
+    /* sendRequest for debug*/
+    bool sendRequest(QString cmd);
+
 
 #ifndef DEBUG
 private:
 #endif
+    /* Contructor */
+    Storage(){ connected = false; }
+    Storage(Storage const&);
+    void operator=(Storage const &);
+
     QSqlDatabase db; /* DataBase */
     bool connected; /* flag if connected to DB */
     void fixNull(QString &s);
