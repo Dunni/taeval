@@ -54,6 +54,9 @@ public:
     /* enterEvaluation */
     bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 
+    /* sendRequest for debug*/
+    bool sendRequest(QString cmd);
+
 
 #ifndef DEBUG
 private:
