@@ -23,36 +23,7 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = 0);
     QTcpSocket *tcpSocket;
-    friend class MainScreen;
-    QString userNameString;
-    QString semesterString;
-    QString courseString;
-    QString taString;
-    QString taskString;
-    QString evalString;
-    QString currentTaskID;
-    QString feedback;
-    QString rating;
-    QDate begDate, dueDate, begDateEd, dueDateEd;
-    QString duty;
-
-    //Parsers
-    StringList stringToList(QString);
-    QString listToString(StringList);
-
-private:
-    CourseList *c;
-    TaskList taskList;
-    string sendLoginRequest(string);
-    QString sendSemesterRequest(string);
-    QString sendCoursesRequest(string);
-    QString sendTAsRequest(string);
-    QString sendTaskRequest(string);
-    QString sendCreateTaskRequest(string);
-    QString sendEditEvalRequest(string);
-    QString sendEditTaskRequest(string);
-    QString sendDeleteTaskRequest(string);
-
+    QString sendRequest(QString, QString);
 };
 
 #endif

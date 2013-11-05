@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     taeval.cpp \
     ../../Common/ta.cpp \
    ../../Common/course.cpp \
-    server.cpp
+    server.cpp \
+    accesscontrol.cpp
 
 HEADERS  += \
     ../../Common/course.h \
@@ -28,6 +29,7 @@ HEADERS  += \
     ../../Common/instructor.h \
     taeval.h \
     ../../Common/ta.h \
-    server.h
+    server.h \
+    accesscontrol.h
 
 FORMS    += mainwindow.ui

@@ -13,8 +13,8 @@ public:
     QString getUserType();
 
     //Parsers
-    static QString listToString(InstructorList);
-    static InstructorList stringToList(QString);
+    static QString listToString(QList<Instructor>);
+    static QList<Instructor> stringToList(QString);
 };
 
 #endif // INSTRUCTOR_H

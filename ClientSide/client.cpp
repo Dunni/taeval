@@ -3,7 +3,6 @@
 #include "client.h"
 #include "mainscreen.h"
 
-
 Client::Client(QObject *parent) :
     QObject(parent)
 {
@@ -11,186 +10,70 @@ Client::Client(QObject *parent) :
     tcpSocket->connectToHost(QHostAddress::LocalHost, 2000);
 }
 
-string Client::sendLoginRequest(string str){
+//QString Client::sendTaskRequest(string str){
 
-    QString sendRequest = "loginRequest|";
+//    QString sendRequest = "taskRequest|";
 
-    sendRequest.append(QString(str.c_str()));
+//    sendRequest.append(QString(str.c_str()));
 
-    tcpSocket->write(sendRequest.toUtf8());
-    //To synchronize the reads, it will wait for 30 seconds until there's a reply.
-    tcpSocket->waitForReadyRead();
+//    tcpSocket->write(sendRequest.toUtf8());
 
-    QString successFail = tr(tcpSocket->readLine().constData());
+//    tcpSocket->waitForReadyRead();
+//    QString taskString = tr(tcpSocket->readAll().constData());
 
-    if(successFail.compare("Instructor") == 0){
-        qDebug() << "Retrieving user name " << endl;
-        return "Instructor";
-    } else if(successFail.compare("TA")){
+//    qDebug() << taskString << endl;
 
-        qDebug() << "User is specified as TA" << endl;
-        return "TA";
-    }
+//    return taskString;
 
-    return "invilade";
-}
+//}
 
-QString Client::sendSemesterRequest(string str){
+//QString Client::sendCreateTaskRequest(string str){
 
-    QString sendRequest = "semesterRequest|";
+//    QString sendRequest = "taskCreateRequest|";
 
-    sendRequest.append(QString(str.c_str()));
+//    sendRequest.append(QString(str.c_str()));
 
-    tcpSocket->write(sendRequest.toUtf8());
-    //To synchronize the reads, it will wait for 30 seconds until there's a reply.
-    tcpSocket->waitForReadyRead();
+//    tcpSocket->write(sendRequest.toUtf8());
 
-    semesterString = tr(tcpSocket->readLine().constData());
+//    tcpSocket->waitForReadyRead();
+//    QString taskString = tr(tcpSocket->readAll().constData());
 
-    qDebug() << semesterString << endl;
+//    qDebug() << taskString << endl;
 
-    return semesterString;
+//    return taskString;
 
-}
+//}
 
-QString Client::sendCoursesRequest(string str){
 
-    QString sendRequest = "coursesRequest|";
+//QString Client::sendEditEvalRequest(string str){
 
-    sendRequest.append(QString(str.c_str()));
+//    QString sendRequest = "editEvalRequest|";
 
-    tcpSocket->write(sendRequest.toUtf8());
+//    sendRequest.append(QString(str.c_str()));
 
-    tcpSocket->waitForReadyRead();
-    QString coursesString = tr(tcpSocket->readAll().constData());
+//    tcpSocket->write(sendRequest.toUtf8());
 
-    qDebug() << coursesString << endl;
+//    tcpSocket->waitForReadyRead();
+//    QString taskString = tr(tcpSocket->readAll().constData());
 
-    return coursesString;
+//    qDebug() << taskString << endl;
 
-}
+//    return taskString;
 
-QString Client::sendTAsRequest(string str){
+//}
 
-    QString sendRequest = "tasRequest|";
 
-    sendRequest.append(QString(str.c_str()));
+QString Client::sendRequest(QString request, QString data){
 
-    tcpSocket->write(sendRequest.toUtf8());
+    request.append(QString(data));
+
+    tcpSocket->write(request.toUtf8());
 
     tcpSocket->waitForReadyRead();
-    QString tasString = tr(tcpSocket->readAll().constData());
+    QString reply = tr(tcpSocket->readAll().constData());
 
-    qDebug() << tasString << endl;
+    qDebug() << reply << endl;
 
-    return tasString;
+    return reply;
 
-}
-
-QString Client::sendTaskRequest(string str){
-
-    QString sendRequest = "taskRequest|";
-
-    sendRequest.append(QString(str.c_str()));
-
-    tcpSocket->write(sendRequest.toUtf8());
-
-    tcpSocket->waitForReadyRead();
-    QString taskString = tr(tcpSocket->readAll().constData());
-
-    qDebug() << taskString << endl;
-
-    return taskString;
-
-}
-
-QString Client::sendCreateTaskRequest(string str){
-
-    QString sendRequest = "taskCreateRequest|";
-
-    sendRequest.append(QString(str.c_str()));
-
-    tcpSocket->write(sendRequest.toUtf8());
-
-    tcpSocket->waitForReadyRead();
-    QString taskString = tr(tcpSocket->readAll().constData());
-
-    qDebug() << taskString << endl;
-
-    return taskString;
-
-}
-
-QString Client::sendEditEvalRequest(string str){
-
-    QString sendRequest = "editEvalRequest|";
-
-    sendRequest.append(QString(str.c_str()));
-
-    tcpSocket->write(sendRequest.toUtf8());
-
-    tcpSocket->waitForReadyRead();
-    QString taskString = tr(tcpSocket->readAll().constData());
-
-    qDebug() << taskString << endl;
-
-    return taskString;
-
-}
-
-QString Client::sendEditTaskRequest(string str){
-
-    QString sendRequest = "taskEditRequest|";
-
-    sendRequest.append(QString(str.c_str()));
-
-    tcpSocket->write(sendRequest.toUtf8());
-
-    tcpSocket->waitForReadyRead();
-    QString taskString = tr(tcpSocket->readAll().constData());
-
-    qDebug() << taskString << endl;
-
-    return taskString;
-
-}
-
-QString Client::sendDeleteTaskRequest(string str){
-
-    QString sendRequest = "taskDeleteRequest|";
-
-    sendRequest.append(QString(str.c_str()));
-
-    tcpSocket->write(sendRequest.toUtf8());
-
-    tcpSocket->waitForReadyRead();
-    QString taskString = tr(tcpSocket->readAll().constData());
-
-    qDebug() << taskString << endl;
-
-    return taskString;
-
-}
-
-
-
-//Converters
-QString Client::listToString(StringList list){ // Parse a list of QStrings to a single QString
-    QString result = QString("");
-    for(int i=0; i<list.length();i++)
-    {
-        if(i==0) result += "~`";
-        result += list[i];
-        if(i==list.length()-1) result += "`~";
-        else result += "~~";
-    }
-    return result;
-}
-
-StringList Client::stringToList(QString aString){  // Convert a single QString to a list of QStrings
-    StringList result = StringList();
-    QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
-    for(int i=1;i<list.length()-1;i++) result += list[i];
-    //qDebug() << list;
-    return result;
 }

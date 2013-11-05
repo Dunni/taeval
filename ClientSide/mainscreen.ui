@@ -30,7 +30,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="loginPage">
     <widget class="QLabel" name="carletonLogo">
@@ -108,6 +108,19 @@
      </property>
      <property name="scaledContents">
       <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="switchToTestMode">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>310</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TestMode</string>
      </property>
     </widget>
    </widget>
@@ -224,9 +237,9 @@
       <widget class="QPushButton" name="viewTaskListButton">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>280</y>
-         <width>111</width>
+         <x>10</x>
+         <y>290</y>
+         <width>151</width>
          <height>31</height>
         </rect>
        </property>
@@ -264,7 +277,7 @@
          <x>10</x>
          <y>70</y>
          <width>151</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="focusPolicy">
@@ -306,7 +319,7 @@
          <x>10</x>
          <y>150</y>
          <width>151</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="focusPolicy">
@@ -327,7 +340,7 @@
          <x>10</x>
          <y>230</y>
          <width>151</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="focusPolicy">
@@ -428,7 +441,7 @@
       </widget>
      </widget>
      <widget class="QWidget" name="TaskPage">
-      <widget class="QPushButton" name="backToTAsPage">
+      <widget class="QPushButton" name="backToInstructorsPage">
        <property name="geometry">
         <rect>
          <x>280</x>
@@ -1182,6 +1195,181 @@
        </property>
       </widget>
      </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page">
+    <widget class="QPushButton" name="testCaseNo_1">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>40</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Login</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_2">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>80</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ViewSemester</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_3">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>110</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ViewCourses</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_4">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>140</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ViewTa</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_5">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>170</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ViewTask</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_6">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>200</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CreateTask</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_7">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>230</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>EditTask</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_8">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>260</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>DeleteTask</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_9">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>290</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>OpenEval</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_10">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>320</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>EditEval</string>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="testCaseContent">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>251</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="testCaseDescription">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>251</width>
+       <height>81</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="testCaseShow">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>271</width>
+       <height>181</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="testCaseNo_11">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>360</y>
+       <width>90</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>LogOut</string>
+     </property>
     </widget>
    </widget>
   </widget>

@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
 
 //    qDebug() << re;
 
-    Storage s;
+  /*  Storage s;
     s.connectToDB("OO");
     qDebug() << s.createTask("Christine","Abdallah","COMP3004F2013","whatever","2013-10-10","2013-12-12");
     qDebug() << s.createTask("Christine1","Abdallah","COMP3004F2013","whatever","2013-10-10","2013-12-12");
     qDebug() << s.createTask("Christine","Abdallahahahahah","COMP3004F2013","whatever","2013-10-10","2013-12-12");
     s.disconnect();
-    /*
+
     TaskList *l;
     Task *tt;
     s.getTasksForTA(QString("COMP3004F2012"),QString("Abdallah"),l);
@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
     qDebug() << tt->toString();
     s.disconnect();
     qDebug() << QDate(2013,10,19).toString(Qt::ISODate);
-
+*/
     Server s;
     return a.exec();
-    */
+
 }

@@ -5,8 +5,8 @@
 #include "../../Common/instructor.h"
 #include "../../Common/nonadminuser.h"
 #include "Storage/Storage.h"
+#include "accesscontrol.h"
 
-typedef QMap<QString, NonAdminUser*> UserList;
 typedef QList<TA> TAList;
 typedef QList<Course> CourseList;
 typedef QList<Task> TaskList;
@@ -40,9 +40,9 @@ public:
     QString listToString(StringList);
 
 private:
-    UserList loggedOn;
-    Storage* dataStore;
+    Storage& dataStore;
     QString currentTerm;
+    AccessControl& accessControl;
 };
 
 #endif // TAEVAL_H

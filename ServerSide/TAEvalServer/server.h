@@ -17,24 +17,13 @@
 
  public slots:
      void goToNewConnection();
-     void readyToRead();
      void goToDisconnected();
+     void readyToRead();
 
  private:
      QTcpServer *tcpServer;
      QTcpSocket *tcpSocket;
      TAEval model;
-     void loginRequest(QString);
-     void semesterRequest(QString);
-     void coursesRequest(QString);
-     void tasRequest(QString);
-     void taskRequest(QString);
-     void createTaskRequest(QString);
-     void editTaskRequest(QString);
-     void deleteTaskRequest(QString);
-     void editEvalRequest(QString);
-
-
  };
 
  #endif

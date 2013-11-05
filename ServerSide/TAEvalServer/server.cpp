@@ -4,10 +4,12 @@
  {
      tcpServer = new QTcpServer(this);
 
-     if(tcpServer->listen(QHostAddress::LocalHost, 2000)){
-         qDebug() << "Server connected locally and to port 2000" << endl;
+     qint32 port = 2000;
+
+     if(tcpServer->listen(QHostAddress::LocalHost, port)){
+         qDebug() << "Server connected locally to port" << port << endl;
      } else {
-         qDebug() << "Server could not connect locally and to port 2000" << endl;
+         qDebug() << "Server could not connect" << endl;
      }
 
      connect(tcpServer, SIGNAL(newConnection()), this, SLOT(goToNewConnection()));
@@ -62,6 +64,5 @@
      qDebug() << "Client says to Server: " << request << " and " << data << endl;
 
      tcpSocket->write(model.serveRequest(request,data).toUtf8());
- }
-
+}
 
