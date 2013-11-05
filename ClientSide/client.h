@@ -3,18 +3,7 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
-#include <string.h>
-#include "../Common/course.h"
-#include "../Common/task.h"
-#include "../Common/nonadminuser.h"
-#include "../Common/ta.h"
-
-typedef QList<TA> TAList;
-typedef QList<Course> CourseList;
-typedef QList<Task> TaskList;
-typedef QList<QString> StringList;
-
-using namespace std;
+#include <QtNetwork>
 
 class Client : public QObject
 {

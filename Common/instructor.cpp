@@ -10,7 +10,7 @@ QList<Instructor> Instructor::stringToList(QString aString){  // Convert a strin
     InstructorList result = InstructorList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
     for(int i=1;i<list.length()-1;i++) result += Instructor(list[i]);
-    //qDebug() << list;
+    ////qDebug() << list;
     return result;
 }
 

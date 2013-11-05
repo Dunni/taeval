@@ -1,4 +1,5 @@
- #include "server.h"
+#include "server.h"
+#include "stdio.h"
 
  Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
  {
@@ -7,9 +8,9 @@
      qint32 port = 2000;
 
      if(tcpServer->listen(QHostAddress::LocalHost, port)){
-         qDebug() << "Server connected locally to port" << port << endl;
+         printf("Server listening locally at port %d", port);
      } else {
-         qDebug() << "Server could not connect" << endl;
+         printf("Server could not connect\n");
      }
 
      connect(tcpServer, SIGNAL(newConnection()), this, SLOT(goToNewConnection()));
@@ -20,7 +21,7 @@
      tcpSocket = tcpServer->nextPendingConnection();
 
      if(tcpSocket->state() == QTcpSocket::ConnectedState){
-         qDebug() << "Client is connected now!" <<endl;
+         //qDebug() << "Client is connected now!" <<endl;
         tcpSocket->flush(); //To clear the socket
      }
 
@@ -61,7 +62,7 @@
         }
      }
 
-     qDebug() << "Client says to Server: " << request << " and " << data << endl;
+     //qDebug() << "Client says to Server: " << request << " and " << data << endl;
 
      tcpSocket->write(model.serveRequest(request,data).toUtf8());
 }

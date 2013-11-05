@@ -13,7 +13,16 @@
 #include <QStandardItem>
 #include <QSplitter>
 #include <QTreeView>
+#include "../Common/course.h"
+#include "../Common/task.h"
+#include "../Common/nonadminuser.h"
+#include "../Common/ta.h"
 #include "client.h"
+
+typedef QList<TA> TAList;
+typedef QList<Course> CourseList;
+typedef QList<Task> TaskList;
+typedef QList<QString> StringList;
 
 namespace Ui {
 class MainScreen;
@@ -67,27 +76,28 @@ private slots:
     void testCase_8();
     void testCase_9();
     void testCase_10();
-    void testCase_11();
 
     //Parsers
     StringList stringToList(QString);
     QString listToString(StringList);
 
+
     //Test Cases Extracted Functions
-    void verifyUser(QString);
-    void verifySemester(QStringList);
-    void verifyCourse(QString);
-    void verifyTa(QString);
-    void verifyTask(QString);
-    void verifyCreateTask(QString,QString,QString,QString);
-    void verifyEditTask(QString,QString,QString);
+    bool verifyUser(QString);
+    bool verifySemester(QString);
+    bool verifyCourse(QString);
+    bool verifyTa(QString);
+    bool verifyTask(QString);
+    bool verifyCreateTask(QString,QString,QString,QString);
+    bool verifyEditTask(QString,QString,QString);
     QString getChoosenID(QString);
-    void verifyDeleteTask(QString, QString);
+    bool verifyDeleteTask(QString, QString);
     QString verifyOpenEval(QString);
+    void printPass(bool);
     void verifyEditEval(QString,QString,QString);
 
+    void printPassEval(QString);
     void verifyLogOut(QString);
-
 
 private:
     Client *c;
@@ -103,7 +113,6 @@ private:
     QString rating;
     QDate begDate, dueDate, begDateEd, dueDateEd;
     QString duty;
-    bool testMode;
 };
 
 #endif // MAINSCREEN_H

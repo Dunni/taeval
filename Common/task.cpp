@@ -34,7 +34,7 @@ Task::Task(QString taskString)
        list[12].compare(QString("Evaluation Feedback")) != 0 ||
        list[14].compare(QString("Evaluation Rating")) != 0)
     {
-        qDebug() << "Parse Error! Invalid Input";
+        //qDebug() << "Parse Error! Invalid Input";
         return;
     }
     courseID = list[1];
@@ -115,7 +115,7 @@ QList<Task> Task::stringToList(QString aString){  // Convert a string to a list 
     TaskList result = TaskList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
     for(int i=1;i<list.length()-1;i++) result += Task(list[i]);
-    //qDebug() << list;
+    ////qDebug() << list;
     return result;
 }
 

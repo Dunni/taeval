@@ -15,12 +15,15 @@ MainScreen::MainScreen(QWidget *parent) :
     c = new Client();
 
     ui->userName->setFocus();
+    ui->loginButton->setEnabled(false);
 
     //Connect the socket to a signal for error in connection and send a clear message to user what the error is.
     connect(c->tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(sendError()));
 
-    //Connect all the buttons to a slot in order to apply the appropriate response
+    //Connect all the loginButton to viewInstructorPage slot in order to apply the appropriate response
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(viewInstructorPage()));
+
+    //Connect relevant test buttons
     connect(ui->switchToTestMode,SIGNAL(clicked()),this,SLOT(switchToTestMode()));
     connect(ui->testCaseNo_1,SIGNAL(clicked()),this,SLOT(testCase_1()));
     connect(ui->testCaseNo_2,SIGNAL(clicked()),this,SLOT(testCase_2()));
@@ -32,7 +35,7 @@ MainScreen::MainScreen(QWidget *parent) :
     connect(ui->testCaseNo_8,SIGNAL(clicked()),this,SLOT(testCase_8()));
     connect(ui->testCaseNo_9,SIGNAL(clicked()),this,SLOT(testCase_9()));
     connect(ui->testCaseNo_10,SIGNAL(clicked()),this,SLOT(testCase_10()));
-    connect(ui->testCaseNo_11,SIGNAL(clicked()),this,SLOT(testCase_11()));
+
 }
 
 /**
@@ -468,6 +471,7 @@ void MainScreen::on_taskList_clicked()
 
 void MainScreen::on_viewEvaluation_clicked()
 {
+    //Don't need get eval API because it's a part of the task... so why are we calling server again???
     ui->InfoWidget->setCurrentIndex(2);
     ui->taskID->setText(ui->taskList->currentIndex().data().toString());
     ui->taskRating->setCurrentIndex(taskList.at(ui->taskList->currentIndex().data().toInt()).getEvaluation()->getRating());
@@ -540,6 +544,11 @@ StringList MainScreen::stringToList(QString aString){  // Convert a single QStri
 }
 
 
+
+/*************************************************/
+/************Test Cases***************************/
+/*************************************************/
+
 /*************************************************/
 /************Test Cases***************************/
 /*************************************************/
@@ -552,39 +561,38 @@ void MainScreen::testCase_1()
     ui->testCaseShow->clear();
     //Welcome Info
     ui->testCaseContent->appendPlainText("TestCase_No.1: Login ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Login Christine who is a Instructor");
-    ui->testCaseDescription->appendPlainText("2.Login  as Abdallah who is a TA");
-    ui->testCaseDescription->appendPlainText("3.Login as Nobody which is not stored in database");
-    ui->testCaseDescription->appendPlainText("4.Login  without input any username");
+    ui->testCaseDescription->appendPlainText("Test Case 1: sendRequest(loginRequest, UserID) ");
+    ui->testCaseDescription->appendPlainText("1.1. sendRequest(''loginRequest'',''Christine'')");
+    ui->testCaseDescription->appendPlainText("expect: \"Instructor login\"");
+    ui->testCaseDescription->appendPlainText("1.2. sendRequest(''loginRequest'',''Abdallah'')");
+    ui->testCaseDescription->appendPlainText("expect: \"TA login\"");
+    ui->testCaseDescription->appendPlainText("1.3. sendRequest(''loginRequest'',''Nobody'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
+    ui->testCaseDescription->appendPlainText("1.4. sendRequest(''loginRequest'','' '')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
 
     QString role = c->sendRequest("loginRequest|",tr("Christine"));
-    //Test Login
-    //Case1
-    ui->testCaseShow->appendPlainText("Case1_1:\nExpect: Instructor Loged in");
-    verifyUser(role);
-//    ui->testCaseShow->appendPlainText("The user has logged in as Christine, Verified by viewInstrutctorPage() successully");
 
+    //Case1
+    ui->testCaseShow->appendPlainText("1.1. Output:");
+    printPass(verifyUser(role));
 
 /******************* For Failed Case_2:\nThe User is not a Instructor   ***************/
-    ui->testCaseShow->appendPlainText("Case1_2:\n Expect: User is verifed as TA");
+    ui->testCaseShow->appendPlainText("1.2. Output:");
     role = c->sendRequest("loginRequest|","Abdallah");
-    verifyUser(role);
+    printPass(verifyUser(role));
 
 /******************* For Failed Case_3:\n No such user   ***************/
-    ui->testCaseShow->appendPlainText("Case1_3:\nExpect: The username is invalid!");
+    ui->testCaseShow->appendPlainText("1.3. Output:");
     role = c->sendRequest("loginRequest|","Nobody");
     ui->userName->setText("Nobody");
-    verifyUser(role);
+    printPass(!verifyUser(role));
 
 
 /******************* For Failed Case_4: Empty   ***************/
-    ui->testCaseShow->appendPlainText("Case1_4:\nExpect: The username invalid!");
+    ui->testCaseShow->appendPlainText("1.4. Output:");
     role = c->sendRequest("loginRequest|", "");
-
-    verifyUser(role);
-
-
+    printPass(!verifyUser(role));
 }
 
 
@@ -592,24 +600,27 @@ void MainScreen::testCase_1()
 
 void MainScreen::testCase_2()
 {
-   ui->testCaseContent->clear();
+    ui->testCaseContent->clear();
     ui->testCaseDescription->clear();
     ui->testCaseShow->clear();
     ui->testCaseContent->appendPlainText("TestCase_No.2: ViewSemesters ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Show all the semesters that Instructor Christine erolled");
+    ui->testCaseDescription->appendPlainText("Test Case 2: sendRequest(semesterRequest, message)");
+    ui->testCaseDescription->appendPlainText("2.1. sendRequest(''semesterRequest'',''Christine'')");
+    ui->testCaseDescription->appendPlainText("expect: A list of semesters that Christine enrolled");
+    ui->testCaseDescription->appendPlainText("2.2. sendRequest(''semesterRequest'',''Nobody'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
     c->sendRequest("loginRequest|","Christine");
 
-    QString semester = c->sendRequest("semesterRequest|", "Christine");
+    QString semesters = c->sendRequest("semesterRequest|", "Christine");
 
-//    ui->testCaseShow->appendPlainText("The user has logged in as Christine, Verified by viewInstrutctorPage() successully");
-
-    //Test select Semester
     ui->testCaseShow->clear();
-    ui->testCaseShow->appendPlainText("TestCase_No.2_1\nExpect: List Of Semesters");
-    ui->testCaseShow->appendPlainText("Result:");
-    StringList semesterList = stringToList(semester);
-    verifySemester(semesterList);
+    ui->testCaseShow->appendPlainText("2.1. Output:");
+    printPass(verifySemester(semesters));
+
+    semesters = c->sendRequest("semesterRequest|", "Nobody");
+    ui->testCaseShow->appendPlainText("2.2. Output:");
+    printPass(!verifySemester(semesters));
+
 
 }
 
@@ -622,24 +633,30 @@ void MainScreen::testCase_3()
     ui->testCaseShow->clear();
 
     ui->testCaseContent->appendPlainText("TestCase_No.3: ViewCourses ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Show all the courses that Instructor Christine teaches in a given semester");
-    ui->testCaseDescription->appendPlainText("2.Instructor changed to Nobody, who is not a Instructor");
-    //Test Login
+    ui->testCaseDescription->appendPlainText("Test Case 3: sendRequest(coursesRequest, message)");
+    ui->testCaseDescription->appendPlainText("3.1. sendRequest(''coursesRequest'',''Christine|F2013'')");
+    ui->testCaseDescription->appendPlainText("expect: A list of semesters that Christine enrolled");
+    ui->testCaseDescription->appendPlainText("3.2. sendRequest(''coursesRequest'',''Nobody|F2013'')");
+
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
+
+    ui->testCaseDescription->appendPlainText("3.3. sendRequest(''coursesRequest'',''Christine|F2010'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
     c->sendRequest("loginRequest|","Christine");
     QString key = "Christine|F2013";
     QString courses = c->sendRequest("coursesRequest|", key);
-    ui->testCaseShow->appendPlainText("Case3_1\nExpect: Pass all courses taught by Christine in Fall 2013");
-    //Test view Course Info
-    ui->testCaseShow->appendPlainText("Result:");
-    verifyCourse(courses);
+    ui->testCaseShow->appendPlainText("3.1. Output:");
+    printPass(verifyCourse(courses));
 
     key = "Nobody|F2013";
     courses = c->sendRequest("coursesRequest|", key);
-    ui->testCaseShow->appendPlainText("Case3_2\nExpect: Fail");
-    //Test view Course Info
-    ui->testCaseShow->appendPlainText("Result:");
-    verifyCourse(courses);
+    ui->testCaseShow->appendPlainText("3.2. Output:");
+    printPass(!verifyCourse(courses));
+
+    key = "Christine|F2010";
+    courses = c->sendRequest("coursesRequest|", key);
+    ui->testCaseShow->appendPlainText("3.3. Output:");
+    printPass(!verifyCourse(courses));
 
 }
 
@@ -652,23 +669,31 @@ void MainScreen::testCase_4()
     ui->testCaseShow->clear();
 
     ui->testCaseContent->appendPlainText("TestCase_No.4: ViewTAs ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Show all the TAs for a course that Instructor Christine teaches in a given semester");
-    ui->testCaseDescription->appendPlainText("2.No TAs are assigned to the course will be taught by Chrintine in that given semester");
+    ui->testCaseDescription->appendPlainText("Test Case 4: sendRequest(viewTARequest, message) ");
+    ui->testCaseDescription->appendPlainText("4.1. sendRequest('tasRequest'','Christine|COMP3004F2013)'");
+    ui->testCaseDescription->appendPlainText("expect: A list of TAs of COMP3004 taught by Christine in F2013");
+    ui->testCaseDescription->appendPlainText("4.2. sendRequest('tasRequest','Pat|COMP3004F2013')");
+    ui->testCaseDescription->appendPlainText("expect: Fail to get the TA List");
+    ui->testCaseDescription->appendPlainText("4.3. sendRequest('tasRequest','Pat|COMP3004W2013')");
+    ui->testCaseDescription->appendPlainText("expect: Fail to get the TA List");
+
 
     c->sendRequest("loginRequest|",tr("Christine"));
     QString key = "Christine|COMP3004F2013";
     QString tas = c->sendRequest("tasRequest|", key);
-    ui->testCaseShow->appendPlainText("Case4_1:\nExpect: List of TAs");
-    ui->testCaseShow->appendPlainText("Result:");
-    verifyTa(tas);
+    ui->testCaseShow->appendPlainText("Case4_1 Output: ");
+    ui->testCaseShow->appendPlainText("Output:");
+    printPass(verifyTa(tas));
 
-    ui->testCaseShow->appendPlainText("Case4_2:\nExpect: Failed");
-    ui->testCaseShow->appendPlainText("Result:");
-    key = "Christine|COMP2404F2013";
+    ui->testCaseShow->appendPlainText("Case4_2 Output: ");
+    key = "Pat|COMP3004F2013";
     tas = c->sendRequest("tasRequest|", key);
-    verifyTa(tas);
+    printPass(!verifyTa(tas));
 
+    ui->testCaseShow->appendPlainText("Case4_3 Output: ");
+    key = "Pat|COMP3004W2013";
+    tas = c->sendRequest("tasRequest|", key);
+    printPass(!verifyTa(tas));
 }
 
 //Test Case 5: View Tasks
@@ -680,28 +705,42 @@ void MainScreen::testCase_5()
     ui->testCaseShow->clear();
 
     ui->testCaseContent->appendPlainText("TestCase_No.5: ViewTasks ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Show all the Tasks assigned to a TA of a course that Instructor Christine teaches in a given semester");
-    ui->testCaseDescription->appendPlainText("2.No Tasks assigned to the TA assigned to the course");
+    ui->testCaseDescription->appendPlainText("Test Case 4: sendRequest(taskRequest, message) ");
+    ui->testCaseDescription->appendPlainText("5.1. sendRequest('taskRequest'','Christine|COMP3004F2013|Abdallah)'");
+    ui->testCaseDescription->appendPlainText("expect: A list of Tasks of Abdallah of COMP3004 taught by Christine in F2013");
+    ui->testCaseDescription->appendPlainText("5.2. sendRequest(''taskRequest'',''Nobody|COMP3004F2013|Abdallah'')");
+    ui->testCaseDescription->appendPlainText("expect: \"Failed\"");
+
+    ui->testCaseDescription->appendPlainText("5.3. sendRequest(''taskRequest'',''Pat|COMP2404F2013|Nathan''");
+    ui->testCaseDescription->appendPlainText("expect: \"Failed\"");
+
+    ui->testCaseDescription->appendPlainText("5.4. sendRequest(''taskRequest'',''Christine|COMP3004F2012|Dunni'')");
+    ui->testCaseDescription->appendPlainText("expect: \"Failed\"");
+
 
     ui->testCaseShow->clear();
     ui->tasBox->setCurrentIndex(1);
     ui->testCaseShow->appendPlainText("Case5_1:");
-    ui->testCaseShow->appendPlainText("Expect: Pass");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseShow->appendPlainText("5.1. Output:");
     c->sendRequest("loginRequest|",tr("Christine"));
     QString key = "Christine|COMP3004F2013|Abdallah";
     QString task = c->sendRequest("taskRequest|", key);
-    ui->testCaseShow->appendPlainText("Case5_1:\nExpect: List of Tasks");
-    ui->testCaseShow->appendPlainText("Result:");
-    verifyTask(task);
+    printPass(verifyTask(task));
 
     key = "Nobody|COMP3004F2013|Abdallah";
     task = c->sendRequest("taskRequest|", key);
-    ui->testCaseShow->appendPlainText("Case5_2:\nExpect: Fail");
-    ui->testCaseShow->appendPlainText("Result:");
-    verifyTask(task);
+    ui->testCaseShow->appendPlainText("Case5_2:\nOutput:");
+    printPass(!verifyTask(task));
 
+    key = "Pat|COMP2402F2013|Nathan";
+    task = c->sendRequest("taskRequest|", key);
+    ui->testCaseShow->appendPlainText("5.3. Output:");
+    printPass(!verifyTask(task));
+
+    key = "Christine|COMP3004F2012|Dunni";
+    task = c->sendRequest("taskRequest|", key);
+    ui->testCaseShow->appendPlainText("5.4. Output:");
+    printPass(!verifyTask(task));
 }
 
 //Test Case 6 : Create Task
@@ -712,17 +751,17 @@ void MainScreen::testCase_6()
     ui->testCaseShow->clear();
 
     ui->testCaseContent->appendPlainText("TestCase_No.6: CreateTask ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.A Task assigned to a TA of a course that Instructor Christine teaches in a given semester is created succeffuly");
-    ui->testCaseDescription->appendPlainText("2.Failed to assign a Task to the TA assigned to the course");
+    ui->testCaseDescription->appendPlainText("Test Case 6: sendRequest(taskRequest, message) ");
+    ui->testCaseDescription->appendPlainText("6.1. sendRequest(''taskCreateRequest'',''Christine|Abdallah|COMP3004F2013|Whatever|2013-09-02|2013-09-11'')");
+    ui->testCaseDescription->appendPlainText("expect: two lists of tasks before and after creation");
+    ui->testCaseDescription->appendPlainText(".2. sendRequest(''taskCreateRequest'',''Pat|Abdallah|COMP3004F2013|gg|2013-09-02|2013-09-11'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
 
     ui->testCaseShow->clear();
     ui->tasBox->setCurrentIndex(1);
-    ui->testCaseShow->appendPlainText("Case6_1:");
-    ui->testCaseShow->appendPlainText("Expect:\nPass");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseShow->appendPlainText("6.1. Output:");
 
-    c->sendRequest("loginRequest|",tr("Christine"));    
+    c->sendRequest("loginRequest|",tr("Christine"));
     QString key ="Christine|COMP3004F2013|Abdallah";
 
     ui->testCaseShow->appendPlainText("Before Create Task:");
@@ -731,15 +770,14 @@ void MainScreen::testCase_6()
 
     key = "Christine|Abdallah|COMP3004F2013|Whatever|2013-09-02|2013-09-11";
     QString taskSuccess = c->sendRequest("taskCreateRequest|",key );
-    verifyCreateTask(taskSuccess,"Christine","Abdallah","COMP3004F2013");
+    printPass(verifyCreateTask(taskSuccess,"Christine","Abdallah","COMP3004F2013"));
 
 
-    ui->testCaseShow->appendPlainText("Case6_2:");
-    ui->testCaseShow->appendPlainText("Expect:\nFalse");
+    ui->testCaseShow->appendPlainText("6.2. Output:");
 
     key ="Pat|Abdallah|COMP3004F2013|Whatever|2013-09-02|2013-09-11";
     taskSuccess = c->sendRequest("taskCreateRequest|",key );
-    verifyCreateTask(taskSuccess,"Pat","Abdallah","COMP3004F2013");
+    printPass(!verifyCreateTask(taskSuccess,"Pat","Abdallah","COMP3004F2013"));
 
 }
 
@@ -752,15 +790,18 @@ void MainScreen::testCase_7()
     ui->testCaseShow->clear();
 
     ui->testCaseContent->appendPlainText("TestCase_No.7: EditTask ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Edit Task assigned to a TA of a course that Instructor Christine teaches in a given semester is created succeffuly");
-    ui->testCaseDescription->appendPlainText("2.Failed to assign a Task to the TA assigned to the course");
+    ui->testCaseDescription->appendPlainText("Test Case 7: sendRequest(taskEditRequest, message) ");
+    ui->testCaseDescription->appendPlainText("the choosenTaskId is the first task assiged for the corresponding message ");
+    ui->testCaseDescription->appendPlainText("7.1. sendRequest(''taskEditRequest'',''Christine|ThisIsUsedToTestEditTaskGG|2013-09-09|2013-11-11 + choosenTaskId'')");
+    ui->testCaseDescription->appendPlainText("expect: two tasks for before and after creation");
+    ui->testCaseDescription->appendPlainText("7.2. sendRequest(''taskEditRequest'',''Pat|Abdallah|COMP3004F2013|gg|2013-09-02|2013-09-11 + choosenTaskId'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
+    ui->testCaseDescription->appendPlainText("7.3. sendRequest(''taskEditRequest'',''Pat|Abdallah|COMP3004F2013|gg|2013-09-02|2013-09-11 + 400'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
 
     ui->testCaseShow->clear();
     ui->tasBox->setCurrentIndex(1);
-    ui->testCaseShow->appendPlainText("Case7_1:");
-    ui->testCaseShow->appendPlainText("Expect:\n Pass");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseShow->appendPlainText("Case7_1: Output");
     c->sendRequest("loginRequest|",tr("Christine"));
     QString key1 = "Christine|COMP3004F2013|Abdallah";
     QString task = c->sendRequest("taskRequest|", key1);
@@ -771,16 +812,21 @@ void MainScreen::testCase_7()
     QString key = "Christine|ThisIsUsedToTestEditTaskGG|2013-09-09|2013-11-11";
     QString editTask = c->sendRequest("taskEditRequest|", key + "|" + choosenTaskId);
 
-    verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah");
+    printPass(verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah"));
+
 
     key = "Nobody|ThisIsUsedToTestEditTaskGG|2013-09-09|2013-11-11";
     editTask = c->sendRequest("taskEditRequest|", key + "|" + choosenTaskId);
 
     ui->testCaseShow->appendPlainText("\nCase7_2:");
-    ui->testCaseShow->appendPlainText("Expect:\n Fail");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseShow->appendPlainText("Output:");
     editTask = c->sendRequest("taskEditRequest|", key + "|" + choosenTaskId);
-    verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah");
+    printPass(!verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah"));
+
+    ui->testCaseShow->appendPlainText("7.3. Output:");
+    editTask = c->sendRequest("taskEditRequest|", key + "|" + QString::number(400));
+    printPass(!verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah"));
+
 
 }
 
@@ -790,167 +836,301 @@ void MainScreen::testCase_8()
     ui->testCaseContent->clear();
     ui->testCaseDescription->clear();
     ui->testCaseShow->clear();
+
     ui->testCaseContent->appendPlainText("TestCase_No.8: DeleteTask ");
-    ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Delete a Task assigned to a TA of a course that Instructor Christine teaches in a given semester is created succeffuly");
-    ui->testCaseDescription->appendPlainText("2.Failed to delete a Task to the TA assigned to the course");
+    ui->testCaseDescription->appendPlainText("Test Case 8: sendRequest(taskEditRequest, message) ");
+    ui->testCaseDescription->appendPlainText("the choosenTaskId is the first task assiged for the corresponding message ");
+    ui->testCaseDescription->appendPlainText("8.1. sendRequest(''taskEditRequest'',''Christine + choosenTaskId'')");
+    ui->testCaseDescription->appendPlainText("expect: two lists of tasks before and after deletion");
+    ui->testCaseDescription->appendPlainText("8.2. sendRequest(''taskEditRequest'',''Nobody + choosenTaskId'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
+
+    ui->testCaseDescription->appendPlainText("8.3. sendRequest(''taskEditRequest'',''Christine + 500'')");
+    ui->testCaseDescription->appendPlainText("expect: \"false\"");
 
     ui->testCaseShow->clear();
-    ui->testCaseShow->appendPlainText("Case8_1:");
-    ui->testCaseShow->appendPlainText("Expect:\n The Task is deleted Succefully");
-    ui->testCaseShow->appendPlainText("Result:");
-    ui->testCaseShow->appendPlainText("Before:");
+    ui->testCaseShow->appendPlainText("8.1. Output:");
+
     c->sendRequest("loginRequest|",tr("Christine"));
     QString key = "Christine|COMP3004F2013|Abdallah";
     QString task = c->sendRequest("taskRequest|", key);
     verifyTask(key);
     QString choosenTaskId;
+    ui->testCaseDescription->appendPlainText("Going to delete Task: ");
     choosenTaskId = getChoosenID(task);
-
+    ui->testCaseShow->appendPlainText("Before:");
+    verifyTask(task);
     key = "Christine";
     QString deleteTask = c->sendRequest("taskDeleteRequest|", key + "|" + choosenTaskId);
     key = "Christine|COMP3004F2013|Abdallah";
-    verifyDeleteTask(deleteTask,key);
+    printPass(verifyDeleteTask(deleteTask,key));
 
     ui->testCaseShow->appendPlainText("Case8_2:");
-    ui->testCaseShow->appendPlainText("Expect:\n Fail");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseShow->appendPlainText("8.2 Output:");
     key = "Nobody";
     deleteTask = c->sendRequest("taskDeleteRequest|", key + "|" + choosenTaskId);
     key = "Christine|COMP3004F2013|Abdallah";
-    verifyDeleteTask(deleteTask,key);
+    printPass(!verifyDeleteTask(deleteTask,key));
+
+    ui->testCaseShow->appendPlainText("8.3. Output:");
+    key = "Christine";
+    deleteTask = c->sendRequest("taskDeleteRequest|", key + "|" + QString::number(500));
+    key = "Christine|COMP3004F2013|Abdallah";
+    printPass(!verifyDeleteTask(deleteTask,key));
 }
 
-
-//test case 9 Open evaluation
+//Test Case 9: Edit an Evaluation
 void MainScreen::testCase_9()
 {
+    QString result, resultAfter, taskSelectedId;
+
     ui->testCaseContent->clear();
     ui->testCaseDescription->clear();
     ui->testCaseShow->clear();
 
-    ui->testCaseContent->appendPlainText("TestCase_No.9: Open Evaluation ");
+    //Welcome Info
+    ui->testCaseContent->appendPlainText("TestCase_No.9: EditEvaluation ");
     ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Return the evaltion of a Task succeffuly");
-    ui->testCaseShow->appendPlainText("Case9_1:\nExpect: The Evaluation of the Task");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseDescription->appendPlainText("1.Edit a task for Siyang for COMP 1405 in F2013");
+    ui->testCaseDescription->appendPlainText("2.Fail to edit a non existent evaluation assigned by a non-existing instructor.");
+    ui->testCaseDescription->appendPlainText("3.Fail to edit a non existent evaluation assigned by an existing instructor.");
 
-    c->sendRequest("loginRequest|",tr("Christine"));
-    QString key1 = "Christine|COMP3004F2013|Abdallah";
-    QString task = c->sendRequest("taskRequest|", key1);
-    QString choosenTaskId;
-    //Split the string with a delimiter
-    choosenTaskId = verifyOpenEval(task);
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Case9_1:");
+    ui->testCaseShow->appendPlainText("**************************************");
+
+    //Got to be logged on first as Pat
+    c->sendRequest("loginRequest|", "Pat");
+
+    //Then make request for the Tasks for Siyang for the course COMP 1405 of F2013.
+    //It will have one task
+    c->sendRequest("taskCreateRequest|", "Pat|Siyang|COMP1405F2013|Grade midterms|2013-09-02|2013-09-11");
+    result = c->sendRequest("taskRequest|", "Pat|COMP1405F2013|Siyang");
+
+    ui->testCaseShow->appendPlainText("-----------------------------------");
+    ui->testCaseShow->appendPlainText("Evaluation before being edited:");
+
+    //Show tasks before
+    if(!result.compare("false") == 0){
+        TaskList taskStringList = Task::stringToList(result);
+        ui->testCaseShow->appendPlainText("-----------------------------------");
+            Task task1(taskStringList.at(0).getTaID(),
+                       taskStringList.at(0).getCourseID(),
+                       taskStringList.at(0).getDescription(),
+                       taskStringList.at(0).getStartDate(),
+                       taskStringList.at(0).getDueDate(),
+                       taskStringList.at(0).getId(),
+                       taskStringList.at(0).getEvaluation()->getRating(),
+                       taskStringList.at(0).getEvaluation()->getFeedback());
+
+            ui->testCaseShow->appendPlainText("|Task ID: " + task1.getId() + "\n" +
+                                              "|Feedback: " +task1.getEvaluation()->getFeedback() + "\n"+
+                                              "|Rating: " + QString::number(task1.getEvaluation()->getRating()));
+            taskSelectedId = task1.getId();
+
+    } else {
+        ui->testCaseShow->appendPlainText("|Empty");
+    }
+
+    resultAfter = c->sendRequest("editEvalRequest|", "Pat|" + taskSelectedId + "|" + "Good job!|3" );
+
+    ui->testCaseShow->appendPlainText("-----------------------------------");
+    ui->testCaseShow->appendPlainText("Evaluation after being edited:");
+
+    result = c->sendRequest("taskRequest|", "Pat|COMP1405F2013|Siyang");
+
+    if(!resultAfter.compare("false") == 0){
+        TaskList taskStringList = Task::stringToList(result);
+        ui->testCaseShow->appendPlainText("-----------------------------------");
+        Task task1(taskStringList.at(0).getTaID(),
+                   taskStringList.at(0).getCourseID(),
+                   taskStringList.at(0).getDescription(),
+                   taskStringList.at(0).getStartDate(),
+                   taskStringList.at(0).getDueDate(),
+                   taskStringList.at(0).getId(),
+                   taskStringList.at(0).getEvaluation()->getRating(),
+                   taskStringList.at(0).getEvaluation()->getFeedback());
+
+        ui->testCaseShow->appendPlainText("|Task ID: " + task1.getId() + "\n" +
+                                          "|Feedback: " +task1.getEvaluation()->getFeedback() + "\n"+
+                                          "|Rating: " + QString::number(task1.getEvaluation()->getRating()));
+
+        ui->testCaseShow->appendPlainText("-----------------------------------");
+
+        ui->testCaseShow->appendPlainText("Expected: true");
+        ui->testCaseShow->appendPlainText("Actual: " + resultAfter);
+
+        ui->testCaseShow->appendPlainText("PASS/FAIL: PASS");
+        //To avoid duplicates
+        c->sendRequest("taskDeleteRequest|", "Pat|" + task1.getId());
+    } else {
+       ui->testCaseShow->appendPlainText("-----------------------------------");
+       ui->testCaseShow->appendPlainText("|Empty");
+       ui->testCaseShow->appendPlainText("-----------------------------------");
+       ui->testCaseShow->appendPlainText("Expected: true");
+       ui->testCaseShow->appendPlainText("Actual: " + resultAfter);
+       ui->testCaseShow->appendPlainText("-----------------------------------");
+       ui->testCaseShow->appendPlainText("PASS/FAIL: DAIL");
+    }
+
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Case9_2:");
+    ui->testCaseShow->appendPlainText("**************************************");
+
+    //Try to edit non existent tasks
+
+    //Non existent instructor's assigned edited evaluation
+    ui->testCaseShow->appendPlainText("Expected: false");
+    resultAfter = c->sendRequest("editEvalRequest|", "Nobody|300|Good job!|3");
+    ui->testCaseShow->appendPlainText("Actual: " + resultAfter);
+
+    if(resultAfter.compare("false") == 0){
+        ui->testCaseShow->appendPlainText("PASS/FAIL: PASS");
+    } else {
+        ui->testCaseShow->appendPlainText("PASS/FAIL: FAIL");
+    }
+
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Case9_3:");
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Expected: false");
+    resultAfter = c->sendRequest("editEvalRequest|", "Pat|400|Good job!|3");
+    ui->testCaseShow->appendPlainText("Actual: " + resultAfter);
+
+    if(resultAfter.compare("false") == 0){
+        ui->testCaseShow->appendPlainText("PASS/FAIL: PASS");
+    } else {
+        ui->testCaseShow->appendPlainText("PASS/FAIL: FAIL");
+
+    }
+
+   //To prevent future conflicts, gotta log out Pat.
+   c->sendRequest("logOutRequest|", "Pat");
+
+   ui->testCaseShow->appendPlainText("**************************************");
 
 }
 
-
-//Test Case 10: Edit Evaluation
+//Test Case 10: User Log out
 void MainScreen::testCase_10()
 {
+    QString result, resultAfter, taskSelectedId;
+
     ui->testCaseContent->clear();
     ui->testCaseDescription->clear();
     ui->testCaseShow->clear();
 
-    ui->testCaseShow->clear();
-    ui->testCaseContent->appendPlainText("TestCase_No.10: Edit Evaluation ");
+    //Welcome Info
+    ui->testCaseContent->appendPlainText("TestCase_No.10: LogOut ");
     ui->testCaseDescription->appendPlainText("The testCase will: ");
-    ui->testCaseDescription->appendPlainText("1.Return Pass if the evaluation of a Task is submited succeffuly");
-    ui->testCaseDescription->appendPlainText("2.Return False if the evaluation is failed to submit");
-    ui->testCaseShow->appendPlainText("Case10_1:\nExpect: Pass. The evaluation is updated succesfully");
-    ui->testCaseShow->appendPlainText("Result:");
+    ui->testCaseDescription->appendPlainText("1.Logout as Christine who is actually logged on.");
+    ui->testCaseDescription->appendPlainText("2.Logout as Pat who was not logged on.");
 
-    c->sendRequest("loginRequest|",tr("Christine"));
-    QString key1 = "Christine|COMP3004F2013|Abdallah";
-    QString task = c->sendRequest("taskRequest|", key1);
-    QString choosenTaskId;
-    choosenTaskId = verifyOpenEval(task);
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Case10_1:");
+    ui->testCaseShow->appendPlainText("**************************************");
 
-    QString key = "Christine";
-    QString feedB = "OMGGGSMD";
-    QString rt = QString::number(3);
-    QString eval = c->sendRequest("editEvalRequest|",  key + "|" +
-                                  choosenTaskId + "|" + feedB + "|" + rt);
+    //Got to be logged on first as Christine
+    c->sendRequest("loginRequest|", "Christine");
 
-    qDebug() <<"Check this out!!!"<< endl;
-    ui->testCaseShow->appendPlainText("Before: ");
-    key = "Christine|COMP3004F2013|Abdallah";
-    verifyEditEval(eval,key,choosenTaskId);
+    //Log off as Christine
+    result = c->sendRequest("logOutRequest|", "Christine|");
 
-    ui->testCaseShow->appendPlainText("\n\nCase10_2:\nExpect: Fail");
-    ui->testCaseShow->appendPlainText("Result:");
-    key = "Nobody";
-    feedB = "OMGGGSMD";
-    rt = QString::number(4);
-    eval = c->sendRequest("editEvalRequest|",  key + "|" +
-                                  choosenTaskId + "|" + feedB + "|" + rt);
-    key = "Christine|COMP3004F2013|Abdallah";
-    verifyEditEval(eval,key,choosenTaskId);
+    ui->testCaseShow->appendPlainText("Expected: true");
+    ui->testCaseShow->appendPlainText("Actual:" + result);
 
-}
+    if(result.compare("true") == 0){
+        ui->testCaseShow->appendPlainText("PASS/FAIL: PASS");
+    } else {
+        ui->testCaseShow->appendPlainText("PASS/FAIL: FAIL");
 
-//Test case 11: Log out a User
-void MainScreen::testCase_11()
-{
-    c->sendRequest("loginRequest|",tr("Christine"));
-    QString logOut = c->sendRequest("logOutRequest|", "Christine");
-    ui->testCaseShow->appendPlainText("User Logged In is Christine:");
-    ui->testCaseShow->appendPlainText("Case11_1:");
-    ui->testCaseShow->appendPlainText("Expect:\nPass");
-    verifyLogOut(logOut);
+    }
 
-    ui->testCaseShow->appendPlainText("Case11_2:");
-    ui->testCaseShow->appendPlainText("Expect:\nFail");
-    logOut = c->sendRequest("logOutRequest|", "Pat");
-    verifyLogOut(logOut);
+    //To prevent future conflicts, gotta log out Christine.
+    c->sendRequest("logOutRequest|", "Christine");
+
+    ui->testCaseShow->appendPlainText("**************************************");
+    ui->testCaseShow->appendPlainText("Case10_2:");
+    ui->testCaseShow->appendPlainText("**************************************");
+
+    //Log off as Pat
+    result = c->sendRequest("logOutRequest|", "Pat");
+
+    ui->testCaseShow->appendPlainText("Expected: false");
+    ui->testCaseShow->appendPlainText("Actual:" + result);
+
+    if(result.compare("false") == 0){
+        ui->testCaseShow->appendPlainText("PASS/FAIL: PASS");
+    } else {
+        ui->testCaseShow->appendPlainText("PASS/FAIL: FAIL");
+
+    }
+
+   ui->testCaseShow->appendPlainText("**************************************");
 
 }
+
 
 void MainScreen::switchToTestMode()
 {
     ui->MainWidget->setCurrentIndex(2);
-    testMode = true;
 }
 
-void MainScreen::verifyUser(QString role)
+bool MainScreen::verifyUser(QString role)
 {
 
     if(role.isEmpty())
     {
-        ui->testCaseShow->appendPlainText("Result: The username is blank! Please enter an username.");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
         //Check if the login request was successful otherwise send an error message saying user doesn't exist.
     else if(role.compare("Instructor") == 0)
     {
-        ui->testCaseShow->appendPlainText("Result: Instructor Loged in");
+        ui->testCaseShow->appendPlainText("Instructor Login");
+        return true;
 
     }
     else if(role.compare("TA") == 0)
     {
         qDebug() << "TA" <<endl;
-        ui->testCaseShow->appendPlainText("Result: User is verifed as TA");
+        ui->testCaseShow->appendPlainText("TA Login");
+        return true;
     }
     else
     {
-        ui->testCaseShow->appendPlainText("Result: The username is invalid!");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
 }
 
-void MainScreen::verifySemester(QStringList semesterList)
+bool MainScreen::verifySemester(QString semesters)
 {
-    for(int i=0; i<semesterList.size(); i++)
+    if(semesters.compare("false")==0)
     {
-       ui->testCaseShow->appendPlainText(semesterList.at(i));
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
+    else
+    {
+        StringList semesterList = stringToList(semesters);
+        for(int i=0; i<semesterList.size(); i++)
+        {
+            ui->testCaseShow->appendPlainText(semesterList.at(i));
+        }
+    }
+    return true;
 }
 
-void MainScreen::verifyCourse(QString courses)
+bool MainScreen::verifyCourse(QString courses)
 {
     CourseList coursesStringList = Course::stringToList(courses);
 
     if(courses.compare("false") == 0)
     {
-        ui->testCaseShow->appendPlainText("Fail to get the CourseList");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
+
     }
     else
     {
@@ -960,18 +1140,17 @@ void MainScreen::verifyCourse(QString courses)
             ui->testCaseShow->appendPlainText(QString(c1.getName() + c1.getNumber() + "\nInstructor: " +c1.getInstructorId() + "\nSemester: "+c1.getSemester()));
 
         }
-        ui->testCaseShow->appendPlainText("Pass");
-        ui->testCaseShow->appendPlainText("________________________________");
     }
+    return true;
 }
 
-void MainScreen::verifyTa(QString tas)
+bool MainScreen::verifyTa(QString tas)
 {
-    //Split the string with a delimiter
     TAList tasStringList = TA::stringToList(tas);
     if(tas.compare("false") == 0)
     {
         ui->testCaseShow->appendPlainText("Fail to get the TA List");
+        return false;
     }
     else
     {
@@ -981,22 +1160,20 @@ void MainScreen::verifyTa(QString tas)
             ui->testCaseShow->appendPlainText(QString(ta.getId()));
 
         }
-        ui->testCaseShow->appendPlainText("Pass");
-        ui->testCaseShow->appendPlainText("____________________________________");
     }
+    return true;
 }
 
-void MainScreen::verifyTask(QString task)
+bool MainScreen::verifyTask(QString task)
 {
-    //Split the string with a delimiter
     TaskList taskStringList = Task::stringToList(task);
 
     taskList = taskStringList;
 
     if(task.compare("false") == 0)
     {
- //       ui->testCaseShow->clear();
-        ui->testCaseShow->appendPlainText("No Tasks, all tests return false");
+        ui->testCaseShow->appendPlainText("Failed");
+        return false;
     }
     else
     {
@@ -1019,12 +1196,11 @@ void MainScreen::verifyTask(QString task)
             ui->testCaseShow->appendPlainText("________________________________");
 
         }
-        ui->testCaseShow->appendPlainText("Pass");
-        ui->testCaseShow->appendPlainText("________________________________");
     }
+    return true;
 }
 
-void MainScreen::verifyCreateTask(QString taskSuccess,QString user,QString ta,QString semester)
+bool MainScreen::verifyCreateTask(QString taskSuccess,QString user,QString ta,QString semester)
 {
     if(taskSuccess.compare("true") == 0)
     {
@@ -1033,11 +1209,13 @@ void MainScreen::verifyCreateTask(QString taskSuccess,QString user,QString ta,QS
         QString task = c->sendRequest("taskRequest|", key);
         //Split the string with a delimiter
         verifyTask(task);
-        ui->testCaseShow->appendPlainText("____________________________________");
+        ui->testCaseShow->appendPlainText("---->");
+        return true;
     }
     else
     {
-        ui->testCaseShow->appendPlainText("Fail to Create Task");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
 }
 
@@ -1071,7 +1249,7 @@ QString MainScreen::getChoosenID(QString task)
     }
     return choosenTaskId;
 }
-void MainScreen::verifyEditTask(QString editTask,QString choosenTaskId,QString key)
+bool MainScreen::verifyEditTask(QString editTask,QString choosenTaskId,QString key)
 {
     if(editTask.compare("true") == 0)
     {
@@ -1090,17 +1268,17 @@ void MainScreen::verifyEditTask(QString editTask,QString choosenTaskId,QString k
                                                   "DueDate:" + taskStringList.at(i).getDueDate().toString());
             }
         }
-        ui->testCaseShow->appendPlainText("Pass");
-        ui->testCaseShow->appendPlainText("____________________________________");
+    return true;
 
     }
     else
     {
-        ui->testCaseShow->appendPlainText("Fail to Edit Task");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
 }
 
-void MainScreen::verifyDeleteTask(QString deleteTask,QString key)
+bool MainScreen::verifyDeleteTask(QString deleteTask,QString key)
 {
     if(deleteTask.compare("true") == 0)
     {
@@ -1108,10 +1286,12 @@ void MainScreen::verifyDeleteTask(QString deleteTask,QString key)
         QString task = c->sendRequest("taskRequest|", key);
         ui->testCaseShow->appendPlainText("After Delete");
         verifyTask(task);
+        return true;
     }
     else
     {
-        ui->testCaseShow->appendPlainText("Fail to Delete Task");
+        ui->testCaseShow->appendPlainText("false");
+        return false;
     }
 }
 
@@ -1125,8 +1305,7 @@ QString MainScreen::verifyOpenEval(QString task)
 
     if(task.compare("false") == 0)
     {
-        ui->testCaseShow->clear();
-        ui->testCaseShow->appendPlainText("No Tasks, Can't' Edit, all tests return false");
+        return "false";
     }
     else
     {
@@ -1144,8 +1323,9 @@ QString MainScreen::verifyOpenEval(QString task)
                                                   "EvalFeedBack: " + taskStringList.at(i).getEvaluation()->getFeedback());
             }
         }
+        return choosenTaskId;
     }
-    return choosenTaskId;
+
 }
 
 
@@ -1175,6 +1355,39 @@ void MainScreen::verifyEditEval(QString eval,QString key,QString choosenTaskId)
     else
     {
         ui->testCaseShow->appendPlainText("Fail to Edit the Evaluation Data");
+    }
+}
+void MainScreen::printPass(bool pass)
+{
+    if(pass)
+    {
+        ui->testCaseShow->appendPlainText("------------------------------");
+        ui->testCaseShow->appendPlainText("Test Result: Passed");
+        ui->testCaseShow->appendPlainText("------------------------------");
+
+    }
+    else
+    {
+        ui->testCaseShow->appendPlainText("------------------------------");
+        ui->testCaseShow->appendPlainText("Test Result: Failed");
+        ui->testCaseShow->appendPlainText("------------------------------");
+    }
+}
+
+void MainScreen::printPassEval(QString choosenTaskId)
+{
+    if(!(choosenTaskId.compare("false") == 0))
+    {
+        ui->testCaseShow->appendPlainText("------------------------------");
+        ui->testCaseShow->appendPlainText("Test Result: Passed");
+        ui->testCaseShow->appendPlainText("------------------------------");
+
+    }
+    else
+    {
+        ui->testCaseShow->appendPlainText("------------------------------");
+        ui->testCaseShow->appendPlainText("Test Result: Failed");
+        ui->testCaseShow->appendPlainText("------------------------------");
     }
 }
 

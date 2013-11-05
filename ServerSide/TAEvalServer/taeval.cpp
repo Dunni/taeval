@@ -119,7 +119,6 @@ StringList TAEval::stringToList(QString aString){  // Convert a single QString t
     StringList result = StringList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
     for(int i=1;i<list.length()-1;i++) result += list[i];
-    //qDebug() << list;
     return result;
 }
 
@@ -174,8 +173,7 @@ QString TAEval::serveRequest(QString request, QString data)
 
         qDebug() << "TAs Request being processed" << endl;
         QStringList info = data.split("|");
-        qDebug() << "Inst here is: " + info.at(0) + " and " +
-                    info.at(1) << endl;
+        qDebug() << "Inst here is: " + info.at(0) + " and " + info.at(1) << endl;
         TAList* t;
 
         if(getTAs(info.at(0), info.at(1), t))
@@ -190,8 +188,7 @@ QString TAEval::serveRequest(QString request, QString data)
 
         qDebug() << "Task Request being processed" << endl;
         QStringList info = data.split("|");
-        qDebug() << "Inst here is: " + info.at(0) + " and " +
-                    info.at(1) << " and " << info.at(2) << endl;
+        qDebug() << "Inst here is: " + info.at(0) + " and " + info.at(1) << " and " << info.at(2) << endl;
         TaskList* taskList;
         if(getTasks(info.at(0), info.at(1), info.at(2), taskList))
         {
@@ -263,6 +260,6 @@ QString TAEval::serveRequest(QString request, QString data)
         return accessControl.logOut(info.at(0)) ? "true" : "false";
     }
 
-   // qDebug() <<  "Request Failed" << endl;
+    qDebug() <<  "Request Failed" << endl;
     return "false";
 }

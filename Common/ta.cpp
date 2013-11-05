@@ -10,7 +10,7 @@ QList<TA> TA::stringToList(QString aString){  // Convert a string to a list of N
     TAList result = TAList();
     QList<QString> list = aString.split(QRegExp("(~`|`~|~~)"));
     for(int i=1;i<list.length()-1;i++) result += TA(list[i]);
-    //qDebug() << list;
+    ////qDebug() << list;
     return result;
 }
 

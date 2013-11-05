@@ -5,6 +5,7 @@ QT       += network
 TARGET = TAEvalClient
 TEMPLATE = app
 
+DEFINES     += QT_NO_DEBUG_OUTPUT
 
 SOURCES += main.cpp\
         mainscreen.cpp \
