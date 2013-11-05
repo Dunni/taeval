@@ -29,8 +29,10 @@ public:
     }
 
     /* connect and disconnect */
-    bool connectToDB(QString connection, QString path = "Storage//taeval.db", QString DBType = "QSQLITE");
+    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
     void disconnect();
+
+    bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
 
     /* verifyUser */
     bool verifyUser(QString name, QString &role);

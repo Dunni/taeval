@@ -11,6 +11,18 @@ void Storage::disconnect(){
     this->db.close();
 }
 
+bool Storage::restore(QString path){
+    QFile schemaFile(path);
+    schemaFile.open(QFile::ReadOnly);
+    QStringList schemaTableList = QString(schemaFile.readAll()).split(";");
+    foreach(const QString schemaTable, schemaTableList){
+        if(!schemaTable.trimmed().isEmpty())
+            db.exec(schemaTable);
+    }
+    schemaFile.close();
+    return true;
+}
+
 void Storage::fixNull(QString &s){if (s.isNull()) s = QString("");}
 
 bool Storage::verifyUser(QString name, QString &role){
