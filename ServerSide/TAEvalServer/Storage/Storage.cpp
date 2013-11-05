@@ -93,11 +93,16 @@ bool Storage::createTask(QString user, QString TAKey, QString courseKey, QString
         delete list;
         return false;
     }
+    bool contains = false;
     for(int i=0;i<list->size();i++){
-        if(TA(list->at(i)).getId().compare(TAKey) != 0){
-            delete list;
-            return false;
+        if (TA(list->at(i)).getId().compare(TAKey) == 0){
+            contains = true;
+            break;
         }
+    }
+    if(!contains){
+        delete list;
+        return false;
     }
 
     /*  everything goes fine, create */
