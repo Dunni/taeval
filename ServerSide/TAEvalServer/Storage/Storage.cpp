@@ -286,6 +286,8 @@ bool Storage::getTask(QString taskID, Task *&rv){
 bool Storage::enterEvaluation(INT TaskID, INT rating, QString feedback){
     QSqlQuery query(db);
     QString queryString;
+    Task *t = NULL;
+    if(!this->getTask(QString::number(TaskID),t) || t == NULL) return false;
 
     QList<QString> updates;
     if (rating != -1) updates.append(QString(" rating = %1 ").arg(rating));
