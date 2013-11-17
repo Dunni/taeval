@@ -3,22 +3,7 @@
 
 #define DEBUG
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QVariant>
-#include <QSqlDriver>
-#include <QSqlQueryModel>
-#include <QSqlRecord>
-#include <QStringList>
-#include "../../../Common/course.h"
-#include "../../../Common/task.h"
-#include "../../../Common/ta.h"
-#include "../../../Common/instructor.h"
-
-
-typedef qint32 INT;
+#include "PersistImpSQL.h"
 
 class Storage{
 public:
@@ -29,10 +14,11 @@ public:
     }
 
     /* connect and disconnect */
-    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
-    void disconnect();
+    virtual bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
+    virtual void disconnect();
 
-    bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
+    /* restore database */
+    virtual bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
 
     /* verifyUser */
     bool verifyUser(QString name, QString &role);
@@ -67,21 +53,16 @@ public:
 private:
 #endif
     /* Contructor */
-    Storage(){ connected = false; }
+    Storage(){
+        Imp = new PersistImpSQL();
+    }
+    ~Storage(){
+        delete Imp;
+    }
     Storage(Storage const&);
     void operator=(Storage const &);
 
-    QSqlDatabase db; /* DataBase */
-    bool connected; /* flag if connected to DB */
-    void fixNull(QString &s);
-    QString fixEscape(QString s){return s.replace("'","''");}
-    QStringList splitDate(QString d){return d.split("-");}
-    QString getUserKey(QString name);
-    QString getCourseKey(QString term, QString title, INT num);
-    QString getInstructor(QString courseKey);
-    bool createTask(QString user, QString TAKey, QString courseKey,QString desc, QString start,QString end);
-    bool editTask(INT TaskID, QString desc, QString start, QString end);
-    bool deleteTask(INT TaskID);
+    PersistImp * Imp;
 };
 
 #endif // STORAGE_H
