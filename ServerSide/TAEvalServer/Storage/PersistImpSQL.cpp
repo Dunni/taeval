@@ -205,8 +205,14 @@ bool PersistImpSQL::getTAsForCourse(QString courseKey, QList<TA> *&list){
 bool PersistImpSQL::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list){
     QSqlQuery query(db);
     QString queryString;
-    queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\
-            arg(TAKey).arg(courseKey);
+    if(courseKey.length() > 10){
+        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\
+                arg(TAKey).arg(courseKey);
+    }
+    else{
+        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1'").\
+                arg(TAKey);
+    }
     if (!query.exec(queryString)) return false;
 
     list = new QList<Task>();
