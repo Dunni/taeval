@@ -5,7 +5,7 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     tcpServer = new QTcpServer(this);
     takeNext = true;
     tcpServer->setMaxPendingConnections(100);
-    QHostAddress ipAddress = QHostAddress("172.20.10.6");
+    QHostAddress ipAddress = QHostAddress("192.168.43.22");
 
     qDebug()<< tcpServer->maxPendingConnections() << endl;
 

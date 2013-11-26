@@ -4,7 +4,7 @@ Client::Client(QObject *parent) :
     QObject(parent)
 {
     tcpSocket = new QTcpSocket(this);
-    ipAddress = QHostAddress("172.20.10.6");
+    ipAddress = QHostAddress("192.168.43.22");
 
 
 }
