@@ -17,7 +17,7 @@
 #include "../Common/task.h"
 #include "../Common/nonadminuser.h"
 #include "../Common/ta.h"
-#include "client.h"
+#include "../Common/clientconnection.h"
 
 typedef QList<TA> TAList;
 typedef QList<Course> CourseList;
@@ -100,6 +100,7 @@ private slots:
     void verifyLogOut(QString);
 
 private:
+//    Connection *connectionService;
     Client *c;
     Ui::MainScreen *ui;
     QStandardItemModel *taskModel;

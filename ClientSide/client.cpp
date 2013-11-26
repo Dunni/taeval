@@ -1,23 +1,37 @@
-#include "client.h"
+//#include "client.h"
 
-Client::Client(QObject *parent) :
-    QObject(parent)
-{
-    tcpSocket = new QTcpSocket(this);
-    tcpSocket->connectToHost(QHostAddress::LocalHost, 2000);
-}
+//Client::Client(QObject *parent) :
+//    QObject(parent)
+//{
 
-QString Client::sendRequest(QString request, QString data){
+//    tcpSocket = new QTcpSocket(this);
+//}
 
-    request.append(QString(data));
+//QString Client::sendRequest(QString request, QString data)
+//{
+//    tcpSocket = new QTcpSocket(this);
+//    tcpSocket->connectToHost(QHostAddress::LocalHost, 2000);
+//    if(!tcpSocket->waitForConnected())
+//    {
+//        qDebug() << "gg" <<endl;
+//    }
+//    request.append(QString(data));
 
-    tcpSocket->write(request.toUtf8());
+//    tcpSocket->write(request.toUtf8());
 
-    tcpSocket->waitForReadyRead();
-    QString reply = tr(tcpSocket->readAll().constData());
+//    if(!tcpSocket->waitForReadyRead())
+//    {
+//        qDebug() << request << endl;
+//        qDebug() << "read gg" <<endl;
+//    }
 
-    qDebug() << reply << endl;
+//    QString reply = tr(tcpSocket->readAll().constData());
 
-    return reply;
+//    tcpSocket->disconnectFromHost();
+//    tcpSocket->deleteLater();
 
-}
+//    qDebug() << reply << endl;
+
+//    return reply;
+
+//}

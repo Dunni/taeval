@@ -198,6 +198,8 @@ QString TAEval::serveRequest(QString request, QString data)
             qDebug() << stringOfTask << endl;
             return (stringOfTask.isEmpty()) ? "false" : stringOfTask;
         }
+        else
+            return "false";
 
     }
     else if (request.compare("taskCreateRequest") == 0) {

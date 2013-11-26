@@ -1,29 +1,21 @@
- #ifndef SERVER_H
- #define SERVER_H
+#ifndef SERVER_H
+#define SERVER_H
+//#include "../../Common/connection.h"
+#include "../../Common/serverconnection.h"
+#include "taeval.h"
+class ServerApp : public QObject
+{
+    Q_OBJECT
+public:
+    ServerApp(QObject *parent = 0);
+private slots:
+    void getRequest();
+private:
+//    Connection *connectionService;
+    Server *s;
+    TAEval model;
 
- #include <QObject>
- #include <QDebug>
- #include <QtNetwork>
- #include <QMessageBox>
- #include <stdlib.h>
- #include "taeval.h"
 
- class Server : public QObject
- {
-     Q_OBJECT
+};
 
- public:
-    explicit Server(QObject *parent = 0);
-
- public slots:
-     void goToNewConnection();
-     void goToDisconnected();
-     void readyToRead();
-
- private:
-     QTcpServer *tcpServer;
-     QTcpSocket *tcpSocket;
-     TAEval model;
- };
-
- #endif
+#endif
