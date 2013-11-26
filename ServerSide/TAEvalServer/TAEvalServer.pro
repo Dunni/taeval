@@ -9,7 +9,7 @@ QT       += core sql network
 TARGET = TAEvalServer
 TEMPLATE = app
 
-#DEFINES     += QT_NO_DEBUG_OUTPUT
+DEFINES     += QT_NO_DEBUG_OUTPUT
 
 
 SOURCES += main.cpp\
@@ -20,13 +20,9 @@ SOURCES += main.cpp\
     taeval.cpp \
     ../../Common/ta.cpp \
    ../../Common/course.cpp \
-#    ../../Common/connection.cpp \
-    ../../Common/serverconnection.cpp \
-#    ../../Common/clientconnection.cpp \
-#    ../../Common/newtcpserver.cpp \
     server.cpp \
-    accesscontrol.cpp
-
+    accesscontrol.cpp \
+    ../../Common/serverconnection.cpp
 
 HEADERS  += \
     ../../Common/course.h \
@@ -36,13 +32,12 @@ HEADERS  += \
     ../../Common/instructor.h \
     taeval.h \
     ../../Common/ta.h \
-#    ../../Common/connection.h \
     ../../Common/serverconnection.h \
-#    ../../Common/clientconnection.h \
-#    ../../Common/newtcpserver.h \
     server.h \
-    accesscontrol.h \
-    Storage/dsa.h
+    accesscontrol.h
+
+
+
 
 FORMS    += mainwindow.ui
 
