@@ -22,7 +22,8 @@ SOURCES += main.cpp\
    ../../Common/course.cpp \
     server.cpp \
     accesscontrol.cpp \
-    Storage/PersistImpSQL.cpp
+    Storage/PersistImpSQL.cpp \
+    ../../Common/serverconnection.cpp
 
 HEADERS  += \
     ../../Common/course.h \
@@ -32,10 +33,14 @@ HEADERS  += \
     ../../Common/instructor.h \
     taeval.h \
     ../../Common/ta.h \
+    ../../Common/serverconnection.h \
     server.h \
     accesscontrol.h \
     Storage/PersistImp.h \
     Storage/PersistImpSQL.h
+
+
+
 
 FORMS    += mainwindow.ui
 

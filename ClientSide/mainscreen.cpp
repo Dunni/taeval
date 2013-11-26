@@ -13,12 +13,14 @@ MainScreen::MainScreen(QWidget *parent) :
 
     //Initialize client here ...
     c = new Client();
+//    connectionService = new Connection();
+//    connectionService->runClient();
 
     ui->userName->setFocus();
-    ui->loginButton->setEnabled(false);
+    ui->loginButton->setEnabled(true);
 
     //Connect the socket to a signal for error in connection and send a clear message to user what the error is.
-    connect(c->tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(sendError()));
+//    connect(c->tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(sendError()));
 
     //Connect all the loginButton to viewInstructorPage slot in order to apply the appropriate response
     connect(ui->loginButton, SIGNAL(clicked()), this, SLOT(viewInstructorPage()));
@@ -50,21 +52,21 @@ MainScreen::~MainScreen()
   Error message function, this is to display any error messages to the user during run time.
   **/
 void MainScreen::sendError(){
-
-    if(c->tcpSocket->error() == QAbstractSocket::ConnectionRefusedError){
-        QMessageBox::critical(this,
-                              tr("Connection Error!"),
-                              tr("The server is not running."));
-    } else if (c->tcpSocket->error() == QAbstractSocket::RemoteHostClosedError){
-        QMessageBox::critical(this,
-                              tr("Connection Error!"),
-                              tr("Server closed the connection."));
-    } else {
-        QMessageBox::critical(this,
-                              tr("Connection Error!"),
-                              tr("Complex error occurred, try connecting again."));
-    }
-    this->close();
+//   connectionService->
+//    if(c->tcpSocket->error() == QAbstractSocket::ConnectionRefusedError){
+//        QMessageBox::critical(this,
+//                              tr("Connection Error!"),
+//                              tr("The server is not running."));
+//    } else if (c->tcpSocket->error() == QAbstractSocket::RemoteHostClosedError){
+//        QMessageBox::critical(this,
+//                              tr("Connection Error!"),
+//                              tr("Server closed the connection."));
+//    } else {
+//        QMessageBox::critical(this,
+//                              tr("Connection Error!"),
+//                              tr("Complex error occurred, try connecting again."));
+//    }
+//    this->close();
 
 }
 
@@ -384,6 +386,7 @@ void MainScreen::on_createTaskButton_clicked()
 
 void MainScreen::on_taskSave_clicked()
 {
+    qDebug() << "TaksSave_Clicked" << endl;
     //Send a save task request with the required and entered data
     QString taskSuccess = c->sendRequest("taskCreateRequest|", userNameString + "|" +
                                        taString + "|" + courseString + semesterString + "|" +
@@ -577,22 +580,21 @@ void MainScreen::testCase_1()
     ui->testCaseShow->appendPlainText("1.1. Output:");
     printPass(verifyUser(role));
 
-/******************* For Failed Case_2:\nThe User is not a Instructor   ***************/
-    ui->testCaseShow->appendPlainText("1.2. Output:");
-    role = c->sendRequest("loginRequest|","Abdallah");
-    printPass(verifyUser(role));
+///******************* For Failed Case_2:\nThe User is not a Instructor   ***************/
+//    ui->testCaseShow->appendPlainText("1.2. Output:");
+//    role = c->sendRequest("loginRequest|","Abdallah");
+//    printPass(verifyUser(role));
 
-/******************* For Failed Case_3:\n No such user   ***************/
-    ui->testCaseShow->appendPlainText("1.3. Output:");
-    role = c->sendRequest("loginRequest|","Nobody");
-    ui->userName->setText("Nobody");
-    printPass(!verifyUser(role));
+///******************* For Failed Case_3:\n No such user   ***************/
+//    ui->testCaseShow->appendPlainText("1.3. Output:");
+//    role = c->sendRequest("loginRequest|","Nobody");
+//    printPass(!verifyUser(role));
 
 
-/******************* For Failed Case_4: Empty   ***************/
-    ui->testCaseShow->appendPlainText("1.4. Output:");
-    role = c->sendRequest("loginRequest|", "");
-    printPass(!verifyUser(role));
+///******************* For Failed Case_4: Empty   ***************/
+//    ui->testCaseShow->appendPlainText("1.4. Output:");
+//    role = c->sendRequest("loginRequest|", "");
+//    printPass(!verifyUser(role));
 }
 
 
@@ -609,6 +611,7 @@ void MainScreen::testCase_2()
     ui->testCaseDescription->appendPlainText("expect: A list of semesters that Christine enrolled");
     ui->testCaseDescription->appendPlainText("2.2. sendRequest(''semesterRequest'',''Nobody'')");
     ui->testCaseDescription->appendPlainText("expect: \"false\"");
+
     c->sendRequest("loginRequest|","Christine");
 
     QString semesters = c->sendRequest("semesterRequest|", "Christine");
@@ -820,10 +823,12 @@ void MainScreen::testCase_7()
 
     ui->testCaseShow->appendPlainText("\nCase7_2:");
     ui->testCaseShow->appendPlainText("Output:");
+    c->sendRequest("loginRequest|",tr("Christine"));
     editTask = c->sendRequest("taskEditRequest|", key + "|" + choosenTaskId);
     printPass(!verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah"));
 
     ui->testCaseShow->appendPlainText("7.3. Output:");
+    c->sendRequest("loginRequest|",tr("Christine"));
     editTask = c->sendRequest("taskEditRequest|", key + "|" + QString::number(400));
     printPass(!verifyEditTask(editTask,choosenTaskId,"Christine|COMP3004F2013|Abdallah"));
 
