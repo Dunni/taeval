@@ -97,11 +97,10 @@ bool TAEval::getTAs(QString userID, QString course, TAList *&list)
 
 bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList *&list)
 {
-    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || accessControl.getUser(userID)->getUserType() == "TA"))
+    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" ||
+                                           (accessControl.getUser(userID)->getUserType() == "TA" && userID==ta)))
     {
-        bool b = dataStore.getTasksForTA(course,ta,list,accessControl.getUser(userID)->getUserType());
-        //qDebug() << Task::listToString(*list);
-        return b;
+        return dataStore.getTasksForTA(course,ta,list,accessControl.getUser(userID)->getUserType());
     }
     qDebug() << "no access";
     return false;
