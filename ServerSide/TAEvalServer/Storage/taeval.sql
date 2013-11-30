@@ -65,6 +65,8 @@ INSERT INTO COURSES (name, title, term, num, InsName)
 INSERT INTO COURSES (name, title, term, num, InsName) 
 	VALUES ('COMP3005F2013', 'COMP','F2013', 3005, 'Louis');
 INSERT INTO COURSES (name, title, term, num, InsName) 
+	VALUES ('COMP2404W2012', 'COMP','W2012', 2404, 'Louis');
+INSERT INTO COURSES (name, title, term, num, InsName) 
 	VALUES ('BUSI2701F2012', 'BUSI','F2012', 2701, 'Peter');
 INSERT INTO COURSES (name, title, term, num, InsName) 
 	VALUES ('COMP3004F2012', 'COMP','F2012', 3004, 'Christine');
@@ -75,8 +77,10 @@ INSERT INTO COURSES (name, title, term, num, InsName)
 
 -- TA_COURSES
 INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Nathan','COMP2402F2013');
+INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Dunni','COMP2404W2012');
 INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Dunni','COMP1405F2013');
 INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Siyang','COMP1405F2013');
+INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Dunni','BUSI2701F2012');
 ----------------------------------------------------------------------------------
 INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Abdallah','COMP3004F2013');
 INSERT INTO TACOURSES (TAName, CourseName) VALUES ('Abdallah','COMP3004F2012');
@@ -94,6 +98,12 @@ INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, 
 	VALUES ('Siyang','COMP1405F2013','Weekly Meeting','2013-09-01','2013-10-29', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
 	VALUES ('Abdallah','COMP3004F2013','Grade assignments','2013-09-01','2013-12-19', NULL, NULL);
+INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
+	VALUES ('Dunni','COMP2404W2013','Prepare assignments','2013-01-01','2013-02-19', NULL, 'What?');
+INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
+	VALUES ('Dunni','BUSI2701F2012','Prepare assignments','2012-01-01','2012-12-19', NULL, 'What2?');
+INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
+	VALUES ('Dunni','BUSI2701F2012','Lecturer','2012-01-09','2012-12-19', NULL, 'What3?');
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
 	VALUES ('Abdallah','COMP3004F2012',NULL,NULL,NULL, NULL, NULL);
 
