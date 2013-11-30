@@ -9,7 +9,7 @@ QT       += core sql network
 TARGET = TAEvalServer
 TEMPLATE = app
 
-
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 SOURCES += main.cpp\
     ../../Common/task.cpp \

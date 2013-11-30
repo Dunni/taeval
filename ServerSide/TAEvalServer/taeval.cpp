@@ -58,7 +58,6 @@ bool TAEval::getSemesters(QString userID, StringList *&list) // User MUST delete
     if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || accessControl.getUser(userID)->getUserType() == "TA"))
     {
         list = new StringList(dataStore.getSemesters(userID));
-        qDebug() << *list;
         return true;
     }
     return false;
@@ -100,8 +99,11 @@ bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList *&lis
 {
     if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || accessControl.getUser(userID)->getUserType() == "TA"))
     {
-        return dataStore.getTasksForTA(course,ta,list,accessControl.getUser(userID)->getUserType());
+        bool b = dataStore.getTasksForTA(course,ta,list,accessControl.getUser(userID)->getUserType());
+        //qDebug() << Task::listToString(*list);
+        return b;
     }
+    qDebug() << "no access";
     return false;
 }
 

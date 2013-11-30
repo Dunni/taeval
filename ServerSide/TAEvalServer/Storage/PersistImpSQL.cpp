@@ -224,7 +224,7 @@ bool PersistImpSQL::getTasksForTA(QString info, QString TAKey, QList<Task> *&lis
 
     /* for TA*/
     if(role.compare("TA") == 0){
-        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName in (select name from COURSES join TACOURSES on COURSES.name = TACOURSES.CourseName where TAName = '%1'' and term = '%2')").\
+        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName in (select name from COURSES join TACOURSES on COURSES.name = TACOURSES.CourseName where TAName = '%1' and term = '%2')").\
                 arg(TAKey).arg(info);
     }
 
