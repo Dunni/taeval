@@ -4,15 +4,24 @@ Client::Client(QObject *parent) :
     QObject(parent)
 {
     tcpSocket = new QTcpSocket(this);
-    ipAddress = QHostAddress("172.20.10.6");
+    /*Get info from the config file*/
+    QSettings *config = new QSettings("../Common/config.ini",QSettings::IniFormat);
+    config->setIniCodec("UTF8");
+    config->beginGroup("information");
+    QString ip=config->value("HostAddress").toString();
+    int portNumber = config->value("portNumber").toInt();
+    ipAddress = QHostAddress(ip);
+    port = portNumber;
+    config->endGroup();
 
+    connect(tcpSocket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorReport()));
 
 }
 
 QString Client::sendRequest(QString request, QString data)
 {
     tcpSocket->abort();
-    tcpSocket->connectToHost(ipAddress, 2000);
+    tcpSocket->connectToHost(ipAddress, port);
     qDebug()<<"Sending request" << endl;
     if(!tcpSocket->waitForConnected())
     {
@@ -37,21 +46,13 @@ QString Client::sendRequest(QString request, QString data)
     return reply;
 
 }
-//QString Client::errorReport(){
 
-//    if(tcpSocket->error() == QAbstractSocket::ConnectionRefusedError){
-//        QMessageBox::critical(this,
-//                              tr("Connection Error!"),
-//                              tr("The server is not running."));
-//    } else if (tcpSocket->error() == QAbstractSocket::RemoteHostClosedError){
-//        QMessageBox::critical(this,
-//                              tr("Connection Error!"),
-//                              tr("Server closed the connection."));
-//    } else {
-//        QMessageBox::critical(this,
-//                              tr("Connection Error!"),
-//                              tr("Complex error occurred, try connecting again."));
-//    }
-//    this->close();
-
-//}
+ void Client::errorReport()
+{
+     //because we are put all the requests in the pending list and handle them
+     //one by one, so we will tolerate the RemoteHostClosedError
+     if(tcpSocket->error() != QAbstractSocket::RemoteHostClosedError)
+     {
+        emit errorOccurs();
+     }
+}

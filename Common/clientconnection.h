@@ -12,9 +12,19 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = 0);
     QString sendRequest(QString, QString);
+
+private slots:
+        void errorReport();
 private:
     QHostAddress ipAddress;
-    QTcpSocket *tcpSocket;
+    int          port;
+    QTcpSocket   *tcpSocket;
+
+signals:
+    //Use this signal if you want to handle the connection error on the
+    //GUI side.
+    void errorOccurs();
+
 
 };
 

@@ -5,13 +5,19 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     tcpServer = new QTcpServer(this);
     takeNext = true;
     tcpServer->setMaxPendingConnections(100);
-    QHostAddress ipAddress = QHostAddress("172.20.10.6");
-
+    /*Get info from the config file*/
+    QSettings *config = new QSettings("../../Common/config.ini",QSettings::IniFormat);
+    config->setIniCodec("UTF8");
+    config->beginGroup("information");
+    QString ip=config->value("ServerIp").toString();
+    int portNumber = config->value("portNumber").toInt();
+    ipAddress = QHostAddress(ip);
+    port = portNumber;
+    config->endGroup();
     qDebug()<< tcpServer->maxPendingConnections() << endl;
-
-    if(tcpServer->listen(ipAddress,2000))//QHostAddress::LocalHost, 2000))
+    if(tcpServer->listen(ipAddress,port))//QHostAddress::LocalHost, 2000))
     {
-        qDebug() << "Server connected locally and to port 2000" << endl;
+        qDebug() << ipAddress << portNumber << endl;
     }
     else
     {

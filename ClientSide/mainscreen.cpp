@@ -37,6 +37,7 @@ MainScreen::MainScreen(QWidget *parent) :
     connect(ui->testCaseNo_8,SIGNAL(clicked()),this,SLOT(testCase_8()));
     connect(ui->testCaseNo_9,SIGNAL(clicked()),this,SLOT(testCase_9()));
     connect(ui->testCaseNo_10,SIGNAL(clicked()),this,SLOT(testCase_10()));
+    connect(c,SIGNAL(errorOccurs()),this,SLOT(gg()));
 
 }
 
@@ -1409,3 +1410,9 @@ void MainScreen::verifyLogOut(QString logOut)
     }
 }
 
+void MainScreen::gg()
+{
+    qDebug() << "Server closed the connection" << endl;
+    this->close();
+
+}

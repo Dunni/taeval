@@ -5,7 +5,7 @@ QT       += network
 TARGET = TAEvalClient
 TEMPLATE = app
 
-#DEFINES     += QT_NO_DEBUG_OUTPUT
+DEFINES     += QT_NO_DEBUG_OUTPUT
 
 HEADERS  += mainscreen.h \
 #    client.h \

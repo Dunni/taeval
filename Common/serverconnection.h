@@ -17,16 +17,14 @@ public:
    QString getRequest();
    void sendDataBack(QString data);
 
-//   QTcpSocket *tcpSocket;
-
 public slots:
     void goToNewConnection();
-//    void goToDisconnected();
-
 
 private:
     QTcpServer *tcpServer;
     QTcpSocket *tcpSocket;
+    QHostAddress  ipAddress;
+    int port;
     bool takeNext;
 signals:
     void getMsg();

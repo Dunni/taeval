@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainscreen.h"
-#include "../Common/connection.h"
+
 
 
 int main(int argc, char *argv[])
