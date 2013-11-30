@@ -5,6 +5,7 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     tcpServer = new QTcpServer(this);
     takeNext = true;
     tcpServer->setMaxPendingConnections(100);
+
     /*Get info from the config file*/
     QSettings *config = new QSettings("../../Common/config.ini",QSettings::IniFormat);
     config->setIniCodec("UTF8");
@@ -15,7 +16,7 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     port = portNumber;
     config->endGroup();
     qDebug()<< tcpServer->maxPendingConnections() << endl;
-    if(tcpServer->listen(ipAddress,port))//QHostAddress::LocalHost, 2000))
+    if(tcpServer->listen(ipAddress,port))
     {
         qDebug() << ipAddress << portNumber << endl;
     }

@@ -14,11 +14,11 @@ public:
     }
 
     /* connect and disconnect */
-    virtual bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
-    virtual void disconnect();
+    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
+    void disconnect();
 
     /* restore database */
-    virtual bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
+    bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
 
     /* verifyUser */
     bool verifyUser(QString name, QString &role);
@@ -36,8 +36,8 @@ public:
     /* get Tasks for a TA and course need delete *list after use */
     bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
 
-    /* get Semesters for a given instructor */
-    QStringList getSemesters(QString instrcutor);
+    /* get Semesters for a given user */
+    QStringList getSemesters(QString user);
 
     /* get a Task based on TaskID */
     bool getTask(QString taskID, Task *& rv);

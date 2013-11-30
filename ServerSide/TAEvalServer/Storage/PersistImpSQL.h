@@ -20,36 +20,36 @@ public:
     }
 
     /* connect and disconnect */
-    virtual bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
-    virtual void disconnect();
+    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
+    void disconnect();
 
-    virtual bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
+    bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
 
 
     /* verifyUser */
-    virtual bool verifyUser(QString name, QString &role);
+    bool verifyUser(QString name, QString &role);
 
     /* actions: create, edit, delete*/
     /* manage Tasks */
-    virtual  bool manageTask(QString user, QString action, Task task);
+    bool manageTask(QString user, QString action, Task task);
 
     /* get courses teaching need delete *list after use */
-    virtual bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list);
+    bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list);
 
     /* get TAs for a course need delete *list after use */
-    virtual bool getTAsForCourse(QString courseKey, QList<TA> *&list);
+    bool getTAsForCourse(QString courseKey, QList<TA> *&list);
 
     /* get Tasks for a TA and course need delete *list after use */
-    virtual bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
+    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
 
-    /* get Semesters for a given instructor */
-    virtual QStringList getSemesters(QString instrcutor);
+    /* get Semesters for a given user */
+    QStringList getSemesters(QString user);
 
     /* get a Task based on TaskID */
-    virtual bool getTask(QString taskID, Task *& rv);
+    bool getTask(QString taskID, Task *& rv);
 
     /* enterEvaluation */
-    virtual bool enterEvaluation(INT TaskID,INT rating, QString feedback);
+    bool enterEvaluation(INT TaskID,INT rating, QString feedback);
 private:
     QSqlDatabase db; /* DataBase */
     bool connected; /* flag if connected to DB */
@@ -59,9 +59,9 @@ private:
     QString getUserKey(QString name);
     QString getCourseKey(QString term, QString title, INT num);
     QString getInstructor(QString courseKey);
-    virtual bool createTask(QString user, QString TAKey, QString courseKey,QString desc, QString start,QString end);
-    virtual bool editTask(INT TaskID, QString desc, QString start, QString end);
-    virtual bool deleteTask(INT TaskID);
+    bool createTask(QString user, QString TAKey, QString courseKey,QString desc, QString start,QString end);
+    bool editTask(INT TaskID, QString desc, QString start, QString end);
+    bool deleteTask(INT TaskID);
 };
 
 #endif // PERSISTIMPSQL_H
