@@ -30,8 +30,8 @@ bool Storage::getTAsForCourse(QString courseKey, QList<TA> *&list){
 }
 
 
-bool Storage::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list){
-    return Imp->getTasksForTA(courseKey,TAKey,list);
+bool Storage::getTasksForTA(QString info, QString TAKey, QList<Task> *&list, QString role){
+    return Imp->getTasksForTA(info,TAKey,list,role);
 }
 
 QStringList Storage::getSemesters(QString user){

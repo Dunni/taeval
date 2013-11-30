@@ -72,6 +72,17 @@ QString PersistImpSQL::getUserKey(QString name){
     return NULL;
 }
 
+QString PersistImpSQL::getUserType(QString name){
+    QSqlQuery query(db);
+    QString queryString;
+    queryString = QString("SELECT role FROM USERS WHERE name = '%1'").arg(name);
+    if (!query.exec(queryString)) return NULL;
+    while(query.next()){
+        return query.value(0).toString();
+    }
+    return NULL;
+}
+
 QString PersistImpSQL::getCourseKey(QString term, QString title, INT num){
     QSqlQuery query(db);
     QString queryString;
@@ -201,17 +212,23 @@ bool PersistImpSQL::getTAsForCourse(QString courseKey, QList<TA> *&list){
 }
 
 
-bool PersistImpSQL::getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list){
+bool PersistImpSQL::getTasksForTA(QString info, QString TAKey, QList<Task> *&list, QString role){
     QSqlQuery query(db);
     QString queryString;
-    if(courseKey.length() > 10){
+
+    /* for Instructor */
+    if(role.compare("Instructor") == 0){
         queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName = '%2'").\
-                arg(TAKey).arg(courseKey);
+                arg(TAKey).arg(info);
     }
-    else{
-        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1'").\
-                arg(TAKey);
+
+    /* for TA*/
+    if(role.compare("TA") == 0){
+        queryString = QString("SELECT * FROM TASKS WHERE TAName = '%1' AND CourseName in (select name from COURSES join TACOURSES on COURSES.name = TACOURSES.CourseName where TAName = '%1'' and term = '%2')").\
+                arg(TAKey).arg(info);
     }
+
+    /* execute the query */
     if (!query.exec(queryString)) return false;
 
     list = new QList<Task>();
@@ -251,8 +268,23 @@ QStringList PersistImpSQL::getSemesters(QString user){
     QSqlQuery query(db);
     QString queryString;
     QStringList rv;
-    queryString = QString("SELECT DISTINCT term FROM COURSES WHERE InsName = '%1'").\
+
+    /* get user role */
+    QString userType =  this->getUserType(user);
+    if (userType.isNull()) {rv.append("-1"); return rv;}
+
+    /* for Instructor */
+    if (userType.compare("Instructor") == 0 ){
+        queryString = QString("SELECT DISTINCT term FROM COURSES WHERE InsName = '%1'").\
             arg(user);
+    }
+
+    /* for TA */
+    else if (userType.compare("TA") == 0 ){
+        queryString = QString("SELECT DISTINCT term FROM COURSES join TACOURSES on COURSES.name = TACOURSES.CourseName  WHERE TAName = '%1'").\
+            arg(user);
+    }
+
     if (!query.exec(queryString)) {rv.append("-1"); return rv;}
 
     while(query.next()){

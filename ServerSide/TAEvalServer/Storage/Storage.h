@@ -34,7 +34,7 @@ public:
     bool getTAsForCourse(QString courseKey, QList<TA> *&list);
 
     /* get Tasks for a TA and course need delete *list after use */
-    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
+    bool getTasksForTA(QString info, QString TAKey, QList<Task> *&list,QString role = "Instructor");
 
     /* get Semesters for a given user */
     QStringList getSemesters(QString user);

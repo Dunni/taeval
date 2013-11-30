@@ -30,10 +30,10 @@ public:
     virtual bool getTAsForCourse(QString courseKey, QList<TA> *&list)=0;
 
     /* get Tasks for a TA and course need delete *list after use */
-    virtual bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list)=0;
+    virtual bool getTasksForTA(QString info, QString TAKey, QList<Task> *&list, QString role)=0;
 
     /* get Semesters for a given instructor */
-    virtual QStringList getSemesters(QString instrcutor)=0;
+    virtual QStringList getSemesters(QString user)=0;
 
     /* get a Task based on TaskID */
     virtual bool getTask(QString taskID, Task *& rv)=0;

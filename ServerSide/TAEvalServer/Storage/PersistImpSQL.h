@@ -40,7 +40,7 @@ public:
     bool getTAsForCourse(QString courseKey, QList<TA> *&list);
 
     /* get Tasks for a TA and course need delete *list after use */
-    bool getTasksForTA(QString courseKey, QString TAKey, QList<Task> *&list);
+    bool getTasksForTA(QString info, QString TAKey, QList<Task> *&list, QString role);
 
     /* get Semesters for a given user */
     QStringList getSemesters(QString user);
@@ -57,6 +57,7 @@ private:
     QString fixEscape(QString s){return s.replace("'","''");}
     QStringList splitDate(QString d){return d.split("-");}
     QString getUserKey(QString name);
+    QString getUserType(QString name);
     QString getCourseKey(QString term, QString title, INT num);
     QString getInstructor(QString courseKey);
     bool createTask(QString user, QString TAKey, QString courseKey,QString desc, QString start,QString end);
