@@ -55,9 +55,10 @@ bool TAEval::getCourses(QString userID, CourseList *&list, QString instructor, Q
 
 bool TAEval::getSemesters(QString userID, StringList *&list) // User MUST delete list after use as it is dynamically allocated
 {
-    if(accessControl.isLoggedIn(userID) && accessControl.getUser(userID)->getUserType() == "Instructor")
+    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || accessControl.getUser(userID)->getUserType() == "TA"))
     {
         list = new StringList(dataStore.getSemesters(userID));
+        qDebug() << *list;
         return true;
     }
     return false;
@@ -97,9 +98,9 @@ bool TAEval::getTAs(QString userID, QString course, TAList *&list)
 
 bool TAEval::getTasks(QString userID, QString course, QString ta, TaskList *&list)
 {
-    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || userID==ta))
+    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" || accessControl.getUser(userID)->getUserType() == "TA"))
     {
-        return dataStore.getTasksForTA(course,ta,list);
+        return dataStore.getTasksForTA(course,ta,list,accessControl.getUser(userID)->getUserType());
     }
     return false;
 }
