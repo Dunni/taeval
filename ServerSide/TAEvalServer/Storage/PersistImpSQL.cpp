@@ -195,7 +195,6 @@ bool PersistImpSQL::getTAsForCourse(QString courseKey, QList<TA> *&list){
     list = new QList<TA>();
     while(query.next()){
         QString taName = query.value(0).toString();
-//        QString role = query.value(0).toString();
         list->append(TA(taName));
     }
     return true;
@@ -248,12 +247,12 @@ bool PersistImpSQL::getTasksForTA(QString courseKey, QString TAKey, QList<Task> 
     return true;
 }
 
-QStringList PersistImpSQL::getSemesters(QString instrcutor){
+QStringList PersistImpSQL::getSemesters(QString user){
     QSqlQuery query(db);
     QString queryString;
     QStringList rv;
     queryString = QString("SELECT DISTINCT term FROM COURSES WHERE InsName = '%1'").\
-            arg(instrcutor);
+            arg(user);
     if (!query.exec(queryString)) {rv.append("-1"); return rv;}
 
     while(query.next()){
