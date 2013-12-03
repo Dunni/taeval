@@ -44,11 +44,12 @@ bool TAEval::deleteTask(QString userID, QString taskId)
     return false;
 }
 
-bool TAEval::getCourses(QString userID, CourseList *&list, QString instructor, QString term)
+bool TAEval::getCourses(QString userID, CourseList *&list, QString usr, QString term)
 {
-    if(accessControl.isLoggedIn(userID) && accessControl.getUser(userID)->getUserType() == "Instructor")
+    if(accessControl.isLoggedIn(userID) && (accessControl.getUser(userID)->getUserType() == "Instructor" ||
+                                           (accessControl.getUser(userID)->getUserType() == "TA" && userID==usr)))
     {
-        return dataStore.getCoursesTeaching(instructor,term,list);
+        return dataStore.getCourses(usr,term,list,accessControl.getUser(userID)->getUserType());
     }
     return false;
 }

@@ -24,7 +24,7 @@ public:
     virtual  bool manageTask(QString user, QString action, Task task)=0;
 
     /* get courses teaching need delete *list after use */
-    virtual bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list)=0;
+    virtual bool getCourses(QString user, QString term, QList<Course> *& list,QString role)=0;
 
     /* get TAs for a course need delete *list after use */
     virtual bool getTAsForCourse(QString courseKey, QList<TA> *&list)=0;

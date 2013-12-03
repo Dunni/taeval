@@ -20,8 +20,8 @@ bool Storage::manageTask(QString user, QString action, Task task){
     return Imp->manageTask(user,action,task);
 }
 
-bool Storage::getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *&list){
-    return Imp->getCoursesTeaching(Instrcutor,term,list);
+bool Storage::getCourses(QString user, QString term, QList<Course> *&list,QString role){
+    return Imp->getCourses(user,term,list,role);
 }
 
 

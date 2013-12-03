@@ -174,13 +174,26 @@ bool PersistImpSQL::deleteTask(INT TaskID){
     return query.exec(queryString);
 }
 
-bool PersistImpSQL::getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *&list){
-    QString teacher = this->getUserKey(Instrcutor);
-    if (teacher.isNull()) return false;
+bool PersistImpSQL::getCourses(QString user, QString term, QList<Course> *&list, QString role){
+    QString usr = this->getUserKey(user);
+    if (usr.isNull()) return false;
 
     QSqlQuery query(db);
     QString queryString;
-    queryString = QString("SELECT * FROM COURSES WHERE InsName = '%1' AND term = '%2'").arg(teacher).arg(term);
+
+    /* for Instructor */
+    if(role.compare("Instructor") == 0){
+        queryString = QString("SELECT * FROM COURSES WHERE InsName = '%1' AND term = '%2'")\
+                .arg(usr).arg(term);
+    }
+
+    /* for TA*/
+    if(role.compare("TA") == 0){
+        queryString = QString("SELECT * FROM COURSES WHERE name in (select name from COURSES join TACOURSES on COURSES.name = TACOURSES.CourseName where TAName = '%1' and term = '%2')").\
+                arg(usr).arg(term);
+    }
+
+    /* execute the query */
     if (!query.exec(queryString)) return false;
 
     list = new QList<Course>();

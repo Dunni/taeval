@@ -34,7 +34,7 @@ public:
     bool manageTask(QString user, QString action, Task task);
 
     /* get courses teaching need delete *list after use */
-    bool getCoursesTeaching(QString Instrcutor, QString term, QList<Course> *& list);
+    bool getCourses(QString user, QString term, QList<Course> *& list, QString role);
 
     /* get TAs for a course need delete *list after use */
     bool getTAsForCourse(QString courseKey, QList<TA> *&list);
