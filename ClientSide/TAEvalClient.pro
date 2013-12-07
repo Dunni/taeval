@@ -12,12 +12,10 @@ HEADERS  += \
     ../Common/nonadminuser.h \
     ../Common/ta.h \
     ../Common/task.h \
-    ../Common/clientconnection.h \
     ../Common/Communication/clientconnection.h \
     Client/taapplogic.h \
     Client/mainapplogic.h \
     Client/instructorapplogic.h \
-    ui_mainscreen.h
 
 SOURCES += main.cpp\
     ../Common/course.cpp \
