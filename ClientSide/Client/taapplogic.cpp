@@ -38,9 +38,7 @@ TAAppLogic::TAAppLogic(QObject *parent, Ui::MainScreen *uiScreen, ClientConnecti
  *****Deconstructor*****
  ***********************/
 
-TAAppLogic::~TAAppLogic(){
-    delete taskModel;
-}
+TAAppLogic::~TAAppLogic(){}
 
 /***********************************************
  ***********************************************

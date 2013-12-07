@@ -46,9 +46,7 @@ InstructorAppLogic::InstructorAppLogic(QObject *parent, Ui::MainScreen *uiScreen
  *****Deconstructor*****
  ***********************/
 
-InstructorAppLogic::~InstructorAppLogic(){
-    delete taskModel;
-}
+InstructorAppLogic::~InstructorAppLogic(){}
 
 /***********************************************
  ***********************************************

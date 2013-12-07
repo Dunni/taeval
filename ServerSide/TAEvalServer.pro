@@ -26,7 +26,6 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     Storage/PersistImp.h \
-    Storage/PersistImpSQL.h \
     Database/PersistImpSQL.h \
     Server/taeval.h \
     Server/server.h \
