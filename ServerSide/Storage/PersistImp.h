@@ -12,10 +12,10 @@ public:
 
     virtual ~PersistImp(){}
 
-    virtual bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE") = 0;
+    virtual bool connectToDB(QString connection, QString path, QString DBType) = 0;
     virtual void disconnect()=0;
 
-    virtual bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"))=0;
+    virtual bool restore(QString path)=0;
 
     virtual bool verifyUser(QString name, QString &role)=0;
 

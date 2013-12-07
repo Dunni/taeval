@@ -18,7 +18,7 @@ public:
     void disconnect();
 
     /* restore database */
-    bool restore(QString path = QDir::toNativeSeparators("Storage/taeval.sql"));
+    bool restore(QString path = QDir::toNativeSeparators("./Database//taeval.sql"));
 
     /* verifyUser */
     bool verifyUser(QString name, QString &role);
