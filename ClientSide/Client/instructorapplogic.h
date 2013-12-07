@@ -6,7 +6,7 @@
 #include "../Common/nonadminuser.h"
 #include "../Common/ta.h"
 #include "../Common/Communication/clientconnection.h"
-#include "../Client/ui_mainscreen.h"
+#include "../ui_mainscreen.h"
 
 #include <QHBoxLayout>
 #include <QMessageBox>

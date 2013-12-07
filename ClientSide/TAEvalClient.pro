@@ -17,7 +17,7 @@ HEADERS  += \
     Client/taapplogic.h \
     Client/mainapplogic.h \
     Client/instructorapplogic.h \
-    Client/ui_mainscreen.h
+    ui_mainscreen.h
 
 SOURCES += main.cpp\
     ../Common/course.cpp \
