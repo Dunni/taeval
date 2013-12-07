@@ -5,7 +5,7 @@ TAEval::TAEval()
      accessControl(AccessControl::getInstance())
 {
     dataStore.connectToDB("taevalDBConnection");
-    dataStore.restore();
+//    dataStore.restore();
 }
 
 TAEval::~TAEval(){

@@ -5,8 +5,8 @@
 #include "../Common/task.h"
 #include "../Common/nonadminuser.h"
 #include "../Common/ta.h"
-#include "../Common/clientconnection.h"
-#include "ui_mainscreen.h"
+#include "../Common/Communication/clientconnection.h"
+#include "../Client/ui_mainscreen.h"
 
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -26,7 +26,7 @@ class TAAppLogic : public QObject
     Q_OBJECT
     
 public:
-    explicit TAAppLogic(QObject *parent = 0, Ui::MainScreen *uiScreen = 0, Client *cConnection = 0);
+    explicit TAAppLogic(QObject *parent = 0, Ui::MainScreen *uiScreen = 0, ClientConnection *cConnection = 0);
     void initialize(QString userName);
     ~TAAppLogic();
 
@@ -46,7 +46,7 @@ private slots:
 
 private:
     //Objects and Pointers
-    Client *c;
+    ClientConnection *c;
     Ui::MainScreen *ui;
     QStandardItemModel *taskModel;
     TaskList taskList;

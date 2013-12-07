@@ -8,9 +8,9 @@
 #include "../Common/task.h"
 #include "../Common/nonadminuser.h"
 #include "../Common/ta.h"
-#include "../Common/clientconnection.h"
-#include "instructorapplogic.h"
-#include "taapplogic.h"
+#include "../Common/Communication/clientconnection.h"
+#include "../Client/instructorapplogic.h"
+#include "../Client/taapplogic.h"
 
 namespace Ui {
 class MainScreen;
@@ -27,9 +27,10 @@ public:
 private slots:
     void on_loginButton_clicked();
     void on_logOutButton_clicked();
+    void connectionDisconnected();
 
 private:
-    Client *c;
+    ClientConnection *c;
     InstructorAppLogic *instructorApp;
     TAAppLogic *taApp;
     Ui::MainScreen *ui;

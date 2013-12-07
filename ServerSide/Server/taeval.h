@@ -1,10 +1,10 @@
 #ifndef TAEVAL_H
 #define TAEVAL_H
-#include "../../Common/course.h"
-#include "../../Common/task.h"
-#include "../../Common/instructor.h"
-#include "../../Common/nonadminuser.h"
-#include "Storage/Storage.h"
+#include "../Common/course.h"
+#include "../Common/task.h"
+#include "../Common/instructor.h"
+#include "../Common/nonadminuser.h"
+#include "../Storage/Storage.h"
 #include "accesscontrol.h"
 
 typedef QList<TA> TAList;

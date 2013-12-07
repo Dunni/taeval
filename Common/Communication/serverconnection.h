@@ -7,12 +7,13 @@
 #include <stdlib.h>
 #include <QTcpServer>
 
-class Server : public QObject
+class ServerConnection : public QObject
 {
     Q_OBJECT
 
 public:
-   explicit Server(QObject *parent = 0);
+   explicit ServerConnection(QObject *parent = 0);
+   ~ServerConnection();
 
    QString getRequest();
    void sendDataBack(QString data);

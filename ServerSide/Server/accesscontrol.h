@@ -1,6 +1,6 @@
 #ifndef ACCESSCONTROL_H
 #define ACCESSCONTROL_H
-#include "../../Common/nonadminuser.h"
+#include "../Common/nonadminuser.h"
 #include "Storage/Storage.h"
 
 typedef QMap<QString, NonAdminUser*> UserList;

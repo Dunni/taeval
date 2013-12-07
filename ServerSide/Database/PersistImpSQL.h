@@ -10,7 +10,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QStringList>
-#include "PersistImp.h"
+#include "../Storage/PersistImp.h"
 
 class PersistImpSQL: public PersistImp{
 public:

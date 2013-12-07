@@ -8,7 +8,7 @@
  ***********************************************
  ***********************************************/
 
-InstructorAppLogic::InstructorAppLogic(QObject *parent, Ui::MainScreen *uiScreen, Client *cConnection) :
+InstructorAppLogic::InstructorAppLogic(QObject *parent, Ui::MainScreen *uiScreen, ClientConnection *cConnection) :
     QObject(parent)
 {
     //Just to set up the message box settings, I needed a spacer item to resize the windows of the

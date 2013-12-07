@@ -3,7 +3,7 @@
 
 #define DEBUG
 
-#include "PersistImpSQL.h"
+#include "../Database/PersistImpSQL.h"
 
 class Storage{
 public:
@@ -14,7 +14,7 @@ public:
     }
 
     /* connect and disconnect */
-    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("Storage/taeval.db"), QString DBType = "QSQLITE");
+    bool connectToDB(QString connection, QString path = QDir::toNativeSeparators("./Database/taeval.db"), QString DBType = "QSQLITE");
     void disconnect();
 
     /* restore database */

@@ -1,10 +1,10 @@
 #ifndef PERSISTIMP_H
 #define PERSISTIMP_H
 
-#include "../../../Common/course.h"
-#include "../../../Common/task.h"
-#include "../../../Common/ta.h"
-#include "../../../Common/instructor.h"
+#include "../Common/course.h"
+#include "../Common/task.h"
+#include "../Common/ta.h"
+#include "../Common/instructor.h"
 typedef qint32 INT;
 
 class PersistImp {

@@ -1,19 +1,19 @@
 #include "serverconnection.h"
 
-Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
+ServerConnection::ServerConnection(QObject *parent) :  QObject(parent), tcpServer(0)
 {
     tcpServer = new QTcpServer(this);
     takeNext = true;
     tcpServer->setMaxPendingConnections(100);
 
     /*Get info from the config file*/
-    QSettings *config = new QSettings("../../Common/config.ini",QSettings::IniFormat);
+    QSettings *config = new QSettings("../Common/Communication/config.ini",QSettings::IniFormat);
     config->setIniCodec("UTF8");
     config->beginGroup("information");
     QString ip=config->value("ServerIp").toString();
     int portNumber = config->value("portNumber").toInt();
-    ipAddress = QHostAddress(QHostAddress::LocalHost);
-    port = 2001;
+    ipAddress = QHostAddress(ip);
+    port = portNumber;
     config->endGroup();
     qDebug()<< tcpServer->maxPendingConnections() << endl;
     if(tcpServer->listen(ipAddress,port))
@@ -28,7 +28,12 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(goToNewConnection()));
 }
 
- void Server::goToNewConnection()
+ServerConnection::~ServerConnection(){
+    delete tcpServer;
+    delete tcpSocket;
+}
+
+ void ServerConnection::goToNewConnection()
  {
      if(takeNext)
      {
@@ -62,7 +67,7 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
 
  }
 
-QString Server::getRequest()
+QString ServerConnection::getRequest()
 {
     QString receivedInfo;
     receivedInfo = tcpSocket->readLine().constData();
@@ -71,7 +76,7 @@ QString Server::getRequest()
 
 }
 
-void Server::sendDataBack(QString data)
+void ServerConnection::sendDataBack(QString data)
 {
     tcpSocket->write(data.toUtf8());
     tcpSocket->disconnectFromHost();

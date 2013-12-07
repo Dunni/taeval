@@ -12,7 +12,7 @@ MainAppLogic::MainAppLogic(QWidget *parent) :
     ui->setupUi(this);
 
     //Initialize client, instructorAppLogic, taAppLogic here
-    c = new Client();
+    c = new ClientConnection();
     instructorApp = new InstructorAppLogic(parent, ui, c);
     taApp = new TAAppLogic(parent, ui, c);
 
@@ -21,6 +21,7 @@ MainAppLogic::MainAppLogic(QWidget *parent) :
 
     //Connecting the TALogoutButton to the on_logOutButton_clicked() slot
     connect(ui->TAlogOutButton, SIGNAL(clicked()), this, SLOT(on_logOutButton_clicked()));
+    connect(c, SIGNAL(errorOccurs()), this, SLOT(connectionDisconnected()));
 }
 
 /***********************
@@ -87,4 +88,11 @@ void MainAppLogic::on_logOutButton_clicked(){
         //Then go to the login page
         ui->MainWidget->setCurrentIndex(0);
     }
+}
+
+void MainAppLogic::connectionDisconnected(){
+
+    QMessageBox::critical(this,
+                          tr("Error!"),
+                          tr("Server closed!"));
 }

@@ -5,13 +5,14 @@
 #include <QTcpSocket>
 #include <QtNetwork>
 
-class Client : public QObject
+class ClientConnection : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Client(QObject *parent = 0);
+    explicit ClientConnection(QObject *parent = 0);
     QString sendRequest(QString, QString);
+    ~ClientConnection();
 
 private slots:
         void errorReport();

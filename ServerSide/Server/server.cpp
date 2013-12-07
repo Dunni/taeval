@@ -1,18 +1,19 @@
 #include "server.h"
 #include "stdio.h"
 
-ServerApp::ServerApp(QObject *parent)
+Server::Server(QObject *parent)
     :QObject(parent)
 {
-//    connectionService = new Connection();
-//    connectionService->runServer();
-    s = new Server();
+    s = new ServerConnection();
     connect(s,SIGNAL(getMsg()),this,SLOT(getRequest()));
-
-
 }
 
-void ServerApp::getRequest()
+Server::~Server()
+{
+    delete s;
+}
+
+void Server::getRequest()
 {
     QString receivedInfo = s->getRequest();
 
@@ -26,10 +27,5 @@ void ServerApp::getRequest()
        }
     }
 
-    qDebug() << "Client says to Server: " << request << " and " << data << endl;
-
-
-//    connectionService
     s->sendDataBack(model.serveRequest(request,data).toUtf8());
-//    qDebug() << "What is thiss" << model.serveRequest(request,data) << endl;
 }
