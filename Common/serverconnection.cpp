@@ -12,8 +12,8 @@ Server::Server(QObject *parent) :  QObject(parent), tcpServer(0)
     config->beginGroup("information");
     QString ip=config->value("ServerIp").toString();
     int portNumber = config->value("portNumber").toInt();
-    ipAddress = QHostAddress(ip);
-    port = portNumber;
+    ipAddress = QHostAddress(QHostAddress::LocalHost);
+    port = 2001;
     config->endGroup();
     qDebug()<< tcpServer->maxPendingConnections() << endl;
     if(tcpServer->listen(ipAddress,port))

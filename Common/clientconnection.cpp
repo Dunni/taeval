@@ -10,8 +10,8 @@ Client::Client(QObject *parent) :
     config->beginGroup("information");
     QString ip=config->value("HostAddress").toString();
     int portNumber = config->value("portNumber").toInt();
-    ipAddress = QHostAddress(ip);
-    port = portNumber;
+    ipAddress = QHostAddress(QHostAddress::LocalHost);
+    port = 2001;
     config->endGroup();
 
     connect(tcpSocket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorReport()));

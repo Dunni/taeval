@@ -5,9 +5,9 @@ QT       += network
 TARGET = TAEvalClient
 TEMPLATE = app
 
-DEFINES     += QT_NO_DEBUG_OUTPUT
+#DEFINES     += QT_NO_DEBUG_OUTPUT
 
-HEADERS  += mainscreen.h \
+HEADERS  += \
 #    client.h \
     ../Common/course.h \
     ../Common/nonadminuser.h \
@@ -15,11 +15,13 @@ HEADERS  += mainscreen.h \
     ../Common/task.h \
 #    ../Common/connection.h \
     ../Common/clientconnection.h \
+    instructorapplogic.h \
+    taapplogic.h \
+    mainapplogic.h
 #    ../Common/serverconnection.h
 #    client.h
 
 SOURCES += main.cpp\
-        mainscreen.cpp \
 #    client.cpp \
     ../Common/course.cpp \
     ../Common/nonadminuser.cpp \
@@ -27,7 +29,10 @@ SOURCES += main.cpp\
 #    ../Common/connection.cpp \
     ../Common/clientconnection.cpp \
 #    ../Common/serverconnection.cpp \
-    ../Common/task.cpp
+    ../Common/task.cpp \
+    instructorapplogic.cpp \
+    taapplogic.cpp \
+    mainapplogic.cpp
 
 
 
