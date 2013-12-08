@@ -58,6 +58,10 @@ void MainAppLogic::on_loginButton_clicked(){
             } else if (role.compare("TA") == 0){
                 taApp->initialize(userNameString);
             }
+            else
+            {
+                QMessageBox::critical(this,tr("TAEval"),tr("Already login"));
+            }
         } else {
             QMessageBox::critical(this, tr("TAEval"), tr("The username is invalid! Please try again."));
         }

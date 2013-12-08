@@ -16,7 +16,7 @@ AccessControl::~AccessControl()
 
 QString AccessControl::logIn(QString userid)
 {
-    if(isLoggedIn(userid)) return "invalid";
+    if(isLoggedIn(userid)) return "loggedin";
     QString role;
     dataStore.verifyUser(userid,role);
     if(role == QString("TA"))

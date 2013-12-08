@@ -140,6 +140,10 @@ QString TAEval::serveRequest(QString request, QString data)
        {
            return QString("TA");
        }
+       if(l.contains("loggedin"))
+       {
+           return QString("loggedin");
+       }
        else
            return QString("false");
 
