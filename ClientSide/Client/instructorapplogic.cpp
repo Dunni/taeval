@@ -335,7 +335,7 @@ QString InstructorAppLogic::editATask(){
 
     //Before sending the dutyTextFixed text, I need to replace \n with \r because the \n
     //character crashes the server when trying to process it.
-    QString dutyTextFixed = ui->dutyText->toPlainText().replace("\n", "\r");
+    QString dutyTextFixed = ui->dutyTextEd->toPlainText().replace("\n", "\r");
 
     //Saving the dates to temporary variables
     begDateEd = ui->beginDateEd->date();

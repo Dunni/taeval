@@ -361,6 +361,7 @@ void TAAppLogic::on_backToTAPage_clicked(){
   Whenever the "Back" button from the *task* page is clicked, this function handles the event
   **/
 void TAAppLogic::on_TABackToTaskList_clicked(){
+    viewTATaskPage();
     //Go back to the task list page
     ui->TAInfoWidget->setCurrentIndex(1);
 }
@@ -370,5 +371,6 @@ void TAAppLogic::on_TABackToTaskList_clicked(){
   **/
 void TAAppLogic::on_TABackToTaskPage_clicked(){
     //Go back to the task list page
+    viewTATaskPage();
     ui->TAInfoWidget->setCurrentIndex(1);
 }

@@ -22,7 +22,7 @@ ServerConnection::ServerConnection(QObject *parent) :  QObject(parent), tcpServe
     }
     else
     {
-        qDebug() << "Server could not connect locally and to port 2000" << endl;
+        qDebug() << "Server could not listen" << endl;
     }
 
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(goToNewConnection()));
