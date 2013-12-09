@@ -1,6 +1,6 @@
 -- COMP 3004
 -- Team: KungFu Panda
--- Project: TAEval prototype 1
+-- Project: TAEval Deliverable 4
 -- Database: tables and dummy entries
 
 -- SQLite related settings
@@ -99,20 +99,10 @@ INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, 
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
 	VALUES ('Abdallah','COMP3004F2013','Grade assignments','2013-09-01','2013-12-19', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
-	VALUES ('Dunni','COMP2404W2012','Prepare assignments','2013-01-01','2013-02-19', NULL, 'What?');
+	VALUES ('Dunni','COMP2404W2012','Prepare assignments','2013-01-01','2013-02-19', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
-	VALUES ('Dunni','BUSI2701F2012','Prepare assignments','2012-01-01','2012-12-19', NULL, 'What2?');
+	VALUES ('Dunni','BUSI2701F2012','Prepare assignments','2012-01-01','2012-12-19', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
-	VALUES ('Dunni','BUSI2701F2012','Lecturer','2012-01-09','2012-12-19', NULL, 'What3?');
+	VALUES ('Dunni','BUSI2701F2012','Lecturer','2012-01-09','2012-12-19', NULL, NULL);
 INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) 
 	VALUES ('Abdallah','COMP3004F2012',NULL,NULL,NULL, NULL, NULL);
-
-
-
--- test codes
--- Select * from USERS;
--- Select * from COURSES;
--- Select * from TACOURSES;
--- Select * from TASKS;
--- INSERT INTO TASKS (TAName, CourseName, description, startDate, endDate, rating, feedback) VALUES ('Nathan','COMP2402F2013','Proctor exams','2013-09-05','2013-12-02', NULL, NULL);
--- UPDATE TASKS SET description = 'Research' where TAName = 'Nathan' AND CourseName = 'COMP2402F2013';

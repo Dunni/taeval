@@ -58,7 +58,7 @@ void MainAppLogic::on_loginButton_clicked(){
             } else if (role.compare("TA") == 0){
                 taApp->initialize(userNameString);
             }
-            else if (role.compare("invalid") == 0)
+            else if (role.compare("loggedin") == 0)
             {
                 QMessageBox::critical(this,tr("TAEval"),tr("Already logged on."));
             }
