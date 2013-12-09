@@ -201,6 +201,8 @@ void TAAppLogic::viewTATaskPage(){
     //on the tasks page otherwise upload the tasks to the taskModel
     if(task.compare("false") == 0){
         ui->TATaskList->setEnabled(false);
+        ui->viewTask->setEnabled(false);
+        ui->viewEvaluation->setEnabled(false);
     } else {
         ui->TATaskList->setEnabled(true);
 
