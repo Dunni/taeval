@@ -58,9 +58,9 @@ void MainAppLogic::on_loginButton_clicked(){
             } else if (role.compare("TA") == 0){
                 taApp->initialize(userNameString);
             }
-            else
+            else if (role.compare("invalid") == 0)
             {
-                QMessageBox::critical(this,tr("TAEval"),tr("Already login"));
+                QMessageBox::critical(this,tr("TAEval"),tr("Already logged on."));
             }
         } else {
             QMessageBox::critical(this, tr("TAEval"), tr("The username is invalid! Please try again."));
@@ -99,4 +99,5 @@ void MainAppLogic::connectionDisconnected(){
     QMessageBox::critical(this,
                           tr("Error!"),
                           tr("Server closed!"));
+    ui->MainWidget->setCurrentIndex(0);
 }
