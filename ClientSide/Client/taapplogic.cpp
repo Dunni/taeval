@@ -202,9 +202,11 @@ void TAAppLogic::viewTATaskPage(){
     if(task.compare("false") == 0){
         ui->TATaskList->setEnabled(false);
         ui->viewTask->setEnabled(false);
-        ui->viewEvaluation->setEnabled(false);
+        ui->TAViewEvaluation->setEnabled(false);
     } else {
         ui->TATaskList->setEnabled(true);
+        ui->viewTask->setEnabled(true);
+        ui->TAViewEvaluation->setEnabled(true);
 
         for(int i = 0; i < taskStringList.length(); i++){
 
